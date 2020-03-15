@@ -1,0 +1,1642 @@
+<!doctype html>
+<html>
+<head>
+
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="js/master.js" type="text/javascript"></script>
+   <link rel="stylesheet" href="css/master.css">
+  
+   <title>Digital MVSR : Online Services for MVSR Engineering College | Online Registrations</title>
+</head>
+	<script>
+	$(document).ready(function(){
+		removeSessionAttribute("unique-reference-id");
+		removeSessionAttribute("full-name");
+		removeSessionAttribute("candidate-type");
+		removeSessionAttribute("course-name");
+		removeSessionAttribute("sub-course-name");
+		removeSessionAttribute("fee-payment-status");
+		removeSessionAttribute("designation");
+		var blockData = getJSON("institute-details.json");
+		loadDatePicker();
+		$("#student-admission-form").hide();
+		$("#tutor-admission-form").hide();
+		$("#supporting-staff-admission-form").hide();
+		$("#others-admission-form").hide();
+		var date= new Date();
+	   	var todays_month = date.getUTCMonth() + 1;
+		var todays_date = date.getFullYear() + "/" +todays_month+ "/" +date.getUTCDate() + " " +date.getHours() + ":" +date.getMinutes() + ":" + date.getSeconds();
+		$("#date-of-admission").val(todays_date);
+		$("#institute-name").val(blockData[0].institute_name);
+		$("#institute-code").val(blockData[0].institute_code);
+	});
+	
+	function loadDatePicker(){
+		 var picker1 = $('#student-date-of-birth').datetimepicker({
+	   			validateOnBlur:true,
+	   			theme:'light',
+	   			defaultDate:0,
+	   			todayButton:true,
+	   		    timepicker:false,
+	   		    format:'Y/m/d',
+	   			maxDate:0
+	   		});
+		 var picker1 = $('#tutor-date-of-birth').datetimepicker({
+	   			validateOnBlur:true,
+	   			theme:'light',
+	   			defaultDate:0,
+	   			todayButton:true,
+	   		    timepicker:false,
+	   		    format:'Y/m/d',
+	   			maxDate:0
+	   		});
+		 var picker1 = $('#supporting-staff-date-of-birth').datetimepicker({
+	   			validateOnBlur:true,
+	   			theme:'light',
+	   			defaultDate:0,
+	   			todayButton:true,
+	   		    timepicker:false,
+	   		    format:'Y/m/d',
+	   			maxDate:0
+	   		});
+		 var picker1 = $('#others-date-of-birth').datetimepicker({
+	   			validateOnBlur:true,
+	   			theme:'light',
+	   			defaultDate:0,
+	   			todayButton:true,
+	   		    timepicker:false,
+	   		    format:'Y/m/d',
+	   			maxDate:0
+	   		});
+	}
+	 function readURL(input) {
+         if (input.files && input.files[0]) {
+             var reader = new FileReader();
+
+             reader.onload = function (e) {
+                 $('#student_preview_image')
+                     .attr('src', e.target.result)
+                     .width(80)
+                     .height(100);
+             };
+
+             reader.readAsDataURL(input.files[0]);
+         }
+     }
+	 function readURLTutor(input) {
+         if (input.files && input.files[0]) {
+             var reader = new FileReader();
+
+             reader.onload = function (e) {
+                 $('#tutor_preview_image')
+                     .attr('src', e.target.result)
+                     .width(80)
+                     .height(100);
+             };
+
+             reader.readAsDataURL(input.files[0]);
+         }
+     }
+	 function readURLSupportingStaff(input) {
+         if (input.files && input.files[0]) {
+             var reader = new FileReader();
+
+             reader.onload = function (e) {
+                 $('#supporting_staff_preview_image')
+                     .attr('src', e.target.result)
+                     .width(80)
+                     .height(100);
+             };
+
+             reader.readAsDataURL(input.files[0]);
+         }
+     }
+	 function readURLOthers(input) {
+         if (input.files && input.files[0]) {
+             var reader = new FileReader();
+
+             reader.onload = function (e) {
+                 $('#others_preview_image')
+                     .attr('src', e.target.result)
+                     .width(80)
+                     .height(100);
+             };
+
+             reader.readAsDataURL(input.files[0]);
+         }
+     }
+	 
+	
+	function checkCandidateType(r)
+	{
+		if(r === "Student")
+		{			
+			$("#tutor-admission-form").hide();
+			$("#supporting-staff-admission-form").hide();
+			$("#others-admission-form").hide();
+			$("#student-admission-form").show();
+		}
+		else if (r==="Tutor")
+			{
+			$("#student-admission-form").hide();
+			$("#supporting-staff-admission-form").hide();
+			$("#others-admission-form").hide();
+			$("#tutor-admission-form").show();
+			}
+		else if (r==="Supporting-Staff")
+		   {
+		    $("#student-admission-form").hide();
+		    $("#others-admission-form").hide();
+	     	$("#tutor-admission-form").hide();
+		    $("#supporting-staff-admission-form").show();
+		   }
+		else if(r=="Others")
+			{
+			 $("#student-admission-form").hide();  
+	    	 $("#tutor-admission-form").hide();
+		     $("#supporting-staff-admission-form").hide();
+		     $("#others-admission-form").show();
+			}
+		else if(r=="--Select Candidate Type--")
+			{
+			 $("#student-admission-form").hide();  
+	    	 $("#tutor-admission-form").hide();
+		     $("#supporting-staff-admission-form").hide();
+		     $("#others-admission-form").hide();
+			}
+	}
+
+	function loadSubCourseNames(r)
+	{
+		
+		setCourseDuration();
+		$("#sub-course-name-student").empty();
+		$("#sub-course-name-tutor").empty();
+		$("#sub-course-name-supporting-staff").empty();
+		if(r==="Schooling")
+			{
+			$("#sub-course-name-student").attr("disabled", true);
+			$("#sub-course-name-tutor").attr("disabled", true);
+			$("#sub-course-name-supporting-staff").attr("disabled", true);
+			$("#student-eamcet-rank").attr("disabled",true);
+			$("#student-plus-two-marks").attr("disabled",true);
+			$("#student-ssc-marks").attr("disabled",true);
+			var jsonFileName = r+".json";
+			var blockData = getJSON(jsonFileName);
+			for(var i=0;i<blockData.length;i++)
+				{
+				$("#sub-course-name-student").append("<option value=\""+blockData[i].course_name+"\">"+blockData[i].course_name+"</option>");
+				$("#sub-course-name-tutor").append("<option value=\""+blockData[i].course_name+"\">"+blockData[i].course_name+"</option>");
+				$("#sub-course-name-supporting-staff").append("<option value=\""+blockData[i].course_name+"\">"+blockData[i].course_name+"</option>");
+				}
+			}
+		else if(r==="Intermediate")
+	        {
+			 $("#student-eamcet-rank").attr("disabled",true);
+			 $("#student-plus-two-marks").attr("disabled",true);
+			 $("#sub-course-name-student").attr("disabled", false);
+				$("#sub-course-name-tutor").attr("disabled", false);
+				 $("#sub-course-name-student").attr("disabled", false);
+					$("#sub-course-name-supporting-staff").attr("disabled", false);
+			 var jsonFileName = r+".json";
+				var blockData = getJSON(jsonFileName);
+				for(var i=0;i<blockData.length;i++)
+					{
+					$("#sub-course-name-student").append("<option value=\""+blockData[i].course_name+"\">"+blockData[i].course_name+"</option>");
+					$("#sub-course-name-tutor").append("<option value=\""+blockData[i].course_name+"\">"+blockData[i].course_name+"</option>");
+					$("#sub-course-name-supporting-staff").append("<option value=\""+blockData[i].course_name+"\">"+blockData[i].course_name+"</option>");
+					}
+         	}
+		else 
+			{
+			$("#sub-course-name-student").attr("disabled", false);
+			$("#sub-course-name-tutor").attr("disabled", false);
+			$("#sub-course-name-supporting-staff").attr("disabled", false);
+			$("#student-eamcet-rank").attr("disabled",false);
+			$("#student-plus-two-marks").attr("disabled",false);
+			$("#student-ssc-marks").attr("disabled",false);
+			var jsonFileName = r+".json";
+			var blockData = getJSON(jsonFileName);
+			for(var i=0;i<blockData.length;i++)
+				{
+				$("#sub-course-name-student").append("<option value=\""+blockData[i].course_name+"\">"+blockData[i].course_name+"</option>");
+				$("#sub-course-name-tutor").append("<option value=\""+blockData[i].course_name+"\">"+blockData[i].course_name+"</option>");
+				$("#sub-course-name-supporting-staff").append("<option value=\""+blockData[i].course_name+"\">"+blockData[i].course_name+"</option>");
+				}
+			}
+		
+	}
+	function setCourseDuration()
+	{
+		var blockData = getJSON("course-names.json");
+		var course_name = $("#course-name-student").val();
+		for(var i=0;i<blockData.length;i++)
+			{
+			if(blockData[i].course_name === course_name)
+				{
+				$("#duration-of-course").val(blockData[i].course_duration);
+				}
+			}
+		
+	}
+	
+	function submitFormStudent()
+	{	  
+		  loading();		  
+		  var args = [{"String":"mobile"},{"String":$("#student-mobile-number").val()}];
+			var result = call("Verify","checkIfAlreadyExists",args);
+			if(result[0].returnValue === "false"){
+				loadingStop();
+				alert("This Mobile Number is already registered in our database!");
+				return false;
+			}
+		  
+			 var args = [{"String":"email"},{"String":$("#student-email-address").val()}];
+				var result = call("Verify","checkIfAlreadyExists",args);
+				if(result[0].returnValue === "false"){
+					loadingStop();
+					alert("This Email Address is already registered in our database!");
+					return false;
+				}
+				
+		  var fieldNames = ["institute-name",
+		                    "institute-code",
+		                    "date-of-admission",
+		                    "candidate-type",
+		                    "course-name-student",
+		                    "sub-course-name-student",
+		                    "duration-of-course",
+		                    "boarding-type",
+		                    "year",
+		                    "semester",
+		                    "student-full-name",
+		                    "admission-type",
+		                    "student-date-of-birth",
+		                    "father-full-name",
+		                    "father-occupation",
+		                    "mothers-maiden-name",
+		                    "student-religion",
+		                    "student-nationality",
+		                    "student-gender",
+		                    "student-marital-status",
+		                    "student-mobile-number",
+		                    "student-email-address",
+		                    "student-temporary-address",
+		                    "student-permanent-address",
+		                    "student-eamcet-rank",
+		                    "student-plus-two-marks",
+		                    "student-ssc-marks"
+			                  ];
+			
+		     var institute_name = $("#institute-name").val();
+		     var institute_code = $("#institute-code").val();
+		     var date_of_admission = $("#date-of-admission").val();
+		     var candidate_type = $("#candidate-type").val();
+			 var course_name_student =$("#course-name-student").val();
+			 var sub_course_name_student =$("#sub-course-name-student").val();
+			 var duration_of_course =$("#duration-of-course").val();
+			 var boarding_type =$("#boarding-type").val();
+			 var year = $("#year").val();
+			 var semester = $("#semester").val();
+			 var student_full_name =$("#student-full-name").val();
+			 var admission_type =document.querySelector('input[name="admission_type"]:checked').value;
+			 var student_date_of_birth =$("#student-date-of-birth").val();
+			 var father_full_name =$("#father-full-name").val();
+			 var father_occupation =$("#father-occupation").val();
+			 var mothers_maiden_name =$("#mothers-maiden-name").val();
+			 var student_religion =$("#student-religion").val();
+			 var student_nationality =$("#student-nationality").val();
+			 var student_gender =document.querySelector('input[name="student_gender"]:checked').value;
+			 var student_marital_status =document.querySelector('input[name="student_marital_status"]:checked').value;
+			 var student_mobile_number =$("#student-mobile-number").val();
+			 var student_email_address =$("#student-email-address").val();
+			 var student_temporary_address =$("#student-temporary-address").val();
+			 var student_permanent_address =$("#student-permanent-address").val();
+			 var student_eamcet_rank =$("#student-eamcet-rank").val();
+			 var student_plus_two_marks =$("#student-plus-two-marks").val();
+			 var student_ssc_marks =$("#student-ssc-marks").val();
+			 
+			 if(course_name_student==="Schooling")
+				 {
+				 sub_course_name_student = "null";
+				 student_eamcet_rank = "null";
+				 student_plus_two_marks = "null";
+				 student_ssc_marks = "null";
+				 }
+			 
+	
+			var fieldValues = [institute_name
+			                   ,institute_code
+			                   ,date_of_admission
+			                   ,candidate_type
+			                   ,course_name_student
+			                   ,sub_course_name_student
+			                   ,duration_of_course
+			                   ,boarding_type
+			                   ,year
+			                   ,semester
+			                   ,student_full_name
+			                   ,admission_type
+			                   ,student_date_of_birth
+			                   ,father_full_name
+			                   ,father_occupation
+			                   ,mothers_maiden_name
+			                   ,student_religion
+			                   ,student_nationality
+			                   ,student_gender
+			                   ,student_marital_status
+			                   ,student_mobile_number
+			                   ,student_email_address
+			                   ,student_temporary_address
+			                   ,student_permanent_address
+			                   ,student_eamcet_rank
+			                   ,student_plus_two_marks
+			                   ,student_ssc_marks
+			                   ];
+			
+			
+
+			var args = [{"List":fieldNames},{"List":fieldValues}];
+			var result = call("Register","registerNewUser",args);
+		    
+			if(result[0].returnValue ==="true")
+				{
+				uploadFile('new-admission-form-student',result[1].returnValue,"/AdminHome/Admissions/NewAdmission/","photo_scanned_copy");	
+				loadingStop();
+				alert("New Registration Completed Successfully");
+            setSessionAttribute("unique-reference-id",result[1].returnValue);
+                setSessionAttribute("candidate-type",result[2].returnValue);
+                setSessionAttribute("full-name",result[3].returnValue);
+                setSessionAttribute("course-name",result[4].returnValue);
+                setSessionAttribute("sub-course-name",result[5].returnValue);
+                setSessionAttribute("fee-payment-status",result[6].returnValue);
+                window.open("NewAdmissionAcknowledgment/","_blank"); 
+				}
+			else{
+				loadingStop();
+				alert("Something is not right here!\nIt must be the case that we are already working on it.\nSorry for the inconvenience caused. Please try again after sometime.");
+				return false;
+			}
+	}
+	
+	
+	function submitFormTutor()
+	{
+	  
+	  loading();
+	  var args = [{"String":"mobile"},{"String":$("#tutor-mobile-number").val()}];
+		var result = call("Verify","checkIfAlreadyExists",args);
+		if(result[0].returnValue === "false"){
+			loadingStop();
+			alert("This Mobile Number is already registered in our database!");
+			return false;
+		}
+	  
+		 var args = [{"String":"email"},{"String":$("#tutor-email-address").val()}];
+			var result = call("Verify","checkIfAlreadyExists",args);
+			if(result[0].returnValue === "false"){
+				loadingStop();
+				alert("This Email Address is already registered in our database!");
+				return false;
+			}
+	  
+	  var fieldNames = ["institute-name",
+	                    "institute-code",
+	                    "date-of-admission",
+	                    "candidate-type",
+	                    "course-name-tutor",
+	                    "sub-course-name-tutor",
+	                    "tutor-designation",
+	               	    "tutor-full-name",
+	                    "tutor-date-of-birth",
+	                    "tutor-father-full-name",
+	                    "tutor-father-occupation",
+	                    "tutor-mothers-maiden-name",
+	                    "tutor-religion",
+	                    "tutor-nationality",
+	                    "tutor-gender",
+	                    "tutor-marital-status",
+	                    "tutor-mobile-number",
+	                    "tutor-email-address",
+	                    "tutor-temporary-address",
+	                    "tutor-permanent-address"
+		                  ];
+	     var institute_name = $("#institute-name").val();
+	     var institute_code = $("#institute-code").val();
+	     var date_of_admission = $("#date-of-admission").val();
+	     var candidate_type = $("#candidate-type").val();
+		 var course_name_tutor =$("#course-name-tutor").val();
+		 var sub_course_name_tutor =$("#sub-course-name-tutor").val();
+		 var tutor_designation = $("#tutor-designation").val();
+		 var tutor_full_name =$("#tutor-full-name").val();
+		 var tutor_date_of_birth =$("#tutor-date-of-birth").val();
+		 var tutor_father_full_name =$("#tutor-father-full-name").val();
+		 var tutor_father_occupation =$("#tutor-father-occupation").val();
+		 var tutor_mothers_maiden_name =$("#tutor-mothers-maiden-name").val();
+		 var tutor_religion =$("#tutor-religion").val();
+		 var tutor_nationality =$("#tutor-nationality").val();
+		 var tutor_gender =document.querySelector('input[name="tutor_gender"]:checked').value;
+		 var tutor_marital_status =document.querySelector('input[name="tutor_marital_status"]:checked').value;
+		 var tutor_mobile_number =$("#tutor-mobile-number").val();
+		 var tutor_email_address =$("#tutor-email-address").val();
+		 var tutor_temporary_address =$("#tutor-temporary-address").val();
+		 var tutor_permanent_address =$("#tutor-permanent-address").val();
+		 
+		 
+		 
+
+		var fieldValues = [institute_name
+		                   ,institute_code
+		                   ,date_of_admission
+		                   ,candidate_type
+		                   ,course_name_tutor
+		                   ,sub_course_name_tutor
+		                   ,tutor_designation
+		                   ,tutor_full_name
+		                   ,tutor_date_of_birth
+		                   ,tutor_father_full_name
+		                   ,tutor_father_occupation
+		                   ,tutor_mothers_maiden_name
+		                   ,tutor_religion
+		                   ,tutor_nationality
+		                   ,tutor_gender
+		                   ,tutor_marital_status
+		                   ,tutor_mobile_number
+		                   ,tutor_email_address
+		                   ,tutor_temporary_address
+		                   ,tutor_permanent_address
+		                   ];
+
+		var args = [{"List":fieldNames},{"List":fieldValues}];
+		var result = call("Register","registerNewUser",args);
+		if(result[0].returnValue ==="true")
+		{
+		uploadFile('new-admission-form-tutor',result[1].returnValue,"/AdminHome/Admissions/NewAdmission/","photo_scanned_copy");
+		loadingStop();
+		alert("New Registration Completed Successfully");
+        setSessionAttribute("unique-reference-id",result[1].returnValue);
+        setSessionAttribute("candidate-type",result[2].returnValue);
+        setSessionAttribute("full-name",result[3].returnValue);
+        setSessionAttribute("course-name",result[4].returnValue);
+        setSessionAttribute("sub-course-name",result[5].returnValue);
+        setSessionAttribute("designation",result[6].returnValue);
+        window.open("NewAdmissionAcknowledgment/","_blank");
+		}
+		else{
+			loadingStop();
+			alert("Something is not right here!\nIt must be the case that we are already working on it.\nSorry for the inconvenience caused. Please try again after sometime.");
+			return false;
+		}
+		
+	}
+	
+	
+	function submitFormSupportingStaff()
+	{
+		loading();
+		  var args = [{"String":"mobile"},{"String":$("#supporting-staff-mobile-number").val()}];
+			var result = call("Verify","checkIfAlreadyExists",args);
+			if(result[0].returnValue === "false"){
+				loadingStop();
+				alert("This Mobile Number is already registered in our database!");
+				return false;
+			}
+		  
+			 var args = [{"String":"email"},{"String":$("#supporting-staff-email-address").val()}];
+				var result = call("Verify","checkIfAlreadyExists",args);
+				if(result[0].returnValue === "false"){
+					loadingStop();
+					alert("This Email Address is already registered in our database!");
+					return false;
+				}
+		  var fieldNames = ["institute-name",
+		                    "institute-code",
+		                    "date-of-admission",
+		                    "candidate-type",
+		                    "course-name-supporting-staff",
+		                    "sub-course-name-supporting-staff",
+		                    "supporting-staff-designation",
+		               	    "supporting-staff-full-name",
+		                    "supporting-staff-date-of-birth",
+		                    "supporting-staff-father-full-name",
+		                    "supporting-staff-father-occupation",
+		                    "supporting-staff-mothers-maiden-name",
+		                    "supporting-staff-religion",
+		                    "supporting-staff-nationality",
+		                    "supporting-staff-gender",
+		                    "supporting-staff-marital-status",
+		                    "supporting-staff-mobile-number",
+		                    "supporting-staff-email-address",
+		                    "supporting-staff-temporary-address",
+		                    "supporting-staff-permanent-address"
+			                  ];
+		     var institute_name = $("#institute-name").val();
+		     var institute_code = $("#institute-code").val();
+		     var date_of_admission = $("#date-of-admission").val();
+		     var candidate_type = $("#candidate-type").val();
+			 var course_name_supporting_staff =$("#course-name-supporting-staff").val();
+			 var sub_course_name_supporting_staff =$("#sub-course-name-supporting-staff").val();
+			 var supporting_staff_designation = $("#supporting-staff-designation").val();
+			 var supporting_staff_full_name =$("#supporting-staff-full-name").val();
+			 var supporting_staff_date_of_birth =$("#supporting-staff-date-of-birth").val();
+			 var supporting_staff_father_full_name =$("#supporting-staff-father-full-name").val();
+			 var supporting_staff_father_occupation =$("#supporting-staff-father-occupation").val();
+			 var supporting_staff_mothers_maiden_name =$("#supporting-staff-mothers-maiden-name").val();
+			 var supporting_staff_religion =$("#supporting-staff-religion").val();
+			 var supporting_staff_nationality =$("#supporting-staff-nationality").val();
+			 var supporting_staff_gender =document.querySelector('input[name="supporting_staff_gender"]:checked').value;
+			 var supporting_staff_marital_status =document.querySelector('input[name="supporting_staff_marital_status"]:checked').value;
+			 var supporting_staff_mobile_number =$("#supporting-staff-mobile-number").val();
+			 var supporting_staff_email_address =$("#supporting-staff-email-address").val();
+			 var supporting_staff_temporary_address =$("#supporting-staff-temporary-address").val();
+			 var supporting_staff_permanent_address =$("#supporting-staff-permanent-address").val();
+			 
+			 
+			 
+
+			var fieldValues = [institute_name
+			                   ,institute_code
+			                   ,date_of_admission
+			                   ,candidate_type
+			                   ,course_name_supporting_staff
+			                   ,sub_course_name_supporting_staff
+			                   ,supporting_staff_designation
+			                   ,supporting_staff_full_name
+			                   ,supporting_staff_date_of_birth
+			                   ,supporting_staff_father_full_name
+			                   ,supporting_staff_father_occupation
+			                   ,supporting_staff_mothers_maiden_name
+			                   ,supporting_staff_religion
+			                   ,supporting_staff_nationality
+			                   ,supporting_staff_gender
+			                   ,supporting_staff_marital_status
+			                   ,supporting_staff_mobile_number
+			                   ,supporting_staff_email_address
+			                   ,supporting_staff_temporary_address
+			                   ,supporting_staff_permanent_address
+			                   ];
+
+			var args = [{"List":fieldNames},{"List":fieldValues}];
+			var result = call("Register","registerNewUser",args);
+			if(result[0].returnValue ==="true")
+			{
+			uploadFile('new-admission-form-supporting-staff',result[1].returnValue,"/AdminHome/Admissions/NewAdmission/","photo_scanned_copy");
+			loadingStop();
+			alert("New Registration Completed Successfully");
+	        setSessionAttribute("unique-reference-id",result[1].returnValue);
+	        setSessionAttribute("candidate-type",result[2].returnValue);
+	        setSessionAttribute("full-name",result[3].returnValue);
+	        setSessionAttribute("course-name",result[4].returnValue);
+	        setSessionAttribute("sub-course-name",result[5].returnValue);
+	        setSessionAttribute("designation",result[6].returnValue);
+	        window.open("NewAdmissionAcknowledgment/","_blank");
+			}
+			else{
+				loadingStop();
+				alert("Something is not right here!\nIt must be the case that we are already working on it.\nSorry for the inconvenience caused. Please try again after sometime.");
+				return false;
+			}
+	}
+	
+	
+	function submitFormOthers()
+	{
+		loading();
+		  var args = [{"String":"mobile"},{"String":$("#others-mobile-number").val()}];
+			var result = call("Verify","checkIfAlreadyExists",args);
+			if(result[0].returnValue === "false"){
+				loadingStop();
+				alert("This Mobile Number is already registered in our database!");
+				return false;
+			}
+		  
+			 var args = [{"String":"email"},{"String":$("#others-email-address").val()}];
+				var result = call("Verify","checkIfAlreadyExists",args);
+				if(result[0].returnValue === "false"){
+					loadingStop();
+					alert("This Email Address is already registered in our database!");
+					return false;
+				}
+		  var fieldNames = ["institute-name",
+		                    "institute-code",
+		                    "date-of-admission",
+		                    "candidate-type",
+		                    "others-designation",
+		               	    "others-full-name",
+		                    "others-date-of-birth",
+		                    "others-father-full-name",
+		                    "others-father-occupation",
+		                    "others-mothers-maiden-name",
+		                    "others-religion",
+		                    "others-nationality",
+		                    "others-gender",
+		                    "others-marital-status",
+		                    "others-mobile-number",
+		                    "others-email-address",
+		                    "others-temporary-address",
+		                    "others-permanent-address"
+			                  ];
+			
+		     var institute_name = $("#institute-name").val();
+		     var institute_code = $("#institute-code").val();
+		     var date_of_admission = $("#date-of-admission").val();
+		     var candidate_type = $("#candidate-type").val();
+			 var others_designation = $("#others-designation").val();
+			 var others_full_name =$("#others-full-name").val();
+			 var others_date_of_birth =$("#others-date-of-birth").val();
+			 var others_father_full_name =$("#others-father-full-name").val();
+			 var others_father_occupation =$("#others-father-occupation").val();
+			 var others_mothers_maiden_name =$("#others-mothers-maiden-name").val();
+			 var others_religion =$("#others-religion").val();
+			 var others_nationality =$("#others-nationality").val();
+			 var others_gender =document.querySelector('input[name="others_gender"]:checked').value;
+			 var others_marital_status =document.querySelector('input[name="others_marital_status"]:checked').value;
+			 var others_mobile_number =$("#others-mobile-number").val();
+			 var others_email_address =$("#others-email-address").val();
+			 var others_temporary_address =$("#others-temporary-address").val();
+			 var others_permanent_address =$("#others-permanent-address").val();
+			 
+			 
+			 
+
+			var fieldValues = [institute_name
+			                   ,institute_code
+			                   ,date_of_admission
+			                   ,candidate_type
+			                   ,others_designation
+			                   ,others_full_name
+			                   ,others_date_of_birth
+			                   ,others_father_full_name
+			                   ,others_father_occupation
+			                   ,others_mothers_maiden_name
+			                   ,others_religion
+			                   ,others_nationality
+			                   ,others_gender
+			                   ,others_marital_status
+			                   ,others_mobile_number
+			                   ,others_email_address
+			                   ,others_temporary_address
+			                   ,others_permanent_address
+			                   ];
+
+			var args = [{"List":fieldNames},{"List":fieldValues}];
+			var result = call("Register","registerNewUser",args);
+			if(result[0].returnValue ==="true")
+			{
+			loadingStop();
+			uploadFile('new-admission-form-others',result[1].returnValue,"/AdminHome/Admissions/NewAdmission/","photo_scanned_copy");
+			alert("New Registration Completed Successfully");
+	        setSessionAttribute("unique-reference-id",result[1].returnValue);
+	        setSessionAttribute("candidate-type",result[2].returnValue);
+	        setSessionAttribute("full-name",result[3].returnValue);
+	        setSessionAttribute("designation",result[4].returnValue);
+	        window.open("NewAdmissionAcknowledgment/","_blank");
+			}
+			else{
+				loadingStop();
+				alert("Something is not right here!\nIt must be the case that we are already working on it.\nSorry for the inconvenience caused. Please try again after sometime.");
+				return false;
+			}
+	}
+   </script>
+<body>
+
+<!-- header -->
+<div id='header'>
+</div>
+<!-- //header -->
+
+<div class="separator"></div>
+
+
+<div class="page-header hvr-glow" id="admin-home">Admission Management</div>
+
+<div class="separator-blank"></div>
+
+<div class="row">
+
+<div class="two columns" id="quick-links-div">
+<div id="quick_links">
+<script>
+loadLeftSideMenuQuickLinks("../../");
+</script>
+</div>
+
+</div>
+
+<div class="ten columns container">
+
+<div class="page-header hvr-glow hvr-rectangle-out">New Admission</div>
+
+
+<div class="row">
+<div class="four columns">
+  <label for="institute-name">Institute Name</label>
+  <input class="u-full-width" type="text" id="institute-name" required readonly disabled/>
+</div>
+
+<div class="four columns">
+  <label for="institute-name">Institute Code</label>
+  <input class="u-full-width" type="text" id="institute-code" required readonly disabled/>
+</div>
+
+
+<div class="four columns">
+<label for="date-of-admission">Date of Admission*</label>
+<input class="u-full-width" type="text" id="date-of-admission" required readonly disabled/>
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="four columns">
+<label for="candidate-type">Candidate Type*</label>
+<select id="candidate-type" class="u-full-width" onchange="checkCandidateType(this.value);" required>
+<option value="">--Select Candidate Type--</option> 
+<script>
+var blockData = getJSON("candidate-type.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#candidate-type").append("<option value=\""+blockData[i].candidate_type+"\">"+blockData[i].candidate_type+"</option>");	
+	}
+
+</script>
+</select>
+</div>
+</div>
+
+<div id="student-admission-form">
+<form id="new-admission-form-student" method="post" onsubmit="return submitFormStudent();">
+
+<div class="row">
+<div class="four columns">
+<label for="course-name-student">Course Name*</label>
+<select class="u-full-width" id="course-name-student" onchange="loadSubCourseNames(this.value);" required>
+<option value="">--Select Course Name--</option> 
+<script>
+var blockData = getJSON("course-names.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#course-name-student").append("<option value=\""+blockData[i].course_name+"\">"+blockData[i].course_name+"</option>");	
+	}
+
+</script>
+</select>
+</div>
+
+<div class="four columns">
+<label for="sub-course-name-student">Sub Course Name*</label>
+<select class="u-full-width" id="sub-course-name-student" required>
+<option value="">--Select Sub Course Name--</option> 
+</select>
+</div>
+
+<div class="four columns">
+<label for="duration-of-course">Duration of Course*</label>
+<input class="u-full-width" type="text" id="duration-of-course" required readonly disabled/>
+
+</div>
+
+</div>
+
+<div class="row">
+<div class="four columns">
+<label for="boarding-type">Boarding Type*</label>
+<select class="u-full-width" id="boarding-type"required>
+<option value="">--Select Boarding Type--</option> 
+<script>
+var blockData = getJSON("boarding-type.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#boarding-type").append("<option value=\""+blockData[i].boarding_type+"\">"+blockData[i].boarding_type+"</option>");	
+	}
+
+</script>
+</select>
+
+</div>
+
+<div class="four columns">
+<label for="year">Year*</label>
+<select class="u-full-width" id="year" >
+<option value="">--Select Year--</option> 
+<script>
+var blockData = getJSON("years.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#year").append("<option value=\""+blockData[i].year+"\">"+blockData[i].year+" year</option>");	
+	}
+
+</script>
+</select>
+
+</div>
+
+<div class="four columns">
+<label for="semester">Semester*</label>
+<select class="u-full-width" id="semester">
+<option value="">--Select Semester--</option> 
+<script>
+var blockData = getJSON("semesters.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#semester").append("<option value=\""+blockData[i].semester+"\">"+blockData[i].semester+"</option>");	
+	}
+
+</script>
+</select>
+
+</div>
+
+</div>
+
+<div class="separator"></div>
+
+<div class="page-header hvr-glow hvr-rectangle-out">Student Details</div>
+
+<div class="row">
+
+<div class="four columns">
+<label for="student-full-name">Student Full Name*</label>
+<input class="u-full-width" type="text" id= "student-full-name" required autocomplete='off'/>
+</div>
+
+<div class="eight columns" id="admission-type">
+<label for="admission-type">Admission Type*</label>
+<script>
+var blockData = getJSON("admission-type.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#admission-type").append("<input type='radio' name='admission_type' value='"+blockData[i].admission_type+"'required/><p>"+blockData[i].admission_type+" </p>");	
+	}
+
+</script>
+</div>
+</div>
+
+<div class="row">
+
+<div class="four columns">
+<label for="student-date-of-birth">Student Date of Birth*</label>
+<input class="u-full-width" type="text" id= "student-date-of-birth" required autocomplete='off'/>
+</div>
+
+
+<div class="four columns">
+<label for="father-full-name">Father Full Name*</label>
+<input class="u-full-width" type="text" id= "father-full-name" required autocomplete='off'/>
+</div>
+
+<div class="four columns">
+<label for="father-occupation">Father Occupation*</label>
+<select class="u-full-width"  id="father-occupation" required autocomplete='off'>
+<option value="">--Select Occupation</option>
+<script>
+var blockData = getJSON("father-occupation.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#father-occupation").append("<option value=\""+blockData[i].occupation+"\">"+blockData[i].occupation+"</option>");	
+	}
+</script>
+</select>
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="four columns">
+<label for="mothers-maiden-name">Mother's Maiden Name*</label>
+<input class="u-full-width" type="text" id= "mothers-maiden-name" required autocomplete='off'/>
+</div>
+
+<div class="four columns">
+<label for="student-religion">Religion*</label>
+<select class="u-full-width"  id= "student-religion" required autocomplete='off'>
+<option value="">--Select Religion--</option>
+<script>
+var blockData = getJSON("religion.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#student-religion").append("<option value=\""+blockData[i].religion+"\">"+blockData[i].religion+"</option>");	
+	}
+</script>
+</select>
+</div>
+
+<div class="four columns">
+<label for="student-nationality">Nationality*</label>
+<select class="u-full-width" id= "student-nationality" required autocomplete='off'>
+<option value="">--Select Nationality--</option>
+<script>
+var blockData = getJSON("nationality.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#student-nationality").append("<option value=\""+blockData[i].nationality+"\">"+blockData[i].nationality+"</option>");	
+	}
+</script>
+</select>
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="six columns" id="student-gender">
+<label for="student-gender">Gender*</label>
+<script>
+var blockData = getJSON("gender.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#student-gender").append("<input type='radio' name='student_gender' value='"+blockData[i].gender+"' required/><p>"+blockData[i].gender+" </p>");	
+	}
+
+</script>
+</div>
+
+<div class="six columns" id="student-marital-status">
+<label for="student-marital-status">Marital Status*</label>
+<script>
+var blockData = getJSON("marital-status.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#student-marital-status").append("<input type='radio' name='student_marital_status' value='"+blockData[i].marital_status+"'required/><p>"+blockData[i].marital_status+" </p>");	
+	}
+
+</script>
+</div>
+
+</div>
+<div class="separator-blank"></div>
+
+ <div class="row">
+				         <div class="six columns">
+				         <label for="student-photo">Upload Scanned Photo*</label>
+				         <input type="file" id="student-photo" name="student-photo" accept="image/*" onchange="readURL(this);" required>
+				         </div>
+				         
+				         <div class="six columns">
+				         <img id="student_preview_image" src="#" alt="Your Image" />
+				         </div>
+				         </div> 
+
+<div class="separator-blank"></div>
+
+<div class="separator"></div>
+
+<div class="page-header hvr-glow hvr-rectangle-out">CONTACT DETAILS</div>
+
+<div class="row">
+
+<div class="four columns">
+<label for="student-mobile-number">Student Mobile Number*</label>
+<input class="u-full-width" type="text" id= "student-mobile-number" pattern="[789][0-9]{9}" required autocomplete='off'/>
+</div>
+
+<div class="four columns">
+<label for="student-email-address">Student Email Address*</label>
+<input class="u-full-width" type="email" id= "student-email-address" required autocomplete='off'/>
+</div>
+
+
+</div>
+
+<div class="row">
+<div class="six columns">
+<label for="student-temporary-address">Temporary Address*</label>
+<textarea class="u-full-width" id="student-temporary-address" required></textarea>
+</div>
+
+<div class="six columns">
+<label for="student-permanent-address">Permanent Address*</label>
+<textarea class="u-full-width" id="student-permanent-address" required></textarea>
+</div>
+
+
+</div>
+
+<div class="separator"></div>
+
+<div class="page-header hvr-glow hvr-rectangle-out">Past Academic Details</div>
+
+<div class="row">
+
+<div class="four columns">
+
+<label for="student-eamcet-rank">Eamcet/ICET Rank*</label>
+<input class="u-full-width" type="text" id="student-eamcet-rank" autocomplete="off" required/>
+
+
+</div>
+
+<div class="four columns">
+
+<label for="student-plus-two-marks">Intermediate Marks/GPA *</label>
+<input class="u-full-width" type="text" id="student-plus-two-marks" autocomplete="off" required/>
+</div>
+
+<div class="four columns">
+
+<label for="student-ssc-marks">SSC Marks/GPA *</label>
+<input class="u-full-width" type="text" id="student-ssc-marks" autocomplete="off" required/>
+</div>
+
+</div>
+
+<input class="button-primary" type="submit" value="submit"/>
+
+</form>
+
+</div>
+
+
+
+
+<div id="tutor-admission-form">
+<form id="new-admission-form-tutor" method="post"  onsubmit="return submitFormTutor();">
+<div class="row">
+
+<div class="four columns">
+<label for="course-name-tutor">Course Name*</label>
+<select class="u-full-width" id="course-name-tutor" onchange="loadSubCourseNames(this.value);" required>
+<option value="">--Select Course Name--</option> 
+<script>
+var blockData = getJSON("course-names.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#course-name-tutor").append("<option value=\""+blockData[i].course_name+"\">"+blockData[i].course_name+"</option>");	
+	}
+
+</script>
+</select>
+</div>
+
+<div class="four columns">
+<label for="sub-course-name-tutor">Sub Course Name*</label>
+<select class="u-full-width" id="sub-course-name-tutor" required>
+<option value="">--Select Sub Course Name--</option> 
+</select>
+</div>
+
+<div class="four columns">
+<label for="tutor-designation">Tutor Designation*</label>
+<select class="u-full-width" id="tutor-designation" required>
+<option value="">--Select Designation--</option>
+<script>
+var blockData = getJSON("tutor_designation.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#tutor-designation").append("<option value=\""+blockData[i].designation+"\">"+blockData[i].designation+"</option>");	
+	}
+
+</script>
+</select>
+</div>
+
+</div>
+
+<div class="separator"></div>
+<div class="page-header hvr-glow hvr-rectangle-out">Tutor Details</div>
+
+<div class="row">
+<div class="four columns">
+<label for="tutor-full-name">Tutor Full Name*</label>
+<input class="u-full-width" type="text" id="tutor-full-name" required autocomplete="off"/>
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="four columns">
+<label for="tutor-date-of-birth">Tutor Date of Birth*</label>
+<input class="u-full-width" type="text" id= "tutor-date-of-birth" required autocomplete='off'/>
+</div>
+
+
+<div class="four columns">
+<label for="tutor-father-full-name">Father Full Name*</label>
+<input class="u-full-width" type="text" id= "tutor-father-full-name" required autocomplete='off'/>
+</div>
+
+<div class="four columns">
+<label for="tutor-father-occupation">Father Occupation*</label>
+<select class="u-full-width"  id="tutor-father-occupation" required autocomplete='off'>
+<option value="">--Select Occupation</option>
+<script>
+var blockData = getJSON("father-occupation.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#tutor-father-occupation").append("<option value=\""+blockData[i].occupation+"\">"+blockData[i].occupation+"</option>");	
+	}
+</script>
+</select>
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="four columns">
+<label for="tutor-mothers-maiden-name">Mother's Maiden Name*</label>
+<input class="u-full-width" type="text" id= "tutor-mothers-maiden-name" required autocomplete='off'/>
+</div>
+
+<div class="four columns">
+<label for="tutor-religion">Religion*</label>
+<select class="u-full-width" type="text" id= "tutor-religion" required autocomplete='off'>
+<option value="">--Select Religion--</option>
+<script>
+var blockData = getJSON("religion.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#tutor-religion").append("<option value=\""+blockData[i].religion+"\">"+blockData[i].religion+"</option>");	
+	}
+</script>
+</select>
+</div>
+
+<div class="four columns">
+<label for="tutor-nationality">Nationality*</label>
+<select class="u-full-width" type="text" id= "tutor-nationality" required autocomplete='off'>
+<option value="">--Select Nationality--</option>
+<script>
+var blockData = getJSON("nationality.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#tutor-nationality").append("<option value=\""+blockData[i].nationality+"\">"+blockData[i].nationality+"</option>");	
+	}
+</script>
+</select>
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="six columns" id="tutor-gender">
+<label for="tutor-gender">Gender*</label>
+<script>
+var blockData = getJSON("gender.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#tutor-gender").append("<input type='radio' name='tutor_gender' value='"+blockData[i].gender+"' required/><p>"+blockData[i].gender+" </p>");	
+	}
+
+</script>
+</div>
+
+<div class="six columns" id="tutor-marital-status">
+<label for="tutor-marital-status">Marital Status*</label>
+<script>
+var blockData = getJSON("marital-status.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#tutor-marital-status").append("<input type='radio' name='tutor_marital_status' value='"+blockData[i].marital_status+"' required/><p>"+blockData[i].marital_status+"</p>");	
+	}
+
+</script>
+</div>
+
+</div>
+<div class="separator-blank"></div>
+
+ <div class="row">
+				         <div class="six columns">
+				         <label for="tutor-photo">Upload Scanned Photo*</label>
+				         <input type="file" id="tutor-photo" name="tutor-photo" accept="image/*" onchange="readURLTutor(this);">
+				         </div>
+				         
+				         <div class="six columns">
+				         <img id="tutor_preview_image" src="#" alt="Your Image" />
+				         </div>
+</div> 
+
+<div class="separator-blank"></div>
+
+<div class="separator"></div>
+
+<div class="page-header hvr-glow hvr-rectangle-out">CONTACT DETAILS</div>
+
+<div class="row">
+
+<div class="four columns">
+<label for="tutor-mobile-number">Tutor Mobile Number*</label>
+<input class="u-full-width" type="text" id= "tutor-mobile-number" pattern="[789][0-9]{9}" required autocomplete='off'/>
+</div>
+
+<div class="four columns">
+<label for="tutor-email-address">Tutor Email Address*</label>
+<input class="u-full-width" type="email" id= "tutor-email-address" required autocomplete='off'/>
+</div>
+
+
+</div>
+
+<div class="row">
+<div class="six columns">
+<label for="tutor-temporary-address">Temporary Address*</label>
+<textarea class="u-full-width" id="tutor-temporary-address" required></textarea>
+</div>
+
+<div class="six columns">
+<label for="tutor-permanent-address">Permanent Address*</label>
+<textarea class="u-full-width" id="tutor-permanent-address" required></textarea>
+</div>
+
+
+</div>
+
+<input class="button-primary" type="submit" value="submit"/>
+</form>
+</div>
+
+
+
+<div id="supporting-staff-admission-form">
+<form id="new-admission-form-supporting-staff" method="post" onsubmit="return submitFormSupportingStaff();">
+<div class="row">
+
+<div class="four columns">
+<label for="course-name-supporting-staff">Course Name*</label>
+<select class="u-full-width" id="course-name-supporting-staff" onchange="loadSubCourseNames(this.value);" required>
+<option value="">--Select Course Name--</option> 
+<script>
+var blockData = getJSON("course-names.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#course-name-supporting-staff").append("<option value=\""+blockData[i].course_name+"\">"+blockData[i].course_name+"</option>");	
+	}
+
+</script>
+</select>
+</div>
+
+<div class="four columns">
+<label for="sub-course-name-supporting-staff">Sub Course Name*</label>
+<select class="u-full-width" id="sub-course-name-supporting-staff" required>
+<option value="">--Select Sub Course Name--</option> 
+</select>
+</div>
+
+<div class="four columns">
+<label for="supporting-staff-designation">Supporting Staff Designation*</label>
+<select class="u-full-width" id="supporting-staff-designation" required>
+<option value="">--Select Designation--</option>
+<script>
+var blockData = getJSON("supporting_staff_designation.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#supporting-staff-designation").append("<option value=\""+blockData[i].designation+"\">"+blockData[i].designation+"</option>");	
+	}
+
+</script>
+</select>
+</div>
+
+</div>
+
+<div class="separator"></div>
+<div class="page-header hvr-glow hvr-rectangle-out">Supporting Staff Details</div>
+
+<div class="row">
+<div class="four columns">
+<label for="supporting-staff-full-name">Supporting Staff Full Name*</label>
+<input class="u-full-width" type="text" id="supporting-staff-full-name" required autocomplete="off"/>
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="four columns">
+<label for="supporting-staff-date-of-birth">Supporting Staff Date of Birth*</label>
+<input class="u-full-width" type="text" id= "supporting-staff-date-of-birth" required autocomplete='off'/>
+</div>
+
+
+<div class="four columns">
+<label for="supporting-staff-father-full-name">Father Full Name*</label>
+<input class="u-full-width" type="text" id= "supporting-staff-father-full-name" required autocomplete='off'/>
+</div>
+
+<div class="four columns">
+<label for="supporting-staff-father-occupation">Father Occupation*</label>
+<select class="u-full-width" id="supporting-staff-father-occupation" required autocomplete='off'>
+<option value="">--Select Occupation</option>
+<script>
+var blockData = getJSON("father-occupation.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#supporting-staff-father-occupation").append("<option value=\""+blockData[i].occupation+"\">"+blockData[i].occupation+"</option>");	
+	}
+</script>
+</select>
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="four columns">
+<label for="supporting-staff-mothers-maiden-name">Mother's Maiden Name*</label>
+<input class="u-full-width" type="text" id= "supporting-staff-mothers-maiden-name" required autocomplete='off'/>
+</div>
+
+<div class="four columns">
+<label for="supporting-staff-religion">Religion*</label>
+<select class="u-full-width" type="text" id= "supporting-staff-religion" required autocomplete='off'>
+<option value="">--Select Religion--</option>
+<script>
+var blockData = getJSON("religion.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#supporting-staff-religion").append("<option value=\""+blockData[i].religion+"\">"+blockData[i].religion+"</option>");	
+	}
+</script>
+</select>
+</div>
+
+<div class="four columns">
+<label for="supporting-staff-nationality">Nationality*</label>
+<select class="u-full-width" type="text" id= "supporting-staff-nationality" required autocomplete='off'>
+<option value="">--Select Nationality--</option>
+<script>
+var blockData = getJSON("nationality.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#supporting-staff-nationality").append("<option value=\""+blockData[i].nationality+"\">"+blockData[i].nationality+"</option>");	
+	}
+</script>
+</select>
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="six columns" id="supporting-staff-gender">
+<label for="supporting-staff-gender">Gender*</label>
+<script>
+var blockData = getJSON("gender.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#supporting-staff-gender").append("<input type='radio' name='supporting_staff_gender' value='"+blockData[i].gender+"' required/><p>"+blockData[i].gender+" </p>");	
+	}
+
+</script>
+</div>
+
+<div class="six columns" id="supporting-staff-marital-status">
+<label for="supporting-staff-marital-status">Marital Status*</label>
+<script>
+var blockData = getJSON("marital-status.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#supporting-staff-marital-status").append("<input type='radio' name='supporting_staff_marital_status' value='"+blockData[i].marital_status+"' required/><p>"+blockData[i].marital_status+"</p>");	
+	}
+
+</script>
+</div>
+
+</div>
+<div class="separator-blank"></div>
+
+ <div class="row">
+				         <div class="six columns">
+				         <label for="tutor-photo">Upload Scanned Photo*</label>
+				         <input type="file" id="supporting-staff-photo" name="supporting-staff-photo" accept="image/*" onchange="readURLSupportingStaff(this);">
+				         </div>
+				         
+				         <div class="six columns">
+				         <img id="supporting_staff_preview_image" src="#" alt="Your Image" />
+				         </div>
+</div> 
+
+<div class="separator-blank"></div>
+
+<div class="separator"></div>
+
+<div class="page-header hvr-glow hvr-rectangle-out">CONTACT DETAILS</div>
+
+<div class="row">
+
+<div class="four columns">
+<label for="supporting-staff-mobile-number">Supporting Staff Mobile Number*</label>
+<input class="u-full-width" type="text" id= "supporting-staff-mobile-number" pattern="[789][0-9]{9}" required autocomplete='off'/>
+</div>
+
+<div class="four columns">
+<label for="supporting-staff-email-address">Supporting Staff Email Address*</label>
+<input class="u-full-width" type="email" id= "supporting-staff-email-address" required autocomplete='off'/>
+</div>
+
+
+</div>
+
+<div class="row">
+<div class="six columns">
+<label for="supporting-staff-temporary-address">Temporary Address*</label>
+<textarea class="u-full-width" id="supporting-staff-temporary-address" required></textarea>
+</div>
+
+<div class="six columns">
+<label for="supporting-staff-permanent-address">Permanent Address*</label>
+<textarea class="u-full-width" id="supporting-staff-permanent-address" required></textarea>
+</div>
+
+
+</div>
+
+
+<input class="button-primary" type="submit" value="submit"/>
+</form>
+</div>
+
+
+<div id="others-admission-form">
+<form id="new-admission-form-others" method="post"  onsubmit="return submitFormOthers();">
+
+<div class="page-header hvr-glow hvr-rectangle-out">Others Details</div>
+
+<div class="row">
+
+<div class="four columns">
+<label for="others-full-name">Full Name*</label>
+<input class="u-full-width" type="text" id="others-full-name" required autocomplete="off"/>
+</div>
+
+<div class="four columns">
+<label for="others-designation">Designation*</label>
+<select class="u-full-width" id="others-designation" required>
+<option value="">--Select Designation--</option>
+<script>
+var blockData = getJSON("others_designation.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#others-designation").append("<option value=\""+blockData[i].designation+"\">"+blockData[i].designation+"</option>");	
+	}
+
+</script>
+</select>
+</div>
+</div>
+<div class="row">
+
+<div class="four columns">
+<label for="others-date-of-birth">Date of Birth*</label>
+<input class="u-full-width" type="text" id= "others-date-of-birth" required autocomplete='off'/>
+</div>
+
+
+<div class="four columns">
+<label for="others-father-full-name">Father Full Name*</label>
+<input class="u-full-width" type="text" id= "others-father-full-name" required autocomplete='off'/>
+</div>
+
+<div class="four columns">
+<label for="others-father-occupation">Father Occupation*</label>
+<select class="u-full-width" id="others-father-occupation" required autocomplete='off'>
+<option value="">--Select Occupation</option>
+<script>
+var blockData = getJSON("father-occupation.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#others-father-occupation").append("<option value=\""+blockData[i].occupation+"\">"+blockData[i].occupation+"</option>");	
+	}
+</script>
+</select>
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="four columns">
+<label for="others-mothers-maiden-name">Mother's Maiden Name*</label>
+<input class="u-full-width" type="text" id= "others-mothers-maiden-name" required autocomplete='off'/>
+</div>
+
+<div class="four columns">
+<label for="others-religion">Religion*</label>
+<select class="u-full-width" type="text" id= "others-religion" required autocomplete='off'>
+<option value="">--Select Religion--</option>
+<script>
+var blockData = getJSON("religion.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#others-religion").append("<option value=\""+blockData[i].religion+"\">"+blockData[i].religion+"</option>");	
+	}
+</script>
+</select>
+</div>
+
+<div class="four columns">
+<label for="others-nationality">Nationality*</label>
+<select class="u-full-width" type="text" id= "others-nationality" required autocomplete='off'>
+<option value="">--Select Nationality--</option>
+<script>
+var blockData = getJSON("nationality.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#others-nationality").append("<option value=\""+blockData[i].nationality+"\">"+blockData[i].nationality+"</option>");	
+	}
+</script>
+</select>
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="six columns" id="others-gender">
+<label for="others-gender">Gender*</label>
+<script>
+var blockData = getJSON("gender.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#others-gender").append("<input type='radio' name='others_gender' value='"+blockData[i].gender+"' required/><p>"+blockData[i].gender+"</p>");	
+	}
+
+</script>
+</div>
+
+<div class="six columns" id="others-marital-status">
+<label for="others-marital-status">Marital Status*</label>
+<script>
+var blockData = getJSON("marital-status.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#others-marital-status").append("<input type='radio' name='others_marital_status' value='"+blockData[i].marital_status+"' required/><p>"+blockData[i].marital_status+"</p>");	
+	}
+
+</script>
+</div>
+
+</div>
+<div class="separator-blank"></div>
+
+ <div class="row">
+				         <div class="six columns">
+				         <label for="others-photo">Upload Scanned Photo*</label>
+				         <input type="file" id="others-photo" name="others-photo" accept="image/*" onchange="readURLOthers(this);">
+				         </div>
+				         
+				         <div class="six columns">
+				         <img id="others_preview_image" src="#" alt="Your Image" />
+				         </div>
+</div> 
+
+<div class="separator-blank"></div>
+
+<div class="separator"></div>
+
+<div class="page-header hvr-glow hvr-rectangle-out">CONTACT DETAILS</div>
+
+<div class="row">
+
+<div class="four columns">
+<label for="others-mobile-number">Mobile Number*</label>
+<input class="u-full-width" type="text" id= "others-mobile-number" pattern="[789][0-9]{9}" required autocomplete='off'/>
+</div>
+
+<div class="four columns">
+<label for="others-email-address">Email Address*</label>
+<input class="u-full-width" type="email" id= "others-email-address" required autocomplete='off'/>
+</div>
+
+
+</div>
+
+<div class="row">
+<div class="six columns">
+<label for="others-temporary-address">Temporary Address*</label>
+<textarea class="u-full-width" id="others-temporary-address" required></textarea>
+</div>
+
+<div class="six columns">
+<label for="others-permanent-address">Permanent Address*</label>
+<textarea class="u-full-width" id="others-permanent-address" required></textarea>
+</div>
+
+
+</div>
+
+<input class="button-primary" type="submit" value="submit"/>
+</form>
+</div>
+
+</div>
+</div>
+
+
+<div class="separator-blank"></div>
+<script>
+loadFooter("../../../")
+</script>
+
+</body>
+</html>

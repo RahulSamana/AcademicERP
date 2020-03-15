@@ -1,0 +1,13 @@
+{
+   "items":[
+               {
+              "admission_type":"Convener"
+              },
+              {
+              "admission_type":"B-Category"
+              },
+              {
+              "admission_type":"Spot"
+              }
+           ]
+}

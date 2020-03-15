@@ -1,0 +1,22 @@
+{
+   "items":[
+              {
+              "occupation":"Government-Sector"
+              },
+              {
+              "occupation":"Private-Sector"
+              },
+              {
+              "occupation":"Business"
+              },
+              {
+              "occupation":"Agriculture"
+              },
+              {
+              "occupation":"Self-Employment"
+              },
+              {
+              "occupation":"Others"
+              }
+           ]
+}

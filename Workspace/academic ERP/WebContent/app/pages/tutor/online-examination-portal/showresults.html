@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="js/tutor-master.js" type="text/javascript"></script>
+   <link rel="stylesheet" href="css/master.css">
+  
+   <title>Digital MVSR : Online Services for MVSR Engineering College | Online Registrations</title>
+</head>
+<script>
+
+var testid;
+var user = "faculty";
+var email = getSessionAttribute("email");
+var args= [{"String":email}]; 
+var registration_number_call = call("Register","getRegistrationNumber",args);  
+var registration_number = registration_number_call[0].returnValue;
+
+$(document).ready(function() { 
+	var html = "";	 
+	var test_id = getSessionAttribute("test_id");
+	var args = [{"String":test_id}];
+	var result = call("ExaminationPortal","fetchResults",args);
+	testid = new Array(result.length);
+	if(result.length > 0){
+		for(var i=0;i<result.length;i++)
+			{
+				html += "<tr>";
+				html += "<td class=\"hvr-glow\"><b>"+result[i].sRegistrationNumber+"</b></td>";
+				testid[i] = result[i].sTestId;
+				html += "<td>"+result[i].sSubject+"</td>";
+				html += "<td class=\"hvr-glow\"><b>"+result[i].sMarksObtained+"</b></td>"; 
+				html += "</tr>";
+			}
+	}
+else{
+			html = "No Student Attempted the Test Yet.";
+		}
+	$('#show-results-table-body').html(html);
+});
+
+</script>
+
+<body>
+<!-- header -->
+<div id='header'>
+</div>
+<!-- //header -->
+
+<div class="separator"></div>
+
+
+
+<div class="page-header hvr-glow" id="student-home">Tutor Home</div>
+
+<div class="separator-blank"></div>
+
+<div class="row">
+
+<div class="two columns" id="quick-links-div">
+<div id="quick_links">
+<script>
+loadLeftSideMenuQuickLinks("");
+</script>
+</div>
+
+</div>
+
+<div class="ten columns container">
+
+<div class="page-header hvr-glow hvr-rectangle-out">Test Results</div>
+
+<div id='show-results'>
+				<div>
+
+					<table id="show-results-table" class="u-full-width">
+			  
+					  <thead>
+					    <tr>
+					      <th>Registration Number</th>
+					      <th>Subject</th>
+					      <th>Marks Obtained</th>
+					    </tr>
+					  </thead>
+					  
+					  <tbody id='show-results-table-body'>
+					  </tbody>
+					  
+					</table>
+				</div>	
+	<div class="row">
+	<div class="twelve columns">
+		<a href="../"><input type="button" class="button-primary" value="Go Back"/></a>
+	</div>
+
+		</div>
+	
+		
+	</div>
+</div>
+</div>
+</body>
+</html>

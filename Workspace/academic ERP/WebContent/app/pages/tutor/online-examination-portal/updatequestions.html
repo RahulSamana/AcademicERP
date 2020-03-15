@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+<head>
+
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="js/tutor-master.js" type="text/javascript"></script>
+   <link rel="stylesheet" href="css/master.css">
+  
+   <title>Digital MVSR : Online Services for MVSR Engineering College | Online Registrations</title>
+</head>
+<script>
+var questionNo;
+	 var test_id = getSessionAttribute("test_id");
+	$(document).ready(function() { 
+		var html = "";	
+		var args = [{"String":test_id}];
+		var result = call("ExaminationPortal","getExamQuestions",args);
+		questionNo = new Array(result.length);
+		if(result.length > 0){
+			for(var i=0;i<result.length;i++)
+				{
+					html += "<tr>";
+					html += "<td>"+result[i].sQuestion+"</td>";
+					html += "<td>"+result[i].sOption1+"</td>";
+					html += "<td>"+result[i].sOption2+"</td>";
+					html += "<td>"+result[i].sOption3+"</td>";
+					html += "<td>"+result[i].sOption4+"</td>"; 
+					html += "<td class=\"hvr-glow\"><b>"+result[i].sRightAnswer+"</b></td>"; 
+					html += "</tr>";
+				}
+		}
+	else{
+				html = "There are no Previous Questions Created by you.";
+			}
+		$('#previous-exam-questions-body').html(html);
+	});
+
+</script>
+
+
+<body>
+<!-- header -->
+<div id='header'>
+</div>
+<!-- //header -->
+
+<div class="separator"></div>
+
+
+
+<div class="page-header hvr-glow" id="student-home">Tutor Home</div>
+
+<div class="separator-blank"></div>
+
+<div class="row">
+
+<div class="two columns" id="quick-links-div">
+<div id="quick_links">
+<script>
+loadLeftSideMenuQuickLinks("");
+</script>
+</div>
+
+</div>
+
+<div class="ten columns container">
+
+<div class="page-header hvr-glow hvr-rectangle-out">List of Questions</div>
+
+<div id='questions-list'>
+				<div>
+
+					<table id="previous-exam-questions" class="u-full-width">
+			  
+					  <thead>
+					    <tr>
+					      <th>Question</th>
+					      <th>Option 1</th>
+					      <th>Option 2</th>
+					      <th>Option 3</th>
+					      <th>Option 4</th>
+					      <th>Right Answer</th>
+					    </tr>
+					  </thead>
+					  
+					  <tbody id='previous-exam-questions-body'>
+					  </tbody>
+					  
+					</table>
+				</div>	
+	<div class="row">
+	<div class="twelve columns">
+		<a href="../"><input type="button" class="button-primary" value="Go Back"/></a>
+	</div>
+	
+		
+	</div>
+	</div>
+</div>
+</div>
+</body>
+</html>

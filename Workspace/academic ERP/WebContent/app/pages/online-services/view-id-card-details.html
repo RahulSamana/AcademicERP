@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+<head>
+
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="js/master.js" type="text/javascript"></script>
+   <link rel="stylesheet" href="css/master.css">
+  
+   <title>Digital MVSR : Online Services for MVSR Engineering College | Online Registrations</title>
+</head>
+	<script>
+	function printpage()
+	{
+		window.print();
+	}
+	$(document).ready(function(){
+		var unique_reference_number = getSessionAttribute("unique-reference-number");
+		loading();
+		var args=[{"String":unique_reference_number}];
+		var result = call("Admin","getIDCardRequestWithRequestNumber",args);
+		var html = "";
+		if(result.length > 0){
+			for(var i=0;i<result.length;i++)
+				{
+				   html += "<tr>";
+				   html += "<td>Unique Request Number</td>";
+				   html += "<td>"+result[i].sUniqueRequestNumber+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Department</td>";
+				   html += "<td>"+result[i].sDepartment+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Roll Number</td>";
+				   html += "<td>"+result[i].sRollNo+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Full Name</td>";
+				   html += "<td>"+result[i].sFullName+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Blood Group</td>";
+				   html += "<td>"+result[i].sBloodGroup+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Mobile Number</td>";
+				   html += "<td>"+result[i].sMobileNumber+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Date of Birth</td>";
+				   html += "<td>"+result[i].sDateOfBirth+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Address</td>";
+				   html += "<td>"+result[i].sAddress+"</td>";
+				   html += "</tr>";
+				   var args=[{"String":result[i].sRollNo}];
+				   var registration_number=call("Register","getUniqueIDUsingRollNo",args);
+				   var args=[{"String":registration_number[0].returnValue}];
+				   var photoFilePath = call("Admin","getPhotoFilePath",args);
+			   	   $("#preview_image").attr("src",photoFilePath[0].returnValue);
+				}
+		}
+		else
+			{
+			html = "There are no Details";
+			}
+		$('#view-details-table-body').html(html);	
+			loadingStop();
+	});
+	
+	</script>
+<body>
+<!-- header -->
+<div id='header'>
+</div>
+<!-- //header -->
+
+<div class="separator"></div>
+
+
+<div class="page-header hvr-glow" id="admin-home">Admission Management</div>
+
+<div class="separator-blank"></div>
+
+<div class="row">
+
+<div class="two columns" id="quick-links-div">
+<div id="quick_links">
+<script>
+loadLeftSideMenuQuickLinks("../../");
+</script>
+</div>
+
+</div>
+
+<div class="ten columns container">
+
+<div class="page-header hvr-glow hvr-rectangle-out">ID Card Details</div>
+<div class="separator-blank"></div>
+
+<div id='view-details'>
+				<div>
+
+					<table id="view-details-table" class="u-full-width responsive">
+			  
+					  <thead>
+					    <tr>
+					      <th>Name</th>
+					      <th>Details</th>
+					    </tr>
+					  </thead>
+					  
+					  <tbody id='view-details-table-body'>
+					  </tbody>
+					  
+					</table>
+					<img id="preview_image" src="#"/>
+				</div>	
+		</div>
+
+<div class="print-button">
+             <input class="button-primary " type="button" value="Print" onclick="printpage();"></input> 
+              </div>	
+	
+	</div>
+
+</div>
+<div class="separator-blank"></div>
+<script>
+loadFooter("../../../");
+</script>
+</body>
+</html>

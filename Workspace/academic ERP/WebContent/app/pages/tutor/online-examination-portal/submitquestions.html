@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+<head>
+
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="js/tutor-master.js" type="text/javascript"></script>
+   <link rel="stylesheet" href="css/master.css">
+  
+   <title>Digital MVSR : Online Services for MVSR Engineering College | Online Registrations</title>
+</head>
+<script>
+var test_id = getSessionAttribute("test-id");
+if(test_id==="null")
+	{
+	alert("Please Create a Test and then Start Submitting Questions");
+	window.open("../../../TutorOnlineExaminationPortal/","_self");
+	}
+$(document).ready(function(){
+	
+	$("#test_id_reference").val(test_id);
+	$(".home").hide();
+	$(".logout").hide();
+ });
+ 
+function submitForm()
+ {
+	var fieldNames = ["question"
+	                  ,"option-1"
+	                  ,"option-2"
+	                  ,"option-3"
+	                  ,"option-4"
+	                  ,"right-option"
+	                  ,"test-id"
+	                  ];
+	
+	 var question= $("#question").val();
+	 var option_1= $("#option-1").val();
+	 var option_2= $("#option-2").val();
+	 var option_3= $("#option-3").val();
+	 var option_4 =$("#option-4").val();	
+    var right_option =$("#right-option").val();
+ 	 var test_id = getSessionAttribute("test-id");
+    
+	var fieldValues = [ question
+	                   ,option_1
+	                   ,option_2
+	                   ,option_3
+	                   ,option_4
+	                   ,right_option
+	                   ,test_id
+	                   ];
+	var args = [{"List":fieldNames},{"List":fieldValues}];
+	var result = call("ExaminationPortal","addQuestion",args);
+	if(result[0].returnValue==="true")
+		{
+		loadingStop();
+		alert("Question Saved Successfully..!!");
+		return true;
+		}
+	else
+		{
+		loadingStop();
+		alert("Sorry, Something Went Wrong. Please Try Again");
+		return false;
+		}
+	
+ }
+ function completeTest()
+ {
+	 var x = confirm("Are you sure you want to complete the test?")
+	 if(x===true)
+		 {
+		  loadingStop();
+		  removeSessionAttribute("test-id");
+		  window.open("../../../TutorOnlineExaminationPortal/","_self");
+		 }
+	 else
+		 {
+		 return false;
+		 }
+ }
+
+</script>
+
+<body>
+<!-- header -->
+<div id='header'>
+</div>
+<!-- //header -->
+
+<div class="separator"></div>
+
+
+
+<div class="page-header hvr-glow" id="student-home">Tutor Home</div>
+
+<div class="separator-blank"></div>
+<div class="row">
+
+<div class="container">
+
+<div class="page-header hvr-glow hvr-rectangle-out">Enter Questions</div>
+
+<form id="enter-question" method="post" action="../SubmitQuestions/" onsubmit ="return submitForm();" >
+
+<div class="row">
+<div class="three columns">
+<label for="test_id_reference">Test ID</label>
+<input class="u-full-width" type="text" id="test_id_reference" name="test_id_reference" readonly disabled/>
+</div>
+
+ <div class="five columns">
+            <input type="text" style="visibility: hidden; display:inline;">
+         </div>
+<div class="four columns ">
+<label for="complete_test">Finish Entering Questions</label>
+<input class="twelve columns  button-primary" type="button" value="Finish" id="complete_test" name="complete_test" onclick="completeTest();"/>
+</div>
+
+</div>
+
+<div class="row">
+<label class="six columns offset-by-three" for="question">Question</label>
+<textarea class="six columns offset-by-three " id="question" name="question" required autocomplete="off" ></textarea>
+</div>
+<div class="row">
+<label class="six columns offset-by-three" for="option-1">Option 1</label>
+<input class="six columns offset-by-three" type="text" id="option-1" name="option-1" required autocomplete="off" />
+</div>
+<div class="row">
+<label class="six columns offset-by-three" for="option-2">Option 2</label>
+<input class="six columns offset-by-three" type="text" id="option-2" name="option-2" required autocomplete="off" />
+</div>
+<div class="row">
+<label class="six columns offset-by-three" for="option-3">Option 3</label>
+<input class="six columns offset-by-three" type="text" id="option-3" name="option-3" required autocomplete="off" />
+</div>
+<div class="row">
+<label class="six columns offset-by-three" for="option-4">Option 4</label>
+<input class="six columns offset-by-three" type="text" id="option-4" name="option-4" required autocomplete="off" />
+</div>
+<div class="row">
+<label class="six columns offset-by-three" for="right-option">Right Option</label>
+<input class="six columns offset-by-three" type="text" id="right-option" name="right-option" required autocomplete="off" />
+</div>
+<input type="hidden" id="test-id" name="test-id"/>
+<div class="row">
+<br>
+<input class="six columns offset-by-three button-primary" type="submit" value="Submit Question"/>
+</div>
+
+
+</form>
+
+</div>
+</div>
+
+
+</body>
+</html>

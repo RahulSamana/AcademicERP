@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+<head>
+
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="js/student-master.js" type="text/javascript"></script>
+   <link rel="stylesheet" href="css/master.css">
+  
+   <title>Digital MVSR : Online Services for MVSR Engineering College | Online Registrations</title>
+</head>
+<script>
+
+</script>
+<body>
+
+<!-- header -->
+<div id='header'>
+<script>
+
+</script>
+</div>
+<!-- //header -->
+
+<div class="separator"></div>
+
+
+
+<div class="page-header hvr-glow" id="student-home">Student Home</div>
+
+<div class="separator-blank"></div>
+
+<div class="row">
+
+<div class="two columns" id="quick-links-div">
+<div id="quick_links">
+<script>
+loadLeftSideMenuQuickLinks("../");
+</script>
+</div>
+
+</div>
+
+<div class="ten columns">
+
+<div id="blocks">
+
+ <div class="row">
+     <div class="three columns">
+          <div id="block1" class="container">
+     <script>
+     var blockData = getJSON("student_online_services_block1.json");
+     $("#block1").append("<a href=\"StudentApplyLostIDCard/\"><img class=\"block-img\" src=\""+blockData[0].href+"\" alt=\"Block1 Img\"></a>");
+     </script>
+
+     </div>
+     </div>
+     
+          <div class="three columns">
+          <div id="block2" class="container">
+     <script>
+     var blockData = getJSON("student_online_services_block2.json");
+     $("#block2").append("<a href=\"StudentApplyCustodian/\"><img class=\"block-img\" src=\""+blockData[0].href+"\" alt=\"Block1 Img\"></a>");
+     </script>
+
+     </div>
+     </div>
+     
+          
+          <div class="three columns">
+          <div id="block3" class="container">
+     <script>
+     var blockData = getJSON("student_online_services_block3.json");
+     $("#block3").append("<a href=\"StudentRequestPermission/\"><img class=\"block-img\" src=\""+blockData[0].href+"\" alt=\"Block1 Img\"></a>");
+     </script>
+
+     </div>
+     </div>
+     
+     <div class="three columns">
+          <div id="block4" class="container">
+     <script>
+     var blockData = getJSON("student_online_services_block4.json");
+     $("#block4").append("<a href=\"StudentTrackStatus/\"><img class=\"block-img\" src=\""+blockData[0].href+"\" alt=\"Block1 Img\"></a>");
+     </script>
+
+     </div>
+     </div>
+     
+    </div> 
+    
+     
+    
+
+</div>
+</div>
+</div>
+<div class="separator-blank"></div>
+<script>
+loadFooter("../../");
+</script>
+</body>
+</html>

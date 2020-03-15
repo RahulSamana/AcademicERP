@@ -1,0 +1,20 @@
+{
+   "items":[
+              {
+              "course_name":"B.E-B.Tech",
+              "course_duration":"4 years"
+              },
+              {
+              "course_name":"M.E-M.Tech",
+              "course_duration":"2 years"
+              },
+              {
+              "course_name":"Intermediate",
+              "course_duration":"2 years"
+              },
+              {
+              "course_name":"Schooling",
+              "course_duration":"10 years"
+              }
+           ]
+}

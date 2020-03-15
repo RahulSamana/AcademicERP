@@ -1,0 +1,230 @@
+<!doctype html>
+<html>
+<head>
+
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="js/master.js" type="text/javascript"></script>
+   <link rel="stylesheet" href="css/master.css">
+  
+   <title>Digital MVSR : Online Services for MVSR Engineering College | Online Registrations</title>
+</head>
+<script>
+function loadTableReferenceNumber()
+{
+	var request_number = $("#request-number").val();
+	if(request_number==="")
+		{
+		alert("Please Enter Request Number");
+		}
+	else
+		{
+		loading();
+		
+		var args = [{"String":request_number}];
+		var result = call("Admin","getIDCardRequestWithRequestNumber",args);
+		loadingStop();
+		var html = "";
+		if(result.length > 0){
+			for(var i=0;i<result.length;i++)
+				{
+				   html += "<tr>";
+				   html += "<td>"+(i+1)+"</td>";
+				   html += "<td class=\"hvr-glow\">"+result[i].sUniqueRequestNumber+"</td>";
+				   html += "<td><b>"+result[i].sFullName+"</b></td>";
+				   html += "<td><b><input type=\"text\" class=\"u-full-width\" id="+result[i].sRollNo+" name="+result[i].sRollNo+" value="+result[i].sRollNo+" disabled readonly></b></td>";
+				   html += "<td class=\"hvr-glow\"><b>"+result[i].sRequestStatus+"</b></td>";
+				   html += "<td><select class='u-full-width' id='id-card-request"+i+"'>"
+				   var blockData = getJSON("id-card-request-status.json");
+				   for(var j=0;j<blockData.length;j++)
+				   	{
+					  html += "<option value="+blockData[j].request_status+">"+blockData[j].request_status+"</option>";
+				   	}
+				   "</select></td>";
+				   html += "<td><input type=\"button\" class=\"button-primary u-full-width \" id="+result[i].sUniqueRequestNumber+" value=\"Update\" onclick=\"updateStatus(id,'"+i+"');\"></input>";
+				   html += "<input type=\"button\" class=\"button-primary u-full-width \" id="+result[i].sUniqueRequestNumber+" value=\"View Details\" onclick=\"viewDetails(id);\"></input></td>";
+				   html += "</tr>";
+				}
+		}
+	else{
+				html = "There are no New ID Card Requests";
+			}
+		$('#id-card-requests-details-body').html(html);	
+		}
+		
+}
+
+function loadTable()
+{
+	loading();
+	var args = [{}];
+	var result = call("Admin","getAllIDCardRequests",args);
+	loadingStop();
+	var html = "";
+	if(result.length > 0){
+		for(var i=0;i<result.length;i++)
+			{
+			   html += "<tr>";
+			   html += "<td>"+(i+1)+"</td>";
+			   html += "<td class=\"hvr-glow\">"+result[i].sUniqueRequestNumber+"</td>";
+			   html += "<td><b>"+result[i].sFullName+"</b></td>";
+			   html += "<td><b><input type=\"text\" class=\"u-full-width\" id="+result[i].sRollNo+" name="+result[i].sRollNo+" value="+result[i].sRollNo+" disabled readonly></b></td>";
+			   html += "<td class=\"hvr-glow\"><b>"+result[i].sRequestStatus+"</b></td>";
+			   html += "<td><select class='u-full-width' id='id-card-request"+i+"'>"
+			   var blockData = getJSON("id-card-request-status.json");
+			   for(var j=0;j<blockData.length;j++)
+			   	{
+				  html += "<option value="+blockData[j].request_status+">"+blockData[j].request_status+"</option>";
+			   	}
+			   "</select></td>";
+			   html += "<td><input type=\"button\" class=\"button-primary u-full-width \" id="+result[i].sUniqueRequestNumber+" value=\"Update\" onclick=\"updateStatus(id,'"+i+"');\"></input>";
+			   html += "<input type=\"button\" class=\"button-primary u-full-width \" id="+result[i].sUniqueRequestNumber+" value=\"View Details\" onclick=\"viewDetails(id);\"></input></td>";			  
+			   html += "</tr>";
+			}
+	}
+else{
+			html = "There are no New ID Card Requests";
+		}
+	$('#id-card-requests-details-body').html(html);	
+}
+
+
+function updateStatus(id,i)
+{
+	var user_input = confirm("Are you sure you want to update id-card request status of "+id+"?");
+	if(user_input===true)
+		{
+		loading();
+		var id_card_request_status = $("#id-card-request"+i).val(); 
+	
+		var args =[{"String":id},{"String":id_card_request_status}];
+		var result = call("Admin","updateIDCardRequestStatus",args);
+		if(result[0].returnValue ==="true")
+			{
+			loadingStop();
+			alert("ID Card Request "+id+" ,  Status  is Successfully Updated");
+			loadTable();
+			
+			}
+		else{
+			loadingStop();
+			alert("Something is not right here!\nIt must be the case that we are already working on it.\nSorry for the inconvenience caused. Please try again after sometime.");
+			return false;
+		}
+		}
+	else
+		{
+		return false;
+		}
+    
+}
+
+function viewDetails(id)
+{
+	setSessionAttribute("unique-reference-number", id);
+	window.open("ViewIDCardDetails/","_blank");
+}
+
+</script>
+
+<body>
+
+<!-- header -->
+<div id='header'>
+
+</div>
+<!-- //header -->
+
+<div class="separator"></div>
+
+
+
+<div class="page-header hvr-glow" id="admin-home">Admin Home</div>
+
+<div class="separator-blank"></div>
+
+<div class="row">
+
+<div class="two columns" id="quick-links-div">
+<div id="quick_links">
+<script>
+loadLeftSideMenuQuickLinks("../");
+</script>
+</div>
+
+</div>
+
+<div class="ten columns container">
+
+<div class="page-header hvr-glow hvr-rectangle-out">ID Card Requests</div>
+
+<div id="id-card-requests-block">
+<div class="container">
+<div class="one-half column">
+<div class="block">
+<h5>Unique Request Number</h5>
+<input class="container" type="text" id="request-number" autocomplete="off" placeholder="Request Number"/>
+<div class="separator-blank"></div>
+<div class="separator-blank"></div>
+<input class="button-primary container" type="button" value="Search" onclick="return loadTableReferenceNumber();"/> 
+</div>
+
+</div>
+
+<div class="one-half column">
+<div class="block">
+<h5>Get All Requests</h5>
+<p class="container">Want to Get All the New ID Card Requests?</p>
+<div class="separator-blank"></div>
+<div class="separator-blank"></div>
+<input class="button-primary container" type="button" value="Click Here" onclick="return loadTable();"/> 
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+
+	<div id='id-card-requests'>
+				<div>
+
+					<table id="id-card-requests-details" class="u-full-width responsive">
+			  
+					  <thead>
+					    <tr>
+					      <th>Sno</th>
+					      <th>Unique Ref. ID</th>
+					      <th>Full Name</th>
+					      <th>Roll Number</th>
+					      <th>Current Status</th>
+					      <th>Update Status</th>
+					      <th>Action</th>
+					    </tr>
+					  </thead>
+					  
+					  <tbody id='id-card-requests-details-body'>
+					  </tbody>
+					  
+					</table>
+				</div>	
+		</div>
+	
+	
+	</div>
+
+
+</div>
+<div class="separator-blank"></div>
+<script>
+loadFooter("../../");
+</script>
+
+
+
+</body>
+</html>

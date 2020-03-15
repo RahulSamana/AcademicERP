@@ -1,0 +1,182 @@
+<!doctype html>
+<html>
+<head>
+
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="js/student-master.js" type="text/javascript"></script>
+   <link rel="stylesheet" href="css/master.css">
+  
+   <title>Digital MVSR : Online Services for MVSR Engineering College | Online Registrations</title>
+   <script>
+   $(document).ready(function(){
+	   	removeSessionAttribute("request_id");
+	   	  $("#reply-div").hide();  
+	   	  $("#send-button").click(function(){
+	   	 	   sendReply();
+	   	    });
+	     var email = getSessionAttribute("email");
+	   	 var args =[{"String":email}];
+	   	result = call("Register","getDepartmentofRegisteredUser",args);    
+		    var args = [{"String":result[0].returnValue}];
+			var result = call("Studentportal","getPreviousRequests",args);
+			var html = "";
+			if(result.length > 0){
+				for(var i=0;i<result.length;i++)
+					{
+						html += "<tr>";
+						html += "<td><b>"+result[i].sDateOfRequest.substring(0,19)+"</b></td>";
+						html += "<td class=\"hvr-glow\"><b>"+result[i].sRequestId+"</b></td>";
+						html += "<td>"+result[i].sRequestCategory+"</td>";
+						html += "<td>"+result[i].sStudentName+"</td>";
+						html += "<td class=\"hvr-glow\"><b>"+result[i].sRequest+"</b></td>";
+						html += "<td > <input type=\"button\" class=\"u-full-width button-primary  \" id="+result[i].sRequestId+" value=\"Reply\" onclick=\"reply(id);\"></input></td>";
+						html += "</tr>";
+					}
+			}
+		else{
+					html = "There are no Previous Requests from Students.";
+				}
+			$('#student-portal-requests-body').html(html);
+	   });
+
+	   function reply(id)
+	   {
+	      alert("Are You Sure You Want to Reply to "+id);
+	      setSessionAttribute("request_id",id);
+	      $("#reply-div").show();
+	      $("#reply-area").val('');
+	      $("#reply-area").focus();
+	      
+	   }
+	   function sendReply()
+	   {
+	   	loading();
+	  	var reply = $("#reply-area").val();
+	   var id = getSessionAttribute("request_id");
+	   var args = [{"String":id},{"String":reply}];
+	   var result = call("Studentportal","sendReply",args);
+	   if(result[0].returnValue ==="true")
+	   	{
+	   	loadingStop();
+	   	alert("Your Reply is Successfully Sent as Email to the Request Member");
+	   	window.open("../StudentPortal/","_self");
+	   	}
+	   else
+	   	{
+	   	loadingStop();
+	   	alert("Something is not right here!\nIt must be the case that we are already working on it.\nSorry for the inconvenience caused. Please try again after sometime.");
+	   	window.open("../StudentPortal/","_self");
+	   	}
+	   }
+   </script>
+   </head>
+   
+   <body>
+<!-- header -->
+<div id='header'>
+</div>
+<!-- //header -->
+
+<div class="separator"></div>
+
+
+
+<div class="page-header hvr-glow" id="student-home">Student Home</div>
+
+<div class="separator-blank"></div>
+
+<div class="row">
+
+<div class="two columns" id="quick-links-div">
+<div id="quick_links">
+<script>
+loadLeftSideMenuQuickLinks("../");
+</script>
+</div>
+
+</div>
+
+
+<div class="ten columns container">
+
+<div class="page-header hvr-glow hvr-rectangle-out">Student Portal</div>
+
+<div class="row">
+<div id="make-a-request">
+<div class="one-third column">
+<div class="block">
+<h5>Request a Book</h5>
+<p class="left-align left-margin right-margin">Are you in need of a book that is not in your syllabus in this semester? No worries. Make a request here.</p>
+<a href="Request/?category=request-book" class='button button-primary'>Click Here</a>
+</div>
+
+</div><div class="one-third column">
+<div class="block">
+<h5>Need Support?</h5>
+<p class="left-align left-margin right-margin">Are you in need of some support in which your friends are good at? Hurry.. Post Your Request.</p>
+<a href='Request/?category=request-support' class='button button-primary'>Click Here</a>
+</div>
+
+</div>
+<div class="one-third column">
+<div class="block">
+<h5>Missed a Class?</h5>
+<p class="left-align left-margin right-margin">Did you miss few of your classes for some reason? Request your faculty for a convenient free hour.</p>
+<a href='Request/?category=request-class' class='button button-primary'>Click Here</a>
+</div>
+
+</div>
+
+</div>
+</div>
+<div class="page-header hvr-glow hvr-rectangle-out">Requests From Students</div>
+<!-- previous-requests -->
+
+	<div id='student-portal-requests'>
+
+				<div>
+
+					<table id="previous-exam-results" class="u-full-width responsive">
+			  
+					  <thead>
+					    <tr>
+					      <th>Date of Request</th>
+					      <th>Request ID</th>
+					      <th>Category</th>
+					      <th>Student Name</th>
+					      <th>Request</th>
+					      <th>Action</th>
+					    </tr>
+					  </thead>
+					  
+					  <tbody id='student-portal-requests-body'>
+					  </tbody>
+					  
+					</table>
+		</div>
+	
+		
+	</div>
+	
+	
+	 <div class="row">
+ <div class="twelve columns">
+ <div id="reply-div">
+ <label for="reply-area" id="reply-label">Reply</label>
+ <textarea class="u-full-width" id="reply-area" name="reply-area"></textarea>
+ <input type="button"  id="send-button" class="button-primary" value="Send Reply"/>
+ </div>
+ </div>
+ </div>
+
+</div>
+</div>
+<div class="separator-blank"></div>
+<script>
+loadFooter("../../");
+</script>
+
+</body>
+</html>

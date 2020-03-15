@@ -1,0 +1,212 @@
+<!doctype html>
+<html>
+<head>
+
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="js/master.js" type="text/javascript"></script>
+   <link rel="stylesheet" href="css/master.css">
+  
+   <title>Digital MVSR : Online Services for MVSR Engineering College | Online Registrations</title>
+</head>
+<script>
+function loadSubCourseNames(r)
+{
+	if(r==="Schooling")
+		{
+		$("#sub-course-name").hide();
+		}
+	else
+		{
+		$("#sub-course-name").attr("disabled",false);
+		$("#sub-course-name").empty();
+		$("#sub-course-name").show();
+		var jsonFileName = r+".json";
+		var blockData = getJSON(jsonFileName);
+		for(var i=0;i<blockData.length;i++)
+			{
+			$("#sub-course-name").append("<option value=\""+blockData[i].course_name+"\">"+blockData[i].course_name+"</option>");
+			}
+		}
+	
+}
+
+function getReports()
+{
+	if( $("#course-name").val()==="" || $("#year").val()==="")
+	{
+	alert("Please Select all the fields");		
+	}
+	else
+		{
+		loading();
+		var course_name = $("#course-name").val();
+		var sub_course_name = $("#sub-course-name").val();
+		var year = $("#year").val();
+		if(course_name==="Schooling")
+	    {
+			sub_course_name = "null";
+	    }	
+		var args=[{"String":"Student"},{"String":course_name},{"String":sub_course_name},{"String":year}];
+		var result = call("Register","getStudentDetailsFeeRelated",args);
+		if(result[0].returnValue!="null")
+	    {
+			loadingStop();
+			$("#total-number-of-admitted-students").val(result[0].returnValue);
+			$("#total-fee-paid-students").val(result[1].returnValue);
+			$("#total-fee-pending-students").val(result[2].returnValue);
+			drawPie();
+			return true;
+	    }
+	}
+
+	function drawPie() {
+		var total_students = $("#total-number-of-admitted-students").val();
+		var total_fee_paid = $("#total-fee-paid-students").val();
+		var total_fee_pending = $("#total-fee-pending-students").val();
+		
+		var chart = new CanvasJS.Chart("chartContainer",
+		{
+			title:{
+				text: "Student Fee Payment Details"
+			},
+			legend: {
+				maxWidth: 350,
+				itemWidth: 120
+			},
+			data: [
+			{
+				type: "pie",
+				showInLegend: true,
+				legendText: "{indexLabel}",
+				dataPoints: [
+					{ y: total_fee_paid, indexLabel: "Total Fee Paid" },
+					{ y: total_fee_pending, indexLabel: "Total Fee Pending" }
+					
+				]
+			}
+			]
+		});
+		chart.render();
+		}
+	
+}
+
+</script>
+
+<body>
+
+<!-- header -->
+<div id='header'>
+</div>
+<!-- //header -->
+
+<div class="separator"></div>
+
+<div class="page-header hvr-glow" id="admin-home">Fee Management</div>
+
+
+<div class="separator-blank"></div>
+<div class="row">
+
+<div class="two columns" id="quick-links-div">
+<div id="quick_links">
+<script>
+loadLeftSideMenuQuickLinks("../../");
+</script>
+</div>
+
+
+</div>
+
+<div class="ten columns container">
+<div class="page-header hvr-glow hvr-rectangle-out">Fee Reports</div>
+<div class="separator-blank"></div>
+
+<div class="row">
+<div class="four columns">
+<label for="course-name">Course Name*</label>
+<select class="u-full-width" id="course-name" onchange="loadSubCourseNames(this.value);" required>
+<option value="">--Select Course Name--</option>
+<script>
+var blockData = getJSON("course-names.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#course-name").append("<option value=\""+blockData[i].course_name+"\">"+blockData[i].course_name+"</option>");	
+	}
+
+</script>
+</select>
+</div>
+
+<div class="four columns">
+<label for="sub-course-name">Sub Course Name*</label>
+<select class="u-full-width" id="sub-course-name" required>
+<option value="">--Select Sub Course Name--</option>
+</select>
+</div>
+
+<div class="four columns">
+<label for="year">Year*</label>
+<select class="u-full-width" id="year" required>
+<option value="">--Select Year--</option> 
+<script>
+var blockData = getJSON("years.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#year").append("<option value=\""+blockData[i].year+"\">"+blockData[i].year+"</option>");	
+	}
+
+</script>
+</select>
+
+</div>
+
+</div>
+<div class="separator-blank"></div>
+<input class="button-primary" type="button" value="Get Reports" onclick = "getReports();"/>
+
+<div class="separator-blank"></div>
+
+<div class="row">
+
+<div class="four columns">
+<label for="total-number-of-admitted-students">Total Admitted Students</label>
+<input class="u-full-width" type="text" id="total-number-of-admitted-students" disabled readonly />
+</div>
+
+<div class="four columns">
+<label for="total-fee-paid-students">Fee Paid Students</label>
+<input class="u-full-width" type="text" id="total-fee-paid-students" disabled readonly />
+</div>
+
+<div class="four columns">
+<label for="total-fee-pending-students">Fee Pending Students</label>
+<input class="u-full-width" type="text" id="total-fee-pending-students" disabled readonly />
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="separator-blank"></div>
+<div class="separator-blank"></div>
+<div id="chartContainer" style="height: 400px; width: 100%;"></div>
+
+</div>
+
+<div class="separator-blank"></div>
+
+
+
+</div>
+</div>
+
+<div class="separator-blank"></div>
+<script>
+loadFooter("../../../");
+</script>
+</body>
+
+</html>

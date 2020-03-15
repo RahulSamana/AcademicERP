@@ -1,0 +1,13 @@
+{
+   "items":[
+               {
+              "gender":"male"
+              },
+              {
+              "gender":"female"
+              },
+              {
+              "gender":"other"
+              }
+           ]
+}

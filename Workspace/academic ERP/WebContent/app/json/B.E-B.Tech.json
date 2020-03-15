@@ -1,0 +1,28 @@
+{
+   "items":[
+              {
+              "course_name":"automobile-engineering",
+              "course_intake":"90"
+              },
+              {
+              "course_name":"civil-engineering",
+              "course_intake":"120"
+              },
+              {
+              "course_name":"computer-science-engineering",
+              "course_intake":"180"
+              },
+              {
+              "course_name":"electrical-and-electronics-engineering",
+              "course_intake":"120"
+              },
+              {
+              "course_name":"electronics-and-communication-engineering",
+              "course_intake":"180"
+              },
+               {
+              "course_name":"information-technology",
+              "course_intake":"90"
+              }
+           ]
+}

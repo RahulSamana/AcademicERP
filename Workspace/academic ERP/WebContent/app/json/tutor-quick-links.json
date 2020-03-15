@@ -1,0 +1,40 @@
+{
+    items: [
+	    {
+	        "label": "Create New Test",
+	        "href": "TutorOnlineExaminationPortal/CreateNewTest/"
+	    },
+	    {
+	       	"label": "View Previous Results",
+	        "href": "TutorOnlineExaminationPortal/TutorPreviousResults/"
+	    },
+	    {
+	       	"label": "Student Requests",
+	        "href": "StudentRequests/"
+	    },
+	   	{
+	       	"label": "Send Notifications",
+	        "href": "TutorSendNotifications/"
+	    },
+	    {
+	       	"label": "Apply Lost ID Card",
+	        "href": "TutorOnlineServices/TutorApplyLostIDCard/"
+	    },
+	   	{
+	       	"label": "Request Permission",
+	        "href": "TutorOnlineServices/TutorRequestPermission/"
+	    },
+	    {
+	       	"label": "News and Events",
+	        "href": "TutorNewsAndEvents/"
+	    },
+	    {
+	       	"label": "Upload Notes",
+	        "href": "TutorUploadNotes/"
+	    },
+	    {
+	       	"label": "Update Content",
+	        "href": "TutorUpdateContent/"
+	    }
+    ]
+}

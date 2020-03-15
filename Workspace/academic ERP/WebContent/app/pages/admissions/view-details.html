@@ -1,0 +1,287 @@
+<!doctype html>
+<html>
+<head>
+
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="js/master.js" type="text/javascript"></script>
+   <link rel="stylesheet" href="css/master.css">
+  
+   <title>Digital MVSR : Online Services for MVSR Engineering College | Online Registrations</title>
+</head>
+	<script>
+	function printpage()
+	{
+		window.print();
+	}
+	$(document).ready(function(){
+		var unique_reference_number = getSessionAttribute("unique-reference-number");
+		loading();
+		var args=[{"String":unique_reference_number}];
+		var result = call("Register","getDetailsWithUniqueReferenceNumber",args);
+		var html = "";
+		if(result.length > 0){
+			for(var i=0;i<result.length;i++)
+				{
+				   html += "<tr>";
+				   html += "<td>Unique Reference Number</td>";
+				   html += "<td>"+result[i].sUniqueReferenceNumber+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Candidate Type</td>";
+				   html += "<td>"+result[i].sCandidateType+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<tr>";
+				   html += "<td>Full Name</td>";
+				   html += "<td>"+result[i].sFullName+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Gender</td>";
+				   html += "<td>"+result[i].sGender+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Admission Type</td>";
+				   if(result[i].sAdmissionType==="null")
+				   {
+					   html += "<td>not applicable</td>";
+				   }
+				   else
+				   {
+					   html += "<td>"+result[i].sAdmissionType+"</td>";
+				   }				   
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Registration Number</td>";
+				   if(result[i].sRegistrationNumber==="null")
+					   {
+					   html += "<td>not yet alloted</td>";
+					   }
+				   else
+					   {
+					   html += "<td>"+result[i].sRegistrationNumber+"</td>";
+					   }
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Course</td>";
+				   html += "<td>"+result[i].sCourseName+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Sub Course</td>";
+				   html += "<td>"+result[i].sSubCourseName+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Duration of Course</td>";
+				   if(result[i].sDurationOfCourse==="null")
+				   {
+					   html += "<td>not applicable</td>";
+				   }
+				   else
+				   {
+					   html += "<td>"+result[i].sDurationOfCourse+"</td>";
+				   }				   
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Boarding Type</td>";
+				   if(result[i].sBoardingType==="null")
+				   {
+					   html += "<td>not applicable</td>";
+				   }
+				   else
+				   {
+					   html += "<td>"+result[i].sBoardingType+"</td>";
+				   }				   
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Academic Year</td>";
+				   if(result[i].sAcademicYear==="0")
+				   {
+					   html += "<td>not applicable</td>";
+				   }
+				   else
+				   {
+					   html += "<td>"+result[i].sAcademicYear+"</td>";
+				   }				   
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Academic Semester</td>";
+				   if(result[i].sAcademicSemester==="null")
+				   {
+					   html += "<td>not applicable</td>";
+				   }
+				   else
+				   {
+					   html += "<td>"+result[i].sAcademicSemester+"</td>";
+				   }				   
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Designation</td>";
+				   if(result[i].sDesignation==="null")
+				   {
+					   html += "<td>not applicable</td>";
+				   }
+				   else
+				   {
+					   html += "<td>"+result[i].sDesignation+"</td>";
+				   }				   
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Date of Birth</td>";
+				   html += "<td>"+result[i].sDateOfBirth+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Father Name</td>";
+				   html += "<td>"+result[i].sFatherFullName+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Father Occupation</td>";
+				   html += "<td>"+result[i].sFatherOccupation+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Mother Maiden Name</td>";
+				   html += "<td>"+result[i].sMotherMaidenName+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Religion</td>";
+				   html += "<td>"+result[i].sReligion+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Nationality</td>";
+				   html += "<td>"+result[i].sNationality+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Marital Status</td>";
+				   html += "<td>"+result[i].sMaritalStatus+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Mobile Number</td>";
+				   html += "<td>"+result[i].sMobileNumber+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Email Address</td>";
+				   html += "<td>"+result[i].sEmailAddress+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Temporary Address</td>";
+				   html += "<td>"+result[i].sTemporaryAddress+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Permanent Address</td>";
+				   html += "<td>"+result[i].sPermanentAddress+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Eamcet Rank</td>";
+				   if(result[i].sEamcetRank==="null")
+				   {
+					   html += "<td>not applicable</td>";
+				   }
+				   else
+				   {
+					   html += "<td>"+result[i].sEamcetRank+"</td>";
+				   }				   
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Intermediate Marks</td>";
+				   if(result[i].sIntermediateMarks==="null")
+				   {
+					   html += "<td>not applicable</td>";
+				   }
+				   else
+				   {
+					   html += "<td>"+result[i].sIntermediateMarks+"</td>";
+				   }				   
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>SSC Marks</td>";
+				   if(result[i].sSSCMarks==="null")
+				   {
+					   html += "<td>not applicable</td>";
+				   }
+				   else
+				   {
+					   html += "<td>"+result[i].sSSCMarks+"</td>";
+				   }				   
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Salary Credited Status</td>";
+				   if(result[i].sSalaryCreditedStatus==="null")
+				   {
+					   html += "<td>not applicable</td>";
+				   }
+				   else
+				   {
+					   html += "<td>"+result[i].sSalaryCreditedStatus+"</td>";
+				   }				   
+				   html += "</tr>";
+				}
+		}
+		else{
+			html = "There are no Details";
+		}
+	$('#view-details-table-body').html(html);	
+		loadingStop();
+	});
+	
+	
+	</script>
+<body>
+<!-- header -->
+<div id='header'>
+</div>
+<!-- //header -->
+
+<div class="separator"></div>
+
+
+<div class="page-header hvr-glow" id="admin-home">Admission Management</div>
+
+<div class="separator-blank"></div>
+
+<div class="row">
+
+<div class="two columns" id="quick-links-div">
+<div id="quick_links">
+<script>
+loadLeftSideMenuQuickLinks("../../../");
+</script>
+</div>
+
+</div>
+
+<div class="ten columns container">
+
+<div class="page-header hvr-glow hvr-rectangle-out">View Details</div>
+<div class="separator-blank"></div>
+
+<div id='view-details'>
+				<div>
+
+					<table id="view-details-table" class="u-full-width responsive">
+			  
+					  <thead>
+					    <tr>
+					      <th>Name</th>
+					      <th>Details</th>
+					    </tr>
+					  </thead>
+					  
+					  <tbody id='view-details-table-body'>
+					  </tbody>
+					  
+					</table>
+				</div>	
+		</div>
+
+<div class="print-button">
+             <input class="button-primary " type="button" value="Print" onclick="printpage();"></input> 
+              </div>	
+	
+	</div>
+
+</div>
+
+
+
+</body>
+</html>

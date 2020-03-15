@@ -1,0 +1,195 @@
+<!doctype html>
+<html>
+<head>
+
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="js/student-master.js" type="text/javascript"></script>
+   <link rel="stylesheet" href="css/master.css">
+  
+   <title>Digital MVSR : Online Services for MVSR Engineering College | Online Registrations</title>
+   <script>
+   var department;
+   var date = new Date();
+   var todays_month = date.getMonth() + 1;
+	var todays_date = date.getFullYear() + "/" +todays_month+ "/" +date.getDate()+ " " +date.getHours() + ":" +date.getMinutes() + ":" + date.getSeconds(); ;
+  	$(document).ready(function(){
+  		var category= getUrlParameter('category');
+  		$("#category").val(category);
+       var email = getSessionAttribute("email");
+   	   var args=[{"String":email}];
+   	   var result = call("Register","getStudentDetailsStudentPortalRequestRelated",args);
+   	   if(result.length > 0){
+		for(var i=0;i<result.length;i++)
+			{
+			  $("#department").val(result[i].sSubCourseName);
+			  department = result[i].sSubCourseName;
+			  $("#student-name").val(result[i].sFullName);
+			  $("#registration-number").val(result[i].sRegistrationNumber);
+			}
+   	   }
+  		if(category==="request-class")
+  			{
+  			$("#select-target-faculty").show();
+  			$("#select-faculty").show();
+  			$("#select-target-faculty").empty();
+  			var args = [{"String":department}]
+  			var result = call("StudentRequests","getFacultyNames",args);
+  	   		if(result[0].returnValue !="null")
+  	   		{
+  	   			var html = "<option value=\"\">--Select--</option>";
+  				addHTML("select-target-faculty",html);
+
+  				// ADD VALUES TO SELECT LIST
+  				
+  				for(i=0;i<result.length;i++)
+  					{
+  					 	var html1 = "<option value=\""+result[i].returnValue+"\">"+result[i].returnValue+"</option>";
+  						 addHTML("select-target-faculty",html1);
+  					}
+  			}
+  			
+  			
+  			}
+  		else
+  			{
+  			$("#select-target-faculty").hide();
+  			$("#select-faculty").hide();
+  			}
+  		
+  		
+  		
+  	});
+  	function submitForm()
+  	{
+  		loading();
+  		
+  		var fieldNames = ["category"
+  		                  ,"department"
+  		                  ,"student-name"
+  		                  ,"registration-number"
+  		                  ,"request-details"
+  		                  ,"select-target-faculty"
+  		                  ,"todays-date"
+  		                  ];
+  		
+  		var category = $("#category").val();
+  		var department = $("#department").val();
+  		var student_name = $("#student-name").val();
+  		var registration_number = $("#registration-number").val();
+  		var request_details = $("#request-details").val();
+  		var faculty_name = $("#select-target-faculty").val();
+  		if(category!="request-class")
+  			{
+  			faculty_name = "null";
+  			}
+  		
+  		var fieldValues = [category
+  		                   ,department
+  		                   ,student_name
+  		                   ,registration_number
+  		                   ,request_details
+  		                   ,faculty_name
+  		                   ,todays_date
+  		                   ];
+  		var args = [{"List":fieldNames},{"List":fieldValues}];
+  		var result = call("Studentportal","registerNewRequest",args);
+  		if(result[0].returnValue ==="true")
+  			{
+  			loadingStop();
+  			alert("Your Request is Posted Successfully.\nYour Request ID is : "+result[1].returnValue);
+  			return true;
+  			}
+  		else
+  			{
+  			loadingStop();
+  			alert("Something is not right here!\nIt must be the case that we are already working on it.\nSorry for the inconvenience caused. Please try again after sometime.");
+  			return false;
+  			}
+  	}
+   </script>
+   
+   </head>
+   
+   <body>
+<!-- header -->
+<div id='header'>
+</div>
+<!-- //header -->
+
+<div class="separator"></div>
+
+
+
+<div class="page-header hvr-glow" id="student-home">Student Home</div>
+
+<div class="separator-blank"></div>
+
+<div class="row">
+
+<div class="two columns" id="quick-links-div">
+<div id="quick_links">
+<script>
+loadLeftSideMenuQuickLinks("../../");
+</script>
+</div>
+
+</div>
+
+<div class="ten columns container">
+
+<div class="page-header hvr-glow hvr-rectangle-out">Request Form</div>
+
+<div class="separator-blank"></div>
+<form id='request-form' method="post" action="../../StudentPortal/" onsubmit="return submitForm();">
+<div class="row">
+<div class="six columns">
+<label for="category">Category</label>
+<input class="u-full-width" type="text" id="category" name="category" readonly disabled/>
+</div>
+<div class="six columns">
+<label for="department">Department</label>
+<input class="u-full-width" type="text" id="department" name="department" readonly disabled/>
+</div>
+</div>
+
+<div class="row">
+<div class="six columns">
+<label for="student-name">Student Name</label>
+<input class="u-full-width" type="text" id="student-name" name="student-name" readonly disabled/>
+</div>
+<div class="six columns">
+<label for="registration-number">Registration Number</label>
+<input class="u-full-width" type="text" id="registration-number" name="registration-number" readonly disabled/>
+</div>
+
+</div>
+<div id="target-faculty">
+
+<div class="row">
+<div class="six columns">
+<label for="select-target-faculty" id="select-faculty">Select Target Faculty</label>
+<select class="u-full-width" id="select-target-faculty" name="select-target-faculty">
+</select>
+</div>
+</div>
+</div>
+
+
+
+
+<div class="row">
+<div class="twelve columns">
+<label for="request-details">Request Details</label>
+<textarea class="u-full-width" id="request-details" name="request-details" required></textarea>
+</div>
+
+</div>
+<input type="submit" class="button-primary" value="Post Request"/>
+</form>
+
+</div>
+</div>
+</body>
+</html>

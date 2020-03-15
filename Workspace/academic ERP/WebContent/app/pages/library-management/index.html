@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="js/master.js" type="text/javascript"></script>
+   <link rel="stylesheet" href="css/master.css">
+  
+   <title>Digital MVSR : Online Services for MVSR Engineering College | Online Registrations</title>
+</head>
+<body>
+
+<!-- header -->
+<div id='header'>
+</div>
+<!-- //header -->
+
+<div class="separator"></div>
+
+
+<div class="page-header hvr-glow" id="admin-home">Library Management</div>
+
+<!-- separator -->
+<div class='separator-blank'></div>
+<!-- //separator -->
+
+<div class="row">
+
+<div class="two columns" id="quick-links-div">
+<div id="quick_links">
+<script>
+loadLeftSideMenuQuickLinks("../");
+</script>
+</div>
+</div>
+
+<div class="ten columns">
+
+<div id="blocks">
+
+ <div class="row">
+     <div class="three columns">
+          <div id="block1" class="container">
+     <script>
+     var blockData = getJSON("admin_library_block1.json");
+     $("#block1").append("<a href=\"SearchBook/\"><img class=\"block-img\" src=\""+blockData[0].href+"\" alt=\"Block1 Img\"></a>");
+     </script>
+     </div>
+     </div>
+     
+       <div class="three columns">
+          <div id="block2" class="container">
+     <script>
+     var blockData = getJSON("admin_library_block2.json");
+     $("#block2").append("<a href=\"IssueBook/\"><img class=\"block-img\" src=\""+blockData[0].href+"\" alt=\"Block2 Img\"></a>");
+     </script>
+     </div>
+     </div>
+     
+         <div class="three columns">
+          <div id="block3" class="container">
+     <script>
+     var blockData = getJSON("admin_library_block3.json");
+     $("#block3").append("<a href=\"RenewBook/\"><img class=\"block-img\" src=\""+blockData[0].href+"\" alt=\"Block3 Img\"></a>");
+     </script>
+     </div>
+     </div>
+     
+      <div class="three columns">
+          <div id="block4" class="container">
+     <script>
+     var blockData = getJSON("admin_library_block4.json");
+     $("#block4").append("<a href=\"TakeBookReturn/\"><img class=\"block-img\" src=\""+blockData[0].href+"\" alt=\"Block4 Img\"></a>");
+     </script>
+     </div>
+     </div>
+     
+  </div>
+  
+  <div class="row">
+     <div class="three columns">
+          <div id="block5" class="container">
+     <script>
+     var blockData = getJSON("admin_library_block5.json");
+     $("#block5").append("<a href=\"ManageLibraryDatabase/\"><img class=\"block-img\" src=\""+blockData[0].href+"\" alt=\"Block5 Img\"></a>");
+     </script>
+     </div>
+     </div>
+  </div>
+  
+
+</div>
+</div>
+</div>
+<div class="separator-blank"></div>
+<script>
+loadFooter("../../");
+</script>
+
+</body>
+</html>

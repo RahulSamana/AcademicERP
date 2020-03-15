@@ -1,0 +1,16 @@
+{
+   "items":[
+              {
+              "course_name":"vlsi",
+              "course_intake":"18"
+              },
+              {
+              "course_name":"cad-cam",
+              "course_intake":"18"
+              },
+              {
+              "course_name":"mechatronics",
+              "course_intake":"18"
+              }
+           ]
+}

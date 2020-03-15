@@ -1,0 +1,562 @@
+<!doctype html>
+<html>
+<head>
+
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="js/master.js" type="text/javascript"></script>
+   <link rel="stylesheet" href="css/master.css">
+  
+   <title>Digital MVSR : Online Services for MVSR Engineering College | Online Registrations</title>
+</head>
+<script>
+$(document).ready(function(){
+	var args=[{"String":getSessionAttribute("unique-reference-number")}];
+	var result=call("Register","getFeePaymentStatus",args);
+	var html = "";
+	var html1 = "";
+	var html2 = "";
+	var html3 = "";
+	var html4 = "";
+	var html5 = "";
+	var html6 = "";
+	var html7 = "";
+	var html8 = "";
+	var html9 = "";
+	var html10 = "";
+	var html11 = "";
+	var html12 = "";
+	if(result.length > 0){
+		for(var i=0;i<result.length;i++)
+			{
+			setSessionAttribute("course-name",result[i].sCourseName);
+			if(result[i].sCourseName ==="B.E-B.Tech")
+				{
+				$("#5th-year-label").hide();
+				$("#5th-year-fee-payment-status").hide();
+				$("#6th-year-label").hide();
+				$("#6th-year-fee-payment-status").hide();
+				$("#7th-year-label").hide();
+				$("#7th-year-fee-payment-status").hide();
+				$("#8th-year-label").hide();
+				$("#8th-year-fee-payment-status").hide();
+				$("#9th-year-label").hide();
+				$("#9th-year-fee-payment-status").hide();
+				$("#10th-year-label").hide();
+				$("#10th-year-fee-payment-status").hide();
+				$("#11th-year-label").hide();
+				$("#11th-year-fee-payment-status").hide();
+				$("#12th-year-label").hide();
+				$("#12th-year-fee-payment-status").hide();
+				
+				if(result[i].sFeePaymentStatus1stYear==="payment-completed")
+				   {
+				   html += "<b><input class='u-full-width' type='text' id='fee-payment-status-1' value="+result[i].sFeePaymentStatus1stYear+" readonly disabled></input></b>";
+				   }
+			   else  if(result[i].sFeePaymentStatus1stYear==="payment-pending")
+				   {
+				   html += "<select class='u-full-width' id='fee-payment-status-1'><option value='payment-pending'>Payment Pending</option><option value='payment-completed'>Payment Completed</option></select>";
+				   }
+
+				$('#1st-year-fee-payment-status').html(html);	
+				
+				if(result[i].sFeePaymentStatus2ndYear==="payment-completed")
+				   {
+				   html1 += "<b><input class='u-full-width' type='text' id='fee-payment-status-2' value="+result[i].sFeePaymentStatus2ndYear+" readonly disabled></input></b>";
+				   }
+			   else  if(result[i].sFeePaymentStatus2ndYear==="payment-pending")
+				   {
+				   html1 += "<select class='u-full-width' id='fee-payment-status-2'><option value='payment-pending'>Payment Pending</option><option value='payment-completed'>Payment Completed</option></select>";
+				   }
+
+				$('#2nd-year-fee-payment-status').html(html1);	
+				
+				if(result[i].sFeePaymentStatus3rdYear==="payment-completed")
+				   {
+				   html2 += "<b><input class='u-full-width' type='text' id='fee-payment-status-3' value="+result[i].sFeePaymentStatus3rdYear+" readonly disabled></input></b>";
+				   }
+			   else  if(result[i].sFeePaymentStatus3rdYear==="payment-pending")
+				   {
+				   html2 += "<select class='u-full-width' id='fee-payment-status-3'><option value='payment-pending'>Payment Pending</option><option value='payment-completed'>Payment Completed</option></select>";
+				   }
+
+				$('#3rd-year-fee-payment-status').html(html2);	
+				
+				if(result[i].sFeePaymentStatus4thYear==="payment-completed")
+				   {
+				   html3 += "<b><input class='u-full-width' type='text' id='fee-payment-status-4' value="+result[i].sFeePaymentStatus4thYear+" readonly disabled></input></b>";
+				   }
+			   else  if(result[i].sFeePaymentStatus4thYear==="payment-pending")
+				   {
+				   html3 += "<select class='u-full-width' id='fee-payment-status-4'><option value='payment-pending'>Payment Pending</option><option value='payment-completed'>Payment Completed</option></select>";
+				   }
+
+				$('#4th-year-fee-payment-status').html(html3);	
+				
+				}
+			else if(result[i].sCourseName ==="M.E-M.Tech")
+				{
+				$("#3rd-year-label").hide();
+				$("#3rd-year-fee-payment-status").hide();
+				$("#4th-year-label").hide();
+				$("#4th-year-fee-payment-status").hide();
+				$("#5th-year-label").hide();
+				$("#5th-year-fee-payment-status").hide();
+				$("#6th-year-label").hide();
+				$("#6th-year-fee-payment-status").hide();
+				$("#7th-year-label").hide();
+				$("#7th-year-fee-payment-status").hide();
+				$("#8th-year-label").hide();
+				$("#8th-year-fee-payment-status").hide();
+				$("#9th-year-label").hide();
+				$("#9th-year-fee-payment-status").hide();
+				$("#10th-year-label").hide();
+				$("#10th-year-fee-payment-status").hide();
+				$("#11th-year-label").hide();
+				$("#11th-year-fee-payment-status").hide();
+				$("#12th-year-label").hide();
+				$("#12th-year-fee-payment-status").hide();
+				
+				if(result[i].sFeePaymentStatus1stYear==="payment-completed")
+				   {
+				   html += "<b><input class='u-full-width' type='text' id='fee-payment-status-1' value="+result[i].sFeePaymentStatus1stYear+" readonly disabled></input></b>";
+				   }
+			   else  if(result[i].sFeePaymentStatus1stYear==="payment-pending")
+				   {
+				   html += "<select class='u-full-width' id='fee-payment-status-1'><option value='payment-pending'>Payment Pending</option><option value='payment-completed'>Payment Completed</option></select>";
+				   }
+
+				$('#1st-year-fee-payment-status').html(html);	
+				
+				if(result[i].sFeePaymentStatus2ndYear==="payment-completed")
+				   {
+				   html1 += "<b><input class='u-full-width' type='text' id='fee-payment-status-2' value="+result[i].sFeePaymentStatus2ndYear+" readonly disabled></input></b>";
+				   }
+			   else  if(result[i].sFeePaymentStatus2ndYear==="payment-pending")
+				   {
+				   html1 += "<select class='u-full-width' id='fee-payment-status-2'><option value='payment-pending'>Payment Pending</option><option value='payment-completed'>Payment Completed</option></select>";
+				   }
+
+				$('#2nd-year-fee-payment-status').html(html1);	
+				
+				}
+			else if(result[i].sCourseName ==="Intermediate")
+				{
+				$("#3rd-year-label").hide();
+				$("#3rd-year-fee-payment-status").hide();
+				$("#4th-year-label").hide();
+				$("#4th-year-fee-payment-status").hide();
+				$("#5th-year-label").hide();
+				$("#5th-year-fee-payment-status").hide();
+				$("#6th-year-label").hide();
+				$("#6th-year-fee-payment-status").hide();
+				$("#7th-year-label").hide();
+				$("#7th-year-fee-payment-status").hide();
+				$("#8th-year-label").hide();
+				$("#8th-year-fee-payment-status").hide();
+				$("#9th-year-label").hide();
+				$("#9th-year-fee-payment-status").hide();
+				$("#10th-year-label").hide();
+				$("#10th-year-fee-payment-status").hide();
+				$("#11th-year-label").hide();
+				$("#11th-year-fee-payment-status").hide();
+				$("#12th-year-label").hide();
+				$("#12th-year-fee-payment-status").hide();
+				
+				if(result[i].sFeePaymentStatus1stYear==="payment-completed")
+				   {
+				   html += "<b><input class='u-full-width' type='text' id='fee-payment-status-1' value="+result[i].sFeePaymentStatus1stYear+" readonly disabled></input></b>";
+				   }
+			   else  if(result[i].sFeePaymentStatus1stYear==="payment-pending")
+				   {
+				   html += "<select class='u-full-width' id='fee-payment-status-1'><option value='payment-pending'>Payment Pending</option><option value='payment-completed'>Payment Completed</option></select>";
+				   }
+
+				$('#1st-year-fee-payment-status').html(html);	
+				
+				if(result[i].sFeePaymentStatus2ndYear==="payment-completed")
+				   {
+				   html1 += "<b><input class='u-full-width' type='text' id='fee-payment-status-2' value="+result[i].sFeePaymentStatus2ndYear+" readonly disabled></input></b>";
+				   }
+			   else  if(result[i].sFeePaymentStatus2ndYear==="payment-pending")
+				   {
+				   html1 += "<select class='u-full-width' id='fee-payment-status-2'><option value='payment-pending'>Payment Pending</option><option value='payment-completed'>Payment Completed</option></select>";
+				   }
+
+				$('#2nd-year-fee-payment-status').html(html1);	
+				
+				}
+			else if(result[i].sCourseName ==="Schooling")
+			{
+				if(result[i].sFeePaymentStatus1stYear==="payment-completed")
+				   {
+				   html += "<b><input class='u-full-width' type='text' id='fee-payment-status-1' value="+result[i].sFeePaymentStatus1stYear+" readonly disabled></input></b>";
+				   }
+			   else  if(result[i].sFeePaymentStatus1stYear==="payment-pending")
+				   {
+				   html += "<select class='u-full-width' id='fee-payment-status-1'><option value='payment-pending'>Payment Pending</option><option value='payment-completed'>Payment Completed</option></select>";
+				   }
+
+				$('#1st-year-fee-payment-status').html(html);	
+				
+				if(result[i].sFeePaymentStatus2ndYear==="payment-completed")
+				   {
+				   html1 += "<b><input class='u-full-width' type='text' id='fee-payment-status-2' value="+result[i].sFeePaymentStatus2ndYear+" readonly disabled></input></b>";
+				   }
+			   else  if(result[i].sFeePaymentStatus2ndYear==="payment-pending")
+				   {
+				   html1 += "<select class='u-full-width' id='fee-payment-status-2' ><option value='payment-pending'>Payment Pending</option><option value='payment-completed'>Payment Completed</option></select>";
+				   }
+
+				$('#2nd-year-fee-payment-status').html(html1);	
+				
+				if(result[i].sFeePaymentStatus3rdYear==="payment-completed")
+				   {
+				   html2 += "<b><input class='u-full-width' type='text' id='fee-payment-status-3' value="+result[i].sFeePaymentStatus3rdYear+" readonly disabled></input></b>";
+				   }
+			   else  if(result[i].sFeePaymentStatus3rdYear==="payment-pending")
+				   {
+				   html2 += "<select class='u-full-width' id='fee-payment-status-3'><option value='payment-pending'>Payment Pending</option><option value='payment-completed'>Payment Completed</option></select>";
+				   }
+
+				$('#3rd-year-fee-payment-status').html(html2);	
+				
+				if(result[i].sFeePaymentStatus4thYear==="payment-completed")
+				   {
+				   html3 += "<b><input class='u-full-width' type='text' id='fee-payment-status-4' value="+result[i].sFeePaymentStatus4thYear+" readonly disabled></input></b>";
+				   }
+			   else  if(result[i].sFeePaymentStatus4thYear==="payment-pending")
+				   {
+				   html3 += "<select class='u-full-width' id='fee-payment-status-4'><option value='payment-pending'>Payment Pending</option><option value='payment-completed'>Payment Completed</option></select>";
+				   }
+
+				$('#4th-year-fee-payment-status').html(html3);	
+				
+				if(result[i].sFeePaymentStatus5thYear==="payment-completed")
+				   {
+				   html4 += "<b><input class='u-full-width' type='text' id='fee-payment-status-5' value="+result[i].sFeePaymentStatus5thYear+" readonly disabled></input></b>";
+				   }
+			   else  if(result[i].sFeePaymentStatus5thYear==="payment-pending")
+				   {
+				   html4 += "<select class='u-full-width' id='fee-payment-status-5'><option value='payment-pending'>Payment Pending</option><option value='payment-completed'>Payment Completed</option></select>";
+				   }
+
+				$('#5th-year-fee-payment-status').html(html4);	
+				
+				if(result[i].sFeePaymentStatus6thYear==="payment-completed")
+				   {
+				   html5 += "<b><input class='u-full-width' type='text' id='fee-payment-status-6' value="+result[i].sFeePaymentStatus6thYear+" readonly disabled></input></b>";
+				   }
+			   else  if(result[i].sFeePaymentStatus6thYear==="payment-pending")
+				   {
+				   html5 += "<select class='u-full-width' id='fee-payment-status-6'><option value='payment-pending'>Payment Pending</option><option value='payment-completed'>Payment Completed</option></select>";
+				   }
+
+				$('#6th-year-fee-payment-status').html(html5);	
+				
+				if(result[i].sFeePaymentStatus7thYear==="payment-completed")
+				   {
+				   html6 += "<b><input class='u-full-width' type='text' id='fee-payment-status-7' value="+result[i].sFeePaymentStatus7thYear+" readonly disabled></input></b>";
+				   }
+			   else  if(result[i].sFeePaymentStatus7thYear==="payment-pending")
+				   {
+				   html6 += "<select class='u-full-width' id='fee-payment-status-7'><option value='payment-pending'>Payment Pending</option><option value='payment-completed'>Payment Completed</option></select>";
+				   }
+
+				$('#7th-year-fee-payment-status').html(html6);	
+				
+				if(result[i].sFeePaymentStatus8thYear==="payment-completed")
+				   {
+				   html7 += "<b><input class='u-full-width' type='text' id='fee-payment-status-8' value="+result[i].sFeePaymentStatus8thYear+" readonly disabled></input></b>";
+				   }
+			   else  if(result[i].sFeePaymentStatus8thYear==="payment-pending")
+				   {
+				   html7 += "<select class='u-full-width' id='fee-payment-status-8'><option value='payment-pending'>Payment Pending</option><option value='payment-completed'>Payment Completed</option></select>";
+				   }
+
+				$('#8th-year-fee-payment-status').html(html7);	
+				
+				if(result[i].sFeePaymentStatus9thYear==="payment-completed")
+				   {
+				   html8 += "<b><input class='u-full-width' type='text' id='fee-payment-status-9' value="+result[i].sFeePaymentStatus9thYear+" readonly disabled></input></b>";
+				   }
+			   else  if(result[i].sFeePaymentStatus9thYear==="payment-pending")
+				   {
+				   html8 += "<select class='u-full-width' id='fee-payment-status-9'><option value='payment-pending'>Payment Pending</option><option value='payment-completed'>Payment Completed</option></select>";
+				   }
+
+				$('#9th-year-fee-payment-status').html(html8);	
+				
+				if(result[i].sFeePaymentStatus10thYear==="payment-completed")
+				   {
+				   html9 += "<b><input class='u-full-width' type='text' id='fee-payment-status-10' value="+result[i].sFeePaymentStatus10thYear+" readonly disabled></input></b>";
+				   }
+			   else  if(result[i].sFeePaymentStatus10thYear==="payment-pending")
+				   {
+				   html9 += "<select class='u-full-width' id='fee-payment-status-10'><option value='payment-pending'>Payment Pending</option><option value='payment-completed'>Payment Completed</option></select>";
+				   }
+
+				$('#10th-year-fee-payment-status').html(html9);	
+				
+				if(result[i].sFeePaymentStatus11thYear==="payment-completed")
+				   {
+				   html10 += "<b><input class='u-full-width' type='text' id='fee-payment-status-11' value="+result[i].sFeePaymentStatus11thYear+" readonly disabled></input></b>";
+				   }
+			   else  if(result[i].sFeePaymentStatus11thYear==="payment-pending")
+				   {
+				   html10 += "<select class='u-full-width' id='fee-payment-status-11'><option value='payment-pending'>Payment Pending</option><option value='payment-completed'>Payment Completed</option></select>";
+				   }
+
+				$('#11th-year-fee-payment-status').html(html10);	
+				
+				if(result[i].sFeePaymentStatus12thYear==="payment-completed")
+				   {
+				   html11 += "<b><input class='u-full-width' type='text' id='fee-payment-status-12' value="+result[i].sFeePaymentStatus12thYear+" readonly disabled></input></b>";
+				   }
+			   else  if(result[i].sFeePaymentStatus12thYear==="payment-pending")
+				   {
+				   html11 += "<select class='u-full-width' id='fee-payment-status-12'><option value='payment-pending'>Payment Pending</option><option value='payment-completed'>Payment Completed</option></select>";
+				   }
+
+				$('#12th-year-fee-payment-status').html(html11);
+				
+				
+				
+				
+			}
+			
+			
+			}
+	}
+	else
+        {
+		}
+});
+
+
+function submitForm()
+{
+	loading();
+	var fieldNames = [  "fee-payment-status-1"
+	                   ,"fee-payment-status-2"
+	                   ,"fee-payment-status-3"
+	                   ,"fee-payment-status-4"
+	                   ,"fee-payment-status-5"
+	                   ,"fee-payment-status-6"
+	                   ,"fee-payment-status-7"
+	                   ,"fee-payment-status-8"
+	                   ,"fee-payment-status-9"
+	                   ,"fee-payment-status-10"
+	                   ,"fee-payment-status-11"
+	                   ,"fee-payment-status-12"     
+	                  ];
+	
+
+	var fee_payment_status_1st_year = $("#fee-payment-status-1").val();
+	var fee_payment_status_2nd_year = $("#fee-payment-status-2").val();
+	var fee_payment_status_3rd_year = $("#fee-payment-status-3").val();
+	var fee_payment_status_4th_year = $("#fee-payment-status-4").val();
+	var fee_payment_status_5th_year = $("#fee-payment-status-5").val();
+	var fee_payment_status_6th_year = $("#fee-payment-status-6").val();
+	var fee_payment_status_7th_year = $("#fee-payment-status-7").val();
+	var fee_payment_status_8th_year = $("#fee-payment-status-8").val();
+	var fee_payment_status_9th_year = $("#fee-payment-status-9").val();
+	var fee_payment_status_10th_year = $("#fee-payment-status-10").val();
+	var fee_payment_status_11th_year = $("#fee-payment-status-11").val();
+	var fee_payment_status_12th_year = $("#fee-payment-status-12").val();
+	
+	if((getSessionAttribute("course-name"))==="B.E-B.Tech")
+    {
+		fee_payment_status_5th_year = "null";
+		fee_payment_status_6th_year = "null";
+		fee_payment_status_7th_year = "null";
+		fee_payment_status_8th_year = "null";
+		fee_payment_status_9th_year = "null";
+		fee_payment_status_10th_year = "null";
+		fee_payment_status_11th_year = "null";
+		fee_payment_status_12th_year = "null";
+		
+    }
+	else if((getSessionAttribute("course-name"))==="M.E-M.Tech")
+    {
+	    fee_payment_status_3rd_year = "null";
+		fee_payment_status_4th_year = "null";
+		fee_payment_status_5th_year = "null";
+		fee_payment_status_6th_year = "null";
+		fee_payment_status_7th_year = "null";
+		fee_payment_status_8th_year = "null";
+		fee_payment_status_9th_year = "null";
+		fee_payment_status_10th_year = "null";
+		fee_payment_status_11th_year = "null";
+		fee_payment_status_12th_year = "null";
+    }
+	else if((getSessionAttribute("course-name"))==="Intermediate")
+    {
+	    fee_payment_status_3rd_year = "null";
+		fee_payment_status_4th_year = "null";
+		fee_payment_status_5th_year = "null";
+		fee_payment_status_6th_year = "null";
+		fee_payment_status_7th_year = "null";
+		fee_payment_status_8th_year = "null";
+		fee_payment_status_9th_year = "null";
+		fee_payment_status_10th_year = "null";
+		fee_payment_status_11th_year = "null";
+		fee_payment_status_12th_year = "null";
+    }
+	
+	var fieldValues =[ fee_payment_status_1st_year
+	                   ,fee_payment_status_2nd_year
+	                   ,fee_payment_status_3rd_year
+	                   ,fee_payment_status_4th_year
+	                   ,fee_payment_status_5th_year
+	                   ,fee_payment_status_6th_year
+	                   ,fee_payment_status_7th_year
+	                   ,fee_payment_status_8th_year
+	                   ,fee_payment_status_9th_year
+	                   ,fee_payment_status_10th_year
+	                   ,fee_payment_status_11th_year
+	                   ,fee_payment_status_12th_year
+	                  ];
+	var args=[{"String":getSessionAttribute("unique-reference-number")},{"List":fieldNames},{"List":fieldValues}];
+	var result = call("Register","updateFeePaymentStatus",args);
+	if(result[0].returnValue ==="true")
+		{
+		loadingStop();
+		alert("Fee Payment Status Updated Successfully");
+		location.reload();
+		return true;
+		
+		}
+	else{
+		loadingStop();
+		alert("Something is not right here!\nIt must be the case that we are already working on it.\nSorry for the inconvenience caused. Please try again after sometime.");
+		return false;
+	}
+	
+}
+
+</script>
+<body>
+<!-- header -->
+<div id='header'>
+</div>
+<!-- //header -->
+
+<div class="separator"></div>
+
+
+<div class="page-header hvr-glow" id="admin-home">Fee Management</div>
+
+<div class="separator-blank"></div>
+
+<div class="row">
+
+<div class="two columns" id="quick-links-div">
+<div id="quick_links">
+<script>
+loadLeftSideMenuQuickLinks("../../../");
+</script>
+</div>
+
+</div>
+
+<div class="ten columns container">
+
+<div class="page-header hvr-glow hvr-rectangle-out">Update Fee Payment Status</div>
+
+<div class="separator-blank"></div>
+
+<div class="row">
+
+<div class="three columns">
+<label for="1st-year-fee-payment-status" id="1st-year-label">1st Year</label>
+<div class="u-full-width" id="1st-year-fee-payment-status">
+</div>
+</div>
+
+<div class="three columns">
+<label for="2nd-year-fee-payment-status" id="2nd-year-label">2nd Year</label>
+<div class="u-full-width" id="2nd-year-fee-payment-status">
+</div>
+</div>
+
+<div class="three columns">
+<label for="3rd-year-fee-payment-status" id="3rd-year-label">3rd Year</label>
+<div class="u-full-width" id="3rd-year-fee-payment-status">
+</div>
+</div>
+
+<div class="three columns">
+<label for="4th-year-fee-payment-status" id="4th-year-label">4th Year</label>
+<div class="u-full-width" id="4th-year-fee-payment-status">
+</div>
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="three columns">
+<label for="5th-year-fee-payment-status" id="5th-year-label">5th Year</label>
+<div class="u-full-width" id="5th-year-fee-payment-status">
+</div>
+</div>
+
+<div class="three columns">
+<label for="6th-year-fee-payment-status" id="6th-year-label">6th Year</label>
+<div class="u-full-width" id="6th-year-fee-payment-status">
+</div>
+</div>
+
+<div class="three columns">
+<label for="7th-year-fee-payment-status" id="7th-year-label">7th Year</label>
+<div class="u-full-width" id="7th-year-fee-payment-status">
+</div>
+</div>
+
+<div class="three columns">
+<label for="8th-year-fee-payment-status" id="8th-year-label">8th Year</label>
+<div class="u-full-width" id="8th-year-fee-payment-status">
+</div>
+</div>
+
+
+</div>
+
+
+<div class="row">
+<div class="three columns">
+<label for="9th-year-fee-payment-status" id="9th-year-label">9th Year</label>
+<div class="u-full-width" id="9th-year-fee-payment-status">
+</div>
+</div>
+
+<div class="three columns">
+<label for="10th-year-fee-payment-status" id="10th-year-label">10th Year</label>
+<div class="u-full-width" id="10th-year-fee-payment-status">
+</div>
+</div>
+
+<div class="three columns">
+<label for="11th-year-fee-payment-status" id="11th-year-label">11th Year</label>
+<div class="u-full-width" id="11th-year-fee-payment-status">
+</div>
+</div>
+
+<div class="three columns">
+<label for="12th-year-fee-payment-status" id="12th-year-label">12th Year</label>
+<div class="u-full-width" id="12th-year-fee-payment-status">
+</div>
+</div>
+
+
+</div>
+<div class="separator-blank"></div>
+<input type="button" value="Update" class="button-primary" onclick="return submitForm();"/>
+
+</div>
+</div>
+
+</body>
+</html>

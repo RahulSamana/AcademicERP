@@ -1,0 +1,40 @@
+{
+    items: [
+	    {
+	        "label": "New Admission",
+	        "href": "Admissions/NewAdmission/"
+	    },
+	    {
+	       	"label": "Set Fee Structure",
+	        "href": "FeeManagement/SetFee/"
+	    },
+	    {
+	       	"label": "Set Salary Structure",
+	        "href": "PayRoll/SetSalary/"
+	    },
+	   	{
+	       	"label": "Manage Courses",
+	        "href": "Courses/ManageCourses/"
+	    },
+	    {
+	       	"label": "Search Book",
+	        "href": "LibraryManagement/SearchBook/"
+	    },
+	   	{
+	       	"label": "Renew Book",
+	        "href": "LibraryManagement/RenewBook/"
+	    },
+	    {
+	       	"label": "Create Time Table",
+	        "href": "TimeTable/CreateNewTimeTable/"
+	    },
+	    {
+	       	"label": "Result Anaylsis",
+	        "href": "ResultAnalysis/PerformResultAnalysis/"
+	    },
+	    {
+	       	"label": "Enroll Attendance",
+	        "href": "AttendanceManagement/Enroll/"
+	    }
+    ]
+}

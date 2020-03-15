@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+<head>
+
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="js/tutor-master.js" type="text/javascript"></script>
+   <link rel="stylesheet" href="css/master.css">
+  
+   <title>Digital MVSR : Online Services for MVSR Engineering College | Online Registrations</title>
+</head>
+<script>
+var testid;
+var email = getSessionAttribute("email");
+var args= [{"String":email}]; 
+var registration_number_call = call("Register","getRegistrationNumber",args);  
+var registration_number = registration_number_call[0].returnValue;
+$(document).ready(function() { 
+	var html = "";	  
+	var args= [{"String":email}];
+	 var tutor_name_call = call("Register","getRegisteredFullName",args); 
+	 var tutor_full_name= tutor_name_call[0].returnValue;
+	var args = [{"String":registration_number},{"String":tutor_full_name}];
+	var result = call("ExaminationPortal","fetchCreatedTests",args);
+	testid = new Array(result.length);
+	if(result.length > 0){
+		for(var i=0;i<result.length;i++)
+			{
+				html += "<tr>";
+				html += "<td class=\"hvr-glow\"><b>"+result[i].sTestId+"</b></td>";
+				testid[i] = result[i].sTestId;
+				html += "<td>"+result[i].sSubject+"</td>";
+				html += "<td> <input type=\"button\" class=\"button-primary\" id="+testid[i]+" value=\"Show Results\" onclick=\"showResult(id);\"></input></td>"; 
+				html += "</tr>";
+			}
+	}
+else{
+			html = "There are no Previous Tests Created by you.";
+		}
+	$('#previous-created-tests-body').html(html);
+});
+
+ 	function showResult(id)
+   	{
+   		setSessionAttribute("test_id", id);
+        window.open("ShowResults/","_self");
+  			 
+   	}
+</script>
+
+<body>
+<!-- header -->
+<div id='header'>
+</div>
+<!-- //header -->
+
+<div class="separator"></div>
+
+
+
+<div class="page-header hvr-glow" id="student-home">Tutor Home</div>
+
+<div class="separator-blank"></div>
+
+<div class="row">
+
+<div class="two columns" id="quick-links-div">
+<div id="quick_links">
+<script>
+loadLeftSideMenuQuickLinks("../../");
+</script>
+</div>
+
+</div>
+
+<div class="ten columns container">
+
+<div class="page-header hvr-glow hvr-rectangle-out">Test Results</div>
+<div id='previous-created-tests'>
+
+				<div>
+
+					<table id="previous-exam-results" class="u-full-width">
+			  
+					  <thead>
+					    <tr>
+					      <th>Test Id</th>
+					      <th>Subject</th>
+					      <th>Action</th>
+					    </tr>
+					  </thead>
+					  
+					  <tbody id='previous-created-tests-body'>
+					  </tbody>
+					  
+					</table>
+				</div>	
+	<div class="row">
+	<div class="twelve columns">
+		<a href="../"><input type="button" class="button-primary" value="Go Back"/></a>
+	</div>
+
+	</div>
+	
+		
+	</div>
+
+</div>
+</div>
+<!-- Separator -->
+	<div class='separator-blank'></div>
+<!-- //Separator -->
+
+<script>
+loadFooter("../../../");
+</script>
+</body>
+</html>

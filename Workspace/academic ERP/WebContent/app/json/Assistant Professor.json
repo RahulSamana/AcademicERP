@@ -1,0 +1,16 @@
+{
+   "items":[
+              {
+              "pay_and_allowances":"Basic",
+              "amount_in_Rs":"10000"
+              },
+               {
+              "pay_and_allowances":"HRA",
+              "amount_in_Rs":"1000"
+              },
+               {
+              "pay_and_allowances":"Medical",
+              "amount_in_Rs":"1000"
+              }
+           ]
+}

@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+<head>
+
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="js/master.js" type="text/javascript"></script>
+   <link rel="stylesheet" href="css/master.css">
+  
+   <title>Digital MVSR : Online Services for MVSR Engineering College | Online Registrations</title>
+</head>
+	<script>
+	function printpage()
+	{
+		window.print();
+	}
+	$(document).ready(function(){
+		var unique_reference_number = getSessionAttribute("unique-reference-number");
+		loading();
+		var args=[{"String":unique_reference_number}];
+		var result = call("Admin","getCustodianRequestWithRequestNumber",args);
+		var html = "";
+		if(result.length > 0){
+			for(var i=0;i<result.length;i++)
+				{
+				   html += "<tr>";
+				   html += "<td>Unique Request Number</td>";
+				   html += "<td>"+result[i].sUniqueRequestNumber+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Student Full Name</td>";
+				   html += "<td>"+result[i].sStudentFullName+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Father Full Name</td>";
+				   html += "<td>"+result[i].sFatherFullName+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Roll No</td>";
+				   html += "<td>"+result[i].sRollNo+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Date of Birth</td>";
+				   html += "<td>"+result[i].sDateOfBirth+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Course Name</td>";
+				   html += "<td>"+result[i].sCourseName+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Sub Course Name</td>";
+				   html += "<td>"+result[i].sSubCourseName+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Year</td>";
+				   html += "<td>"+result[i].sCourseYear+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Semester</td>";
+				   html += "<td>"+result[i].sCourseSemester+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Academic Year</td>";
+				   html += "<td>"+result[i].sAcademicYear+"</td>";
+				   html += "</tr>";
+				   html += "<tr>";
+				   html += "<td>Purpose</td>";
+				   html += "<td>"+result[i].sPurpose+"</td>";
+				   html += "</tr>";
+				
+				}
+		}
+		else
+			{
+			html = "There are no Details";
+			}
+		$('#view-details-table-body').html(html);	
+			loadingStop();
+	});
+	
+	</script>
+<body>
+<!-- header -->
+<div id='header'>
+</div>
+<!-- //header -->
+
+<div class="separator"></div>
+
+
+<div class="page-header hvr-glow" id="admin-home">Admission Management</div>
+
+<div class="separator-blank"></div>
+
+<div class="row">
+
+<div class="two columns" id="quick-links-div">
+<div id="quick_links">
+<script>
+loadLeftSideMenuQuickLinks("../../");
+</script>
+</div>
+
+</div>
+
+<div class="ten columns container">
+
+<div class="page-header hvr-glow hvr-rectangle-out">Custodian Details</div>
+<div class="separator-blank"></div>
+
+<div id='view-details'>
+				<div>
+
+					<table id="view-details-table" class="u-full-width responsive">
+			  
+					  <thead>
+					    <tr>
+					      <th>Name</th>
+					      <th>Details</th>
+					    </tr>
+					  </thead>
+					  
+					  <tbody id='view-details-table-body'>
+					  </tbody>
+					  
+					</table>
+				</div>	
+		</div>
+
+<div class="print-button">
+             <input class="button-primary " type="button" value="Print" onclick="printpage();"></input> 
+              </div>	
+	
+	</div>
+
+</div>
+<div class="separator-blank"></div>
+<script>
+loadFooter("../../../");
+</script>
+</body>
+</html>

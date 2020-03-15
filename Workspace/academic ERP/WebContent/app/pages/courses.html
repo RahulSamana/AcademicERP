@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="js/server-call.js" type="text/javascript"></script>
+   <link rel="stylesheet" href="css/master.css">
+  
+   <title>Digital MVSR : Online Services for MVSR Engineering College | Online Registrations</title>
+</head>
+<script>
+$(document).ready(function(){
+	loading();
+	var blockData = getJSON("course-names.json");
+	loadingStop();
+	var html = "";
+	if(blockData.length > 0){
+		for(var i=0;i<blockData.length;i++)
+		{
+		   html += "<tr>";
+		   html += "<td>"+(i+1)+"</td>";
+		   html += "<td class=\"hvr-glow\">"+blockData[i].course_name+"</td>";
+		   html += "<td><b>"+blockData[i].course_duration+"</b></td>";
+		   html += "</tr>";
+		}
+	}
+	else
+		{
+		html = "There are no Courses Running";
+		}
+	$('#courses-details-body').html(html);	
+});
+
+</script>
+<body>
+<!-- header -->
+<div id='header'>
+</div>
+<!-- //header -->
+
+<div class="separator"></div>
+<div class="page-header hvr-glow" id="admin-home">Welcome to MVSR</div>
+<div class="separator-blank"></div>
+<div class="page-header hvr-glow hvr-rectangle-out">Courses</div>
+
+<div class="container">
+	<div id='courses'>
+				<div>
+
+					<table id="courses-details" class="u-full-width responsive">
+			  
+					  <thead>
+					    <tr>
+					      <th>Sno</th>
+					      <th>Course Name</th>
+					      <th>Course Duration</th>
+					    </tr>
+					  </thead>
+					  
+					  <tbody id='courses-details-body'>
+					  </tbody>
+					  
+					</table>
+					<a href="../" class=" button button-primary">Go Back</a>
+				</div>	
+		</div>
+		</div>
+<div class="separator-blank"></div>
+
+</body>
+</html>

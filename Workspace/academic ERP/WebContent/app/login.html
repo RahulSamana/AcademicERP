@@ -1,0 +1,326 @@
+<!doctype html>
+<html>
+<head>
+
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="js/server-call.js" type="text/javascript"></script>
+   <link rel="stylesheet" href="css/master.css">
+  
+   <title>Digital MVSR : Online Services for MVSR Engineering College | Online Registrations</title>
+</head>
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
+             <script src="js/jquery.geocomplete.js"></script> 
+<script>
+function openLoginForm()
+{
+	window.open("../LoginForm/","_self");
+}
+$(document).ready(function(){
+	 $("#days").val("");
+	 $("#distance").val("");
+	var role= getSessionAttribute("role");
+	if(role==="admin")
+		{
+		window.open("../AdminHome/","_self");
+		}
+	else if(role==="student")
+		{
+		window.open("../StudentHome/","_self");
+		}
+	else if(role==="faculty")
+		{
+		window.open("../TutorHome/","_self");
+		}
+	else
+		{
+		return false;
+		}
+});
+function clearDiv()
+{
+	location.reload();
+}
+function initialize() {
+	 var options = {
+	  componentRestrictions: {country: "IN"}
+	 };
+	 var input1 = document.getElementById('from');
+	 var input2 = document.getElementById('to');
+	 var autocomplete = new google.maps.places.Autocomplete(input1, options);
+	 var autocomplete = new google.maps.places.Autocomplete(input2, options);
+	}
+google.maps.event.addDomListener(window, 'load', initialize);
+
+$(document).on('click', '#calculate', function(e) {
+    e.preventDefault();
+    $("#map_canvas").show();
+    initialize1();
+    calculateRoute();
+});
+$(document).on('click', '#showDirections', function(e) {
+    e.preventDefault();
+    showDirections();
+    $("#showDirectionsDiv").hide();
+    $("#hideDirectionsDiv").show();
+});
+
+$(document).on('click', '#hideDirections', function(e) {
+    e.preventDefault();
+    hideDirections();
+    $("#showDirectionsDiv").show();
+    $("#hideDirectionsDiv").hide();
+});
+var directionDisplay,
+directionsService = new google.maps.DirectionsService(),
+map;
+
+function initialize1() 
+{
+	
+    directionsDisplay = new google.maps.DirectionsRenderer();
+    var mapCenter = new google.maps.LatLng(15.128385, 79.176611);
+
+    var myOptions = {
+        zoom:10,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        center: mapCenter
+    }
+
+    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    directionsDisplay.setMap(map);
+    directionsDisplay.setPanel(document.getElementById("directions"));  
+}
+function calculateRoute() 
+{
+    var selectedMode = "DRIVING",
+        start = $("#from").val(),
+        end = $("#to").val();
+
+    if(start == '' || end == '')
+    {
+        // cannot calculate route
+        $("#results").hide();
+        return;
+    }
+    else
+    {
+        var request = {
+            origin:start, 
+            destination:end,
+            travelMode: google.maps.DirectionsTravelMode[selectedMode]
+        };
+
+        directionsService.route(request, function(response, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+                directionsDisplay.setDirections(response); 
+                $("#showDirectionsDiv").show();
+                $("#hideDirectionsDiv").hide();
+                
+                var service = new google.maps.DistanceMatrixService();
+                service.getDistanceMatrix({
+                    origins: [start],
+                    destinations: [end],
+                    travelMode: google.maps.TravelMode.DRIVING,
+                    unitSystem: google.maps.UnitSystem.METRIC,
+                    avoidHighways: false,
+                    avoidTolls: false
+                }, function (response, status) {
+                    if (status == google.maps.DistanceMatrixStatus.OK && response.rows[0].elements[0].status != "ZERO_RESULTS") {
+                        var distance = response.rows[0].elements[0].distance.text;
+                        var distanceInt = response.rows[0].elements[0].distance.value;
+                        
+                        var duration = response.rows[0].elements[0].duration.text;
+                        var dvDistance = document.getElementById("distance");
+                        var dvDuration = document.getElementById("days");
+                        
+                        
+                        dvDuration.value = "";
+                        dvDuration.value = duration;
+                        
+                        
+                        distanceInt = parseInt(distanceInt/1000);
+                       	dvDistance.value = "";
+                        dvDistance.value = distanceInt + " Kms";
+             
+                    } else {
+                        alert("Unable to find the distance via road.");
+                    }
+                });
+            }
+            else {
+                $("#showDirectionsDiv").hide();
+                $("#results").hide();
+            }
+        });
+
+    }
+}
+function showDirections(){
+	$("#results").show();
+}
+function hideDirections(){
+	$("#results").hide();
+}
+function submitForm()
+{
+	loading();
+	var admin_username = $("#username").val();
+	var admin_password = $("#password").val();
+	var args = [{"String":admin_username},{"String":admin_password}];
+	var result = call("Login","validateLogin",args);
+	if(result[0].returnValue==="true")
+		{
+		loadingStop();
+		setSessionAttribute("role",result[1].returnValue);
+		setSessionAttribute("email",admin_username);
+		if(result[1].returnValue==="tutor")
+			{
+			 $('#login').attr('action', '../TutorHome/');
+			}
+		else if(result[1].returnValue ==="student")
+			{
+			$('#login').attr('action', '../StudentHome/');
+			}
+		else if(result[1].returnValue ==="admin")
+		{
+		$('#login').attr('action', '../AdminHome/');
+		}
+		
+	    return true;
+		}
+	else 
+		{
+		loadingStop();
+		alert("Wrong Credentials..!!");
+		return false;
+		}
+}
+
+</script>
+<body>
+<!-- header -->
+<div id='header'>
+
+</div>
+<!-- //header -->
+
+<div class="separator"></div>
+<div class="page-header hvr-glow" id="admin-home">Welcome to MVSR</div>
+
+<div class="separator-blank"></div>
+<div class="container">
+
+<div class="row">
+<div id="create-login-button" class="six columns offset-by-three">
+<a onclick="openLoginForm();">
+<div id="create-login-button-a">Login</div>
+</a>
+</div>
+</div>
+
+
+<div class="row">
+<div id="home-page-blocks">
+<div class="one-third column">
+<div class="block">
+<h5>Courses</h5>
+<p class="left-align left-margin right-margin">Want to know what are all the courses running in MVSR? No need to reach Us, Just</p>
+<a href="CourseDetails/" class='button button-primary'>Click Here</a>
+</div>
+
+</div><div class="one-third column">
+<div class="block">
+<h5>Fee Structure</h5>
+<p class="left-align left-margin right-margin">Want to know the fee structure of MVSR? No need to reach Us, Just</p>
+<a href='FeeDetails/' class='button button-primary'>Click Here</a>
+</div>
+
+</div>
+<div class="one-third column">
+<div class="block">
+<h5>Salary Structure</h5>
+<p class="left-align left-margin right-margin">Want to know the Salary structure of tutors in MVSR? No need to reach Us, Just</p>
+<a href='SalaryDetails/' class='button button-primary'>Click Here</a>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="separator-blank"></div>
+
+<div class="section-header hvr-glow">Want to Reach MVSR?</div>
+<!-- //Page Header -->
+ 
+   <div id='reach-mvsr-login'>
+       <div class="container">
+       <div class="separator-blank"></div>
+       <div class="row">
+       
+           <div class='six columns'>
+            <label for="from">From</label>
+            <input class="u-full-width" type="text" id="from" name="from" placeholder="From Location" autocomplete="off"  required>
+          </div>     
+      
+
+         <div class="six columns">
+          <label for="to">To</label>
+            <input class="u-full-width" type="text" id="to" name="to" value="MVSR Engineering College, Nadergul, Telangana, India" placeholder="To Location" disabled readonly required>
+         </div>
+       </div>
+       <div class="row">
+       <input class=" button button-primary" type="button" name="calculate" id="calculate" value="Show Route" />
+       </div>
+<!-- Separator -->
+   <div class='separator-blank'></div>
+<!-- //Separator -->
+<div class="row">
+                       <div class="three columns">
+					      <label for="days">Estimated Duration</label>
+						  <input class="u-full-width" type="text" value="" id="days" name="days" required readonly disabled/>
+					    </div>
+					 	<div class="three columns">
+					      <label for="distance">Estimated Distance (Kms)</label>
+						  <input class="u-full-width" type="text" value="" id="distance" name="distance" required readonly disabled/>
+					    </div>
+		 			</div>
+         <div class="row">
+			<div id="map_canvas" style="height:300px;display:none;"></div>
+		 </div>
+        <div id="results" style="display:none;">
+                    	<div id="directions"></div>
+              	 	</div>
+              	 	
+        <!-- Separator -->
+						<div class='separator-blank'></div>
+					<!-- //Separator -->
+              	 	
+              	 	<div id="showDirectionsDiv" style="display:none;" class="row">
+					      <input class=" button button-primary" type="button" name="showDirections" id="showDirections" value="Show Directions" />
+		 			</div>
+		 			<div id="hideDirectionsDiv" style="display:none;" class="row">
+					      <input class=" button button-primary" type="button" name="hideDirections" id="hideDirections" onclick="clearDiv();" value="Hide Directions" />
+		 			</div>
+       </div>
+   </div>
+		 
+<div class="separator-blank"></div>
+
+<!-- footer -->
+	<div class='login-footer u-full-width'>
+	<div class='container'>
+	<div class="row ">
+
+	<div class="nine columns offset-by-five">
+	<a href = "http://www.mvsrec.edu.in" target="_blank">MVSR Official Website</a>
+	</div>
+	</div>	
+	  </div>
+	  </div>
+	<!-- //footer -->
+</body>
+</html>

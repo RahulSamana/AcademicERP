@@ -1,0 +1,20 @@
+{
+    items: [
+	    {
+	        "item": "Students should observe silence at all times during the examination."
+	    },
+	   	{
+	        "item": "Each correct answer carries 1 mark. There is no Negative mark for wrong answer."
+	    },
+	   	{
+	        "item": "Maximum of 20 minutes is given to complete the exam. After 20 minutes exam will be automatically submitted."
+	    },
+	    {
+	        "item": "You are not allowed to go click 'Back' or 'Refresh' during the exam.If you do so, Exam will be automatically submitted and will be considered as an used attempt."
+	    },
+	    {
+	        "item": "You are not allowed to go away from exam window till you complete the exam.If you do so, Exam will be automatically submitted and will be considered as an used attempt."
+	    }
+	    
+    ]
+}

@@ -1,0 +1,170 @@
+<!doctype html>
+<html>
+<head>
+
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="js/student-master.js" type="text/javascript"></script>
+   <link rel="stylesheet" href="css/master.css">
+  
+   <title>Digital MVSR : Online Services for MVSR Engineering College | Online Registrations</title>
+</head>
+<script>
+loading();
+var id_card_request_no;
+var total_attempted_tests;
+var total_requests_posted;
+var email = getSessionAttribute("email");
+var args= [{"String":email}];
+var registration_number_call = call("Register","getRegistrationNumber",args);
+var registration_number = registration_number_call[0].returnValue;
+
+var args=[{"String":registration_number}];
+var result = call("Admin","getIDCardRequestNumber",args);
+if(result[0].returnValue!="null")
+	{
+	id_card_request_no = result[0].returnValue;
+	}
+else
+	{
+	id_card_request_no = "no request placed";
+	}
+
+
+var args=[{"String":registration_number}];
+var result = call("ExaminationPortal","getTotalAttemptedTests",args);
+total_attempted_tests = result[0].returnValue;
+
+var args= [{"String":email}];
+var tutor_name_call = call("Register","getRegisteredFullName",args); 
+var tutor_full_name= tutor_name_call[0].returnValue;
+
+var args=[{"String":registration_number}];
+var result = call("Studentportal","getTotalPostedRequests",args);
+total_requests_posted = result[0].returnValue;
+
+
+loadingStop();
+
+</script>
+<body>
+
+<body>
+
+<!-- header -->
+<div id='header'>
+<script>
+
+</script>
+</div>
+<!-- //header -->
+
+<div class="separator"></div>
+
+
+
+<div class="page-header hvr-glow" id="student-home">Student Home</div>
+
+<div class="separator-blank"></div>
+
+<div class="row">
+
+<div class="two columns" id="quick-links-div">
+<div id="quick_links">
+<script>
+loadLeftSideMenuQuickLinks("");
+</script>
+</div>
+
+</div>
+
+<div class="ten columns">
+
+<div id="blocks">
+
+ <div class="row">
+     <div class="three columns">
+          <div id="block1" class="container">
+     <script>
+     var blockData = getJSON("student_homepage_block1.json");
+     $("#block1").append("<a href=\"StudentOnlineServices/\"><img class=\"block-img\" src=\""+blockData[0].href+"\" alt=\"Block1 Img\"></a>");
+     </script>
+     <p><b>ID Card Request No.&nbsp;: <script>document.write(id_card_request_no)</script></b></p>
+     
+
+     </div>
+     </div>
+     
+     <div class="three columns">
+      <div id="block2" class="container">
+     <script>
+     var blockData = getJSON("student_homepage_block2.json");
+     $("#block2").append("<a href=\"StudentOnlineExaminationPortal/\"><img class=\"block-img\" src=\""+blockData[0].href+"\" alt=\"Block2 Img\"></a>");
+     </script>
+
+    <p><b>Total Attempted Tests&nbsp;&nbsp;&nbsp;&nbsp;: <script>document.write(total_attempted_tests)</script></b></p>
+     </div>
+     </div>
+     
+      <div class="three columns">
+      <div id="block3" class="container">
+     <script>
+     var blockData = getJSON("student_homepage_block3.json");
+     $("#block3").append("<a href=\"StudentPortal/\"><img class=\"block-img\" src=\""+blockData[0].href+"\" alt=\"Block2 Img\"></a>");
+     </script>
+     <p><b>Total Requests Posted By You : <script>document.write(total_requests_posted)</script></b></p>
+     </div>
+     </div>  
+          <div class="three columns">
+          <div id="block4" class="container">
+     <script>
+     var blockData = getJSON("student_homepage_block4.json");
+     $("#block4").append("<a href=\"StudentDownloads/\"><img class=\"block-img\" src=\""+blockData[0].href+"\" alt=\"Block1 Img\"></a>");
+     </script>
+    
+     </div>
+     </div>
+       
+     
+     
+   </div>
+   
+   
+   <div class="row">
+
+   <div class="three columns">
+          <div id="block5" class="container">
+     <script>
+     var blockData = getJSON("student_homepage_block5.json");
+     $("#block5").append("<a href=\"StudentNewsAndEvents/\"><img class=\"block-img\" src=\""+blockData[0].href+"\" alt=\"Block1 Img\"></a>");
+     </script>
+   
+     </div>
+     </div>
+     
+     
+        <div class="three columns">
+          <div id="block6" class="container">
+     <script>
+     var blockData = getJSON("student_homepage_block6.json");
+     $("#block6").append("<a href=\"StudentUpdateContent/\"><img class=\"block-img\" src=\""+blockData[0].href+"\" alt=\"Block1 Img\"></a>");
+     </script>
+   
+     </div>
+     </div>
+    
+     
+
+     
+ </div>
+
+</div>
+</div>
+</div>
+<div class="separator-blank"></div>
+<script>
+loadFooter("../");
+</script>
+</body>
+</html>

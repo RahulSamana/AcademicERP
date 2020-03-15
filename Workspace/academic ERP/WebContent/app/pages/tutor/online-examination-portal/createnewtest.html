@@ -1,0 +1,169 @@
+<!doctype html>
+<html>
+<head>
+
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="js/tutor-master.js" type="text/javascript"></script>
+   <link rel="stylesheet" href="css/master.css">
+  
+   <title>Digital MVSR : Online Services for MVSR Engineering College | Online Registrations</title>
+</head>
+<script>
+var email = getSessionAttribute("email");
+function preventBack(){window.history.forward();}
+setTimeout("preventBack()", 0);
+window.onunload=function(){null};
+$(document).ready(function(){    
+	   var args =[{"String":email}];
+  	result = call("Register","getDepartmentofRegisteredUser",args); 
+   if(result[0].returnValue !="false")
+   {
+   	$("#department").val(result[0].returnValue);	
+   }
+   });
+function showSubjects()
+	 {
+		 $("#subject").empty();
+	    var department =$("#department").val();
+		var year = $("#year").val();
+		var semester = $("#semester").val();
+		var args = [{"String":department},{"String":year},{"String":semester}]
+		var result = call("ExaminationPortal","getSubjects",args);
+		if(result[0].returnValue !="null")
+		{
+			var html = "<option value=\"\">--Select--</option>";
+		addHTML("subject",html);
+
+		// ADD VALUES TO SELECT LIST
+		
+		for(i=0;i<result.length;i++)
+			{
+			 	var html1 = "<option value=\""+result[i].returnValue+"\">"+result[i].returnValue+"</option>";
+				 addHTML("subject",html1);
+			}
+		}
+	}
+  function submitForm()
+  {
+	     var fieldNames = [ "department"
+			                  ,"year"
+			                  ,"semester"
+			                  ,"subject"
+			                  ,"faculty-registration-number"
+			                  ,"faculty-name"
+			                  ];
+			
+			 var department= $("#department").val();
+			 var year= $("#year").val();
+			 var semester= $("#semester").val();
+			 var subject= $("#subject").val();	
+			 var args= [{"String":email}];
+			 var tutor_name_call = call("Register","getRegisteredFullName",args); 
+			 var tutor_full_name= tutor_name_call[0].returnValue;
+			 var args= [{"String":email}];
+			 var registration_number_call = call("Register","getRegistrationNumber",args);  
+			 var tutor_registration_number = registration_number_call[0].returnValue;
+			var fieldValues = [department
+			                   ,year
+			                   ,semester
+			                   ,subject
+			                   ,tutor_registration_number
+			                   ,tutor_full_name
+			                   ];
+			
+			args = [{"List":fieldNames},{"List":fieldValues}];
+			result = call("ExaminationPortal","registerNewTest",args);
+			if(result[0].returnValue==="true")
+				{
+				loadingStop();
+				setSessionAttribute("test-id",result[1].returnValue);
+				alert("Your Test Has Been Successfully Created.\nYour Test Id for Reference is : "+result[1].returnValue+".\nPlease Make a note of it For Further Assistance.\nStart Entering Questions To Complete Creation of Test.");
+				}
+			
+  }
+</script>
+<body>
+<!-- header -->
+<div id='header'>
+</div>
+<!-- //header -->
+
+<div class="separator"></div>
+
+
+
+<div class="page-header hvr-glow" id="student-home">Tutor Home</div>
+
+<div class="separator-blank"></div>
+
+<div class="row">
+
+<div class="two columns" id="quick-links-div">
+<div id="quick_links">
+<script>
+loadLeftSideMenuQuickLinks("../../");
+</script>
+</div>
+
+</div>
+
+<div class="ten columns container">
+
+<div class="page-header hvr-glow hvr-rectangle-out">Select Subject For Test</div>
+
+<form id="select-subject-for-test" method="post" action="SubmitQuestions/" onsubmit ="return submitForm();" >
+<div class="row">
+<div class="six columns">
+<label for="department">Department</label>
+<input class="u-full-width" type="text" id="department" name="department" readonly disabled/>
+</div>
+<div class="six columns">
+<label for="year">Year</label>
+<select class="u-full-width" id="year" name="year" required>
+<option value="">--Select Year--</option>
+<option value="1st-year">1st Year</option>
+<option value="2nd-year">2nd Year</option>
+<option value="3rd-year">3rd Year</option>
+<option value="4th-year">4th Year</option>
+</select>
+</div>
+</div>
+<div class="row">
+<div class="four columns">
+<label for="semester">Semester</label>
+<select class="u-full-width" id="semester" name="semester" required>
+<option value="">--Select Semester--</option>
+<option value="1st-sem">1st Sem</option>
+<option value="2nd-sem">2nd Sem</option>
+</select>
+</div>
+<div class="two columns">
+<label for="">Get Subjects</label>
+<input class="button" type="button" value="Click Here" onclick="showSubjects();"/>
+</div>
+<div class="six columns">
+<label for="subject">Subject</label>
+<select class="u-full-width" id="subject" name="subject" required>
+</select>
+</div>
+</div>
+<!-- Separator -->
+	<div class='separator-blank'></div>
+<!-- //Separator -->
+<input type="submit" class="six columns offset-by-three button-primary" value="Click Here to Start"/>
+</form>
+
+</div>
+</div>
+<!-- Separator -->
+	<div class='separator-blank'></div>
+<!-- //Separator -->
+
+<script>
+loadFooter("../../../");
+</script>
+
+</body>
+</html>

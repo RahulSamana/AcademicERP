@@ -1,0 +1,39 @@
+<div class="main">
+		 <div class="four columns offset-by-four">
+		<div class="login-form" id="login-form">
+		 <div class="login-select-close" onclick="hideLoginForm();"><img src="images/close1.png" alt="Close"></div>
+		<h5>Login Form</h5>
+				<form id="login" method= "post" onsubmit="return submitForm();">
+			    <div class="container">
+			    <div class="row">
+			   
+			    <input class="u-full-width" type="text" id="username" name="username" placeholder="USERNAME" required autocomplete="off"/>
+			    </div>	
+			      <div class="row">
+			    <input class="u-full-width" type="password" id="password" name="password" placeholder="PASSWORD" required autocomplete="off"/>
+			    </div>	
+			    		
+			    </div>
+			     <div class="row">
+			      <div class="container">
+		                <div class="five columns" id="captchadiv">
+		                 <canvas id="Canvas" width="150px" height="50px"></canvas>
+		                </div>
+		              <div class="five columns">
+		                     <input type="button" id="refreshcaptcha" name="refreshcaptcha" value="Refresh" onclick="clearAndRedrawCaptcha('Canvas','captchainput');" />
+		              </div>
+		               </div>
+		  
+		        <div class="row">
+	           	  <div class="container">
+		             <input class="u-full-width" type="text" id="captchainput" name="captchainput" placeholder="Enter Captcha" autocomplete="off" onchange= "validateCaptcha(id);" required/>
+		        </div>
+		      </div>
+		      </div>
+		      <input type="submit" class="button-primary" value="Login"/>
+				</form>
+			</div>
+		
+			<!--//End-login-form-->
+			</div>
+		</div>	

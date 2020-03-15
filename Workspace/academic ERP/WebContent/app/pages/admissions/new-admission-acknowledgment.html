@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+<head>
+
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="js/master.js" type="text/javascript"></script>
+   <link rel="stylesheet" href="css/master.css">
+  
+   <title>Digital MVSR : Online Services for MVSR Engineering College | Online Registrations</title>
+<script>
+var date= new Date();
+	var todays_month = date.getUTCMonth() + 1;
+var todays_date = date.getFullYear() + "/" +todays_month+ "/" +date.getUTCDate() + " " +date.getHours() + ":" +date.getMinutes() + ":" + date.getSeconds();
+
+function printpage()
+{
+	window.print();
+}
+</script>
+</head>
+<body>
+<div class="acknowledgment-page">
+        <div class="subpage">
+        <div class="acknowledgment-top">
+             <div class="acknowledgment-logo">
+                  <img src="images/logo.png"></img>
+             </div>
+              <div class="acknowledgment-number">
+                     <table>
+                     <tr>
+                         <td class="acknowledgement-label">Reference No.</td><td class="dot">:</td><td><b><script>document.write(getSessionAttribute("unique-reference-id"));</script></b></td>
+                     </tr>
+                     <tr>
+                         <td class="acknowledgement-label">Date</td><td class="dot">:</td> <td class="date" id="date"><script>document.write(todays_date)</script></td>
+                     </tr>
+                     </table>
+              </div>
+            </div>
+            <br>
+            <br>
+              <div class="acknowledgment-middle">
+               <div class="acknowledgment-header">
+                      <h3>MVSR ENGINEERING COLLEGE</h3>
+               </div>
+                 <div class="acknowledgment-header-bottom">
+                     <h5><script>document.write(getSessionAttribute("full-name"));</script></h5>
+                 </div>
+              </div>
+              
+              <div id="acknowledgment-details">
+              
+              <div class="row">
+              <br>
+              <br>
+              <table>
+              <h2>Acknowledgment Details</h2>
+              <tr>
+              <td>Candidate Type</td>
+              <td>
+              <script>
+              document.write(getSessionAttribute("candidate-type"));
+              </script>
+              </td>
+              </tr>
+              <tr>
+              <td>Course Name</td>
+              <td>
+               <script>
+               if(getSessionAttribute("course-name") === "null")
+            	   {
+            	   document.write("not applicable");
+            	   }
+               else
+            	   {
+            	   document.write(getSessionAttribute("course-name"));
+            	   }
+               
+              </script>
+              </td>
+              </tr>
+              <tr>
+              <td>Sub Course Name</td>
+              <td>
+               <script>
+               if(getSessionAttribute("sub-course-name") === "null")
+        	   {
+        	   document.write("not applicable");
+        	   }
+           else
+        	   {
+        	   document.write(getSessionAttribute("sub-course-name"));
+        	   }
+              </script>
+              </td>
+              </tr>
+              <tr>
+              <td>Fee Payment Status</td>
+              <td>
+               <script>
+               if(getSessionAttribute("fee-payment-status") === "null")
+            	   {
+            	   document.write("not applicable");
+            	   }
+               else
+            	   {
+            	   document.write(getSessionAttribute("fee-payment-status"));
+            	   }
+               
+              </script>
+              </td>
+              </tr>
+              <tr>
+              <td>Designation</td>
+              <td>
+               <script>
+               if(getSessionAttribute("designation") === "null")
+        	   {
+        	   document.write("not applicable");
+        	   }
+           else
+        	   {
+        	   document.write(getSessionAttribute("designation"));
+        	   }
+              </script>
+              </td>
+              </tr>
+              </table>
+              
+              </div>
+              
+              
+              </div>
+              
+              <div class="acknowledgment-footer-bottom">
+              <p>Thank You For Choosing MVSR</p>
+              </div>
+              <br>
+              <br>
+              <div class="print-button">
+             <input class="button-primary " type="button" value="Print" onclick="printpage();"></input> 
+              </div>
+             
+           </div>
+              </div>
+             
+</body>
+</html>

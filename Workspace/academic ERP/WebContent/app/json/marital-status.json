@@ -1,0 +1,13 @@
+{
+   "items":[
+               {
+              "marital_status":"married"
+              },
+              {
+              "marital_status":"unmarried"
+              },
+              {
+              "marital_status":"widow"
+              }
+           ]
+}

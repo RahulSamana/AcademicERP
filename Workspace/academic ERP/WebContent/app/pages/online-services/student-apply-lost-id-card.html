@@ -1,0 +1,171 @@
+<!doctype html>
+<html>
+<head>
+
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="js/student-master.js" type="text/javascript"></script>
+   <link rel="stylesheet" href="css/master.css">
+  
+   <title>Digital MVSR : Online Services for MVSR Engineering College | Online Registrations</title>
+   <script>
+   $(document).ready(function(){
+	   loading();
+	   var email = getSessionAttribute("email");
+	   	 var args =[{"String":email}];
+	   	 var result = call("Register","getDetailsForIDCard",args);   
+	    if(result[0].returnValue!="null")
+	    {
+	    	$("#department").val(result[0].returnValue);	
+	    	$("#roll-no").val(result[1].returnValue);	
+	    	$("#student-full-name").val(result[2].returnValue);
+	    	$("#student-mobile-number").val(result[3].returnValue);	
+	    	$("#student-date-of-birth").val(result[4].returnValue);	
+	    	$("#student-address").val(result[5].returnValue);	
+	    }  
+	    loadingStop();
+   });
+
+    function submitForm()
+    {
+    	loading();
+    	
+    	var args = [{"String":$("#roll-no").val()}];
+		var result = call("Verify","checkIfIDCardRequestAlreadyExists",args);
+		if(result[0].returnValue === "false"){
+			loadingStop();
+			alert("You already have a Pending Request. Please be Patient\nWe will update you soon");
+			return false;
+		}
+    	
+    	var fieldNames = ["department"
+    	                  ,"roll-no"
+    	                  ,"student-blood-group"
+    	                  ,"student-full-name"
+    	                  ,"student-mobile-number"
+    	                  ,"student-date-of-birth"
+    	                  ,"student-address"   	                  
+    	                 ];
+    	
+    	var student_department = $("#department").val();
+    	var student_roll_no = $("#roll-no").val();
+    	var student_blood_group = $("#student-blood-group").val();
+    	var student_full_name = $("#student-full-name").val();
+    	var student_mobile_number = $("#student-mobile-number").val();
+    	var student_date_of_birth = $("#student-date-of-birth").val();
+    	var student_address = $("#student-address").val();
+    	
+    	var fieldValues = [student_department
+    	                   ,student_roll_no
+    	                   ,student_blood_group
+    	                   ,student_full_name
+    	                   ,student_mobile_number
+    	                   ,student_date_of_birth
+    	                   ,student_address
+    	                  ];
+    	
+    	var args= [{"List":fieldNames},{"List":fieldValues}];
+    	var result = call("Admin","registerNewIDCardRequest",args);
+    	if(result[0].returnValue!="null")
+    		{
+    		loadingStop();
+    		alert("Your Request For ID Card is Placed Successfully\nYour Reference Number is:"+result[0].returnValue+"\nPlease note it down for future reference.");
+    		return true;
+    		}
+    	else{
+			loadingStop();
+			alert("Something is not right here!\nIt must be the case that we are already working on it.\nSorry for the inconvenience caused. Please try again after sometime.");
+			return false;
+		}
+    }
+       
+    </script>
+</head>
+
+<body>
+
+<!-- header -->
+<div id='header'>
+
+</div>
+<!-- //header -->
+
+<div class="separator"></div>
+
+
+
+<div class="page-header hvr-glow" id="student-home">Student Home</div>
+
+<div class="separator-blank"></div>
+
+<div class="row">
+
+<div class="two columns" id="quick-links-div">
+<div id="quick_links">
+<script>
+loadLeftSideMenuQuickLinks("../../");
+</script>
+</div>
+
+</div>
+
+<div class="ten columns container">
+
+<div class="page-header hvr-glow hvr-rectangle-out">Apply New ID Card</div>
+<form id="apply-lost-id-card" method="post" action="../StudentApplyLostIDCard/" onsubmit= "return submitForm();">
+<div class="row">
+<div class="four columns">
+<label for="department">Department</label>
+<input class="u-full-width" type="text" id="department" name="department" readonly disabled required/>
+</div>
+
+
+<div class="four columns">
+<label for="roll-no">Roll No.</label>
+<input class="u-full-width" type="text" id="roll-no" name="roll-no" readonly disabled required/>
+</div>
+
+
+<div class="four columns">
+<label for="student-blood-group">Blood Group</label>
+<input class="u-full-width" type="text" id="student-blood-group" name="student-blood-group" required/>
+</div>
+
+</div>
+
+<div class="row">
+<div class="four columns">
+<label for="student-full-name">Full Name</label>
+<input class="u-full-width" type="text" id="student-full-name" name="student-full-name" readonly disabled required/>
+</div>
+
+<div class="four columns">
+<label for="student-mobile-number">Mobile Number</label>
+<input class="u-full-width" type="text" id="student-mobile-number" name="student-mobile-number" readonly disabled required/>
+</div>
+
+<div class="four columns">
+<label for="student-date-of-birth">Date of Birth</label>
+<input class="u-full-width" type="text" id="student-date-of-birth" name="student-date-of-birth" readonly disabled required/>
+</div>
+
+</div>
+
+<div class="row">
+<label for="student-address">Student Address</label>
+<textarea id="student-address" class="u-full-width" readonly disabled required></textarea>
+</div>
+
+<input class="button-primary" type="submit" value="Submit"/>
+</form>
+
+</div>
+</div>
+
+</body>
+<div class="separator-blank"></div>
+<script>
+loadFooter("../../");
+</script>
+</html>

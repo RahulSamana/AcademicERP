@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+<head>
+
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="js/tutor-master.js" type="text/javascript"></script>
+   <link rel="stylesheet" href="css/master.css">
+  
+   <title>Digital MVSR : Online Services for MVSR Engineering College | Online Registrations</title>
+   <script>
+   var addedList = [];
+   var email = getSessionAttribute("email");
+   var args= [{"String":email}];
+	 var tutor_name_call = call("Register","getRegisteredFullName",args); 
+	 var tutor_full_name= tutor_name_call[0].returnValue;
+   $(document).ready(function(){
+	   loading();
+	     
+	     $("#from").val(email);
+	     var args =[{"String":email}];
+	  	 var department = call("Register","getDepartmentofRegisteredUser",args);
+	   	 var args = [{"String":department[0].returnValue}]; 	 
+	   	 var result = call("Register","getHODEmail",args);   
+	    if(result[0].returnValue!="null")
+	    {
+	    	$("#to").val(result[0].returnValue);
+	    	addedList.push(result[0].returnValue);
+	    }  
+	    var result = call("Register","getDetailsForPermissionRequest",args);
+	    loadingStop();
+	    if(result[0].returnValue !="null")
+ 		{
+
+			// ADD VALUES TO SELECT LIST
+			for(i=0;i<result.length;i++)
+				{
+				    var html = "<input type=\"checkbox\" name=\"more-recipients\" value="+result[i].sEmailAddress+"></input>&nbsp;&nbsp;&nbsp;"+result[i].sFullName+"<br>";
+				 	
+					 addHTML("add-more-recipients",html);
+				}
+			}
+	    
+	     
+	    
+   });
+   
+   function submitForm()
+   {
+	   loading();
+	  getSelectedValues();
+	  var args=[{"String":"Tutor"},{"String":tutor_full_name},{"List":addedList},{"String":$("#request-content").val()}];
+	  var result = call("SendNotifications","sendPermissionRequest",args);
+	  if(result[0].returnValue==="true")
+		  {
+		  loadingStop();
+		  alert("Permission Request Sent Successfully.\nYou will be intimated back on this soon.");
+		  return true;
+		  }
+	  else
+		  {
+		  loadingStop();
+		  alert("Something is not right here!\nIt must be the case that we are already working on it.\nSorry for the inconvenience caused. Please try again after sometime.");
+		  return false;
+		  }
+   }
+   function getSelectedValues()
+   {
+	     $("input[name='more-recipients']:checked").each(function() {
+	    	 addedList.push($(this).val());
+	     });
+   }
+   
+   </script>
+   </head>
+   
+   
+<body>
+<!-- header -->
+<div id='header'>
+
+</div>
+<!-- //header -->
+
+<div class="separator"></div>
+
+
+
+<div class="page-header hvr-glow" id="tutor-home">Tutor Home</div>
+
+<div class="separator-blank"></div>
+
+<div class="row">
+
+<div class="two columns" id="quick-links-div">
+<div id="quick_links">
+<script>
+loadLeftSideMenuQuickLinks("../../");
+</script>
+</div>
+
+</div>
+
+<div class="ten columns container">
+
+<div class="page-header hvr-glow hvr-rectangle-out">Request Permission</div>
+<form id="tutor-request-permission" method="post" action="../TutorRequestPermission/" onsubmit= "return submitForm();">
+<div class="row">
+<div class="six columns">
+<label for="from">From</label>
+<input class="u-full-width" type="text" id="from" name="from" readonly disabled required/>
+</div>
+
+
+<div class="six columns">
+<label for="to">To</label>
+<input class="u-full-width" type="text" id="to" name="to" readonly disabled required/>
+</div>
+
+
+</div>
+
+
+<div class="row">
+<div class="six columns">
+<label for="add-more-recipients">Add More Recipients</label>
+<div id="add-more-recipients"></div>
+</div>
+</div>
+
+<div class="row">
+<label for="request-content">Request</label>
+<textarea class="u-full-width" id="request-content" name="request-content" required></textarea>
+
+</div>
+<input class="button-primary" type="submit" value="Request Permission"/>
+</form>
+</div>
+</div>
+<div class="separator-blank"></div>
+<script>
+loadFooter("../../../");
+</script>
+</body>
+</html>

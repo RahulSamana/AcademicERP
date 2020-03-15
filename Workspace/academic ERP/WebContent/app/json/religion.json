@@ -1,0 +1,19 @@
+{
+   "items":[
+              {
+              "religion":"Hindu"
+              },
+              {
+              "religion":"Muslim"
+              },
+              {
+              "religion":"Christian"
+              },
+              {
+              "religion":"Budhist"
+              },
+              {
+              "religion":"Others"
+              }
+           ]
+}

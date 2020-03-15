@@ -1,0 +1,24 @@
+{
+   "items":[
+              {
+              "course_name":"MPC",
+              "course_intake":"100"
+              },
+              {
+              "course_name":"BiPC",
+              "course_intake":"100"
+              },
+              {
+              "course_name":"MEC",
+              "course_intake":"100"
+              },
+              {
+              "course_name":"HEC",
+              "course_intake":"100"
+              },
+              {
+              "course_name":"CEC",
+              "course_intake":"100"
+              }
+           ]
+}

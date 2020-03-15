@@ -1,0 +1,222 @@
+<!doctype html>
+<html>
+<head>
+
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="js/master.js" type="text/javascript"></script>
+   <link rel="stylesheet" href="css/master.css">
+  
+   <title>Digital MVSR : Online Services for MVSR Engineering College | Online Registrations</title>
+</head>
+<script>
+
+function loadTable()
+{
+     if($("#reference-number").val()==="" &&  $("#roll-number").val()==="" )
+    	 {
+    	 alert("Please Enter Any of the Fields");
+    	 return false;
+    	 }
+     else
+    	 {
+    	 if($("#roll-number").val()==="")
+    		 {
+    		 loading();
+    		 var reference_number = $("#reference-number").val();
+    		 var args=[{"String":reference_number}];
+    		 var result = call("Library","getBooksWithReferenceNumber",args);
+    		 loadingStop();
+    			var html = "";
+    			if(result.length > 0){
+    				for(var i=0;i<result.length;i++)
+    					{
+    					   html += "<tr>";
+    					   html += "<td>"+(i+1)+"</td>";
+    					   html += "<td class=\"hvr-glow\">"+result[i].sUniqueReferenceNumber+"</td>";
+    					   html += "<td class=\"hvr-glow\"><b>"+result[i].sBookName+"</b></td>";
+    					
+    					   if(result[i].sIssuedStatus==="available")
+    						   {
+    						   html += "<td>not-applicable</td>"; 
+    						   html += "<td>not-applicable</td>"; 
+    						   html += "<td><input type=\"button\" class=\"button-primary u-full-width \" id="+result[i].sUniqueReferenceNumber+" value=\"Return Book\" onclick=\"returnLibraryBook('"+result[i].sUniqueReferenceNumber+"');\" style=\"pointer-events:none;opacity:0.5\"></input></td>";
+    						   }
+    					   else
+    						   {
+    						   html += "<td><b><input type=\"text\" class=\"u-full-width\" id=\"registration-number\" name=\"registration-number\" value="+result[i].sIssuedToRegistrationNumber+" disabled readonly></b></td>";
+    						   html += "<td>"+result[i].sRenewalDate+"</td>";     
+                               html += "<td><input type=\"button\" class=\"button-primary u-full-width \" id="+result[i].sUniqueReferenceNumber+"1"+" value=\"Return Book\" onclick=\"returnLibraryBook('"+result[i].sUniqueReferenceNumber+"');\" ></input></td>";
+                            	   }
+    						   
+    					    html += "</tr>";
+    						   }
+    					   
+    					  
+    					 
+    					}
+    			else
+    			{
+    				html = "There are no Books for your Search Criteria";
+    			}
+    			$('#return-book-details-body').html(html);
+    	}
+    	 else if($("#reference-number").val()==="")
+    		 {
+    		 loading();
+    		 var roll_number = $("#roll-number").val();
+    		 var args=[{"String":roll_number}];
+    		 var result = call("Library","getBooksWithRollNumber",args);
+    		 loadingStop();
+    			var html = "";
+    			if(result.length > 0){
+    				for(var i=0;i<result.length;i++)
+    					{
+    					   html += "<tr>";
+    					   html += "<td>"+(i+1)+"</td>";
+    					   html += "<td class=\"hvr-glow\">"+result[i].sUniqueReferenceNumber+"</td>";
+    					   html += "<td class=\"hvr-glow\"><b>"+result[i].sBookName+"</b></td>";
+    					
+    					   if(result[i].sIssuedStatus==="available")
+    						   {
+    						   html += "<td>not-applicable</td>"; 
+    						   html += "<td>"+result[i].sRenewalDate+"</td>"; 
+    						   html += "<td><input type=\"button\" class=\"button-primary u-full-width \" id="+result[i].sUniqueReferenceNumber+"1"+" value=\"Return Book\" onclick=\"returnLibraryBook('"+result[i].sUniqueReferenceNumber+"');\" style=\"pointer-events:none;opacity:0.5\"></input></td>";
+    						   }
+    					   else
+    						   {
+    						   html += "<td><b><input type=\"text\" class=\"u-full-width\" id=\"registration-number\" name=\"registration-number\" value="+result[i].sIssuedToRegistrationNumber+" disabled readonly></b></td>";
+    						   html += "<td>"+result[i].sRenewalDate+"</td>"; 
+                        	   html += "<td><input type=\"button\" class=\"button-primary u-full-width \" id="+result[i].sUniqueReferenceNumber+"1"+" value=\"Return Book\" onclick=\"returnLibraryBook('"+result[i].sUniqueReferenceNumber+"');\" ></input></td>";
+                        	   }
+    						
+    						   }
+    					   
+    					  
+    					   html += "</tr>";
+    			}
+    			else
+    			{
+    				html = "There are no Books for your Search Criteria";
+    			}
+    			$('#return-book-details-body').html(html);
+    		 
+    		 }
+    	 
+    
+     } 	
+ }
+function returnLibraryBook(book_unique_reference_number)
+{
+var args=[{"String":book_unique_reference_number}];
+var result = call("Library","returnLibraryBookToLibrary",args);
+if(result[0].returnValue==="true")
+{
+loadingStop();
+alert("Book"+ book_unique_reference_number+" is returned to Library Successfully");
+loadTable();
+}
+else{
+loadingStop();
+alert("Something is not right here!\nIt must be the case that we are already working on it.\nSorry for the inconvenience caused. Please try again after sometime.");
+return false;
+}
+}
+
+</script>
+
+
+
+<body>
+<!-- header -->
+<div id='header'>
+</div>
+<!-- //header -->
+<div class="separator"></div>
+
+
+<div class="page-header hvr-glow" id="admin-home">Library Management</div>
+
+<!-- separator -->
+<div class='separator-blank'></div>
+<!-- //separator -->
+
+<div class="row">
+
+<div class="two columns" id="quick-links-div">
+<div id="quick_links">
+<script>
+loadLeftSideMenuQuickLinks("../../");
+</script>
+</div>
+
+</div>
+
+<div class="ten columns container">
+<div class="page-header hvr-glow hvr-rectangle-out" >Return Book</div>
+<div class="row">
+<div class="four columns">
+<label for="reference-number">Reference Number*</label>
+<input class="u-full-width" type="text" id="reference-number" placeholder="Reference Number" autocomplete="off"/>
+</div>
+</div>
+
+
+<div class="row">
+<div class="two columns">
+<div class="sub-header" id="or">OR</div>
+</div>
+</div>
+
+<div class="row">
+<div class="four columns">
+<label for="roll-number">Roll Number*</label>
+<input class="u-full-width" type="text" id="roll-number" placeholder="Roll Number" autocomplete="off"/>
+</div>
+
+</div>
+
+
+
+<div class="row">
+<input type="button" class="button-primary" value="Search" onclick="return loadTable();"/>
+</div>
+<!-- existing-admission-details-table -->
+
+	<div id='return-book'>
+				<div>
+
+					<table id="return-book-details" class="u-full-width responsive">
+			  
+					  <thead>
+					    <tr>
+					      <th>Sno</th>
+					      <th>Unique Ref. ID</th>
+					      <th>Book Name</th>
+					      <th>Issued To (Roll No)</th>
+					      <th>Renewal Date</th>
+					      <th>Action</th>
+					    </tr>
+					  </thead>
+					  
+					  <tbody id='return-book-details-body'>
+					  </tbody>
+					  
+					</table>
+				</div>	
+		</div>
+	
+	
+	</div>
+<!-- //existing-admission-details-table -->
+
+
+</div>
+</div>
+<div class="separator-blank"></div>
+<script>
+loadFooter("../../../");
+</script>
+</body>
+</html>

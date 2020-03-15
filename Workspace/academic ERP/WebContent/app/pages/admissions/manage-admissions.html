@@ -1,0 +1,343 @@
+<!doctype html>
+<html>
+<head>
+
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="js/master.js" type="text/javascript"></script>
+   <link rel="stylesheet" href="css/master.css">
+  
+   <title>Digital MVSR : Online Services for MVSR Engineering College | Online Registrations</title>
+</head>
+	<script>
+	function checkCandidateType(r)
+	{
+		if(r==="Others")
+			{
+			$("#course-name").attr("disabled",true);
+			$("#sub-course-name").attr("disabled",true);
+			$("#year").attr("disabled",true);
+			}
+		else
+			{
+			$("#course-name").attr("disabled",false);
+			$("#sub-course-name").attr("disabled",false);
+			}
+		if(r==="Tutor" || r==="Supporting-Staff")
+			{
+			$("#year").attr("disabled",true);
+			}
+		else
+			{
+			$("#year").attr("disabled",false);
+			}
+	}
+	
+	function loadSubCourseNames(r)
+	{
+		if(r==="Schooling")
+			{
+			$("#sub-course-name").hide();
+			}
+		else
+			{
+			$("#sub-course-name").attr("disabled",false);
+			$("#sub-course-name").empty();
+			$("#sub-course-name").show();
+			var jsonFileName = r+".json";
+			var blockData = getJSON(jsonFileName);
+			for(var i=0;i<blockData.length;i++)
+				{
+				$("#sub-course-name").append("<option value=\""+blockData[i].course_name+"\">"+blockData[i].course_name+"</option>");
+				}
+			}
+		
+	}
+	function loadTable()
+	{
+		if($("#registration-number").val()==="")
+			{
+			
+			if($("#candidate-type").val()==="" && $("#course-name").val()==="" && $("#sub-course-name").val()==="")
+				{
+				alert("Please Enter Any of the Search Fields");		
+				}
+			else if( ($("#candidate-type").val() !="Others") && ($("#candidate-type").val()==="" || $("#course-name").val()===""))
+				{
+				alert("Please Select all the fields");
+				}
+			else
+				{
+				loading();
+				var candidate_type = $("#candidate-type").val();
+				var course_name = $("#course-name").val();
+				var sub_course_name = $("#sub-course-name").val();
+				if(course_name==="Schooling")
+                {
+					sub_course_name = "null";
+                }					
+				var year = $("#year").val();
+				var args = [{"String":candidate_type},{"String":course_name},{"String":sub_course_name},{"String":year}];
+				var result = call("Register","getAllExistingAdmissions",args);
+				loadingStop();
+				var html = "";
+				if(result.length > 0){
+					for(var i=0;i<result.length;i++)
+						{
+						   html += "<tr>";
+						   html += "<td>"+(i+1)+"</td>";
+						   html += "<td class=\"hvr-glow\">"+result[i].sUniqueReferenceNumber+"</td>";
+						   html += "<td class=\"hvr-glow\"><b>"+result[i].sFullName+"</b></td>";
+						   if(result[i].sRegistrationNumber==="null")
+						   {
+						   html += "<td>not yet alloted</td>";
+						   }
+					       else
+						   {
+						   html += "<td>"+result[i].sRegistrationNumber+"</td>";
+						   }
+						   if(result[i].sDesignation==="null")
+							   {
+							   html += "<td>not applicable</td>";
+							   }
+						   else
+							   {
+							   html += "<td>"+result[i].sDesignation+"</td>";
+							   }
+						   html += "<td><input type=\"button\" class=\"button-primary u-full-width \" id="+result[i].sUniqueReferenceNumber+" value=\"Delete\" onclick=\"deleteAdmission(id);\"></input>";
+						   html += "<input type=\"button\" class=\"button-primary u-full-width \" id="+result[i].sUniqueReferenceNumber+" value=\"View Details\" onclick=\"viewDetails(id);\"></input></td>";
+						   html += "</tr>";
+						}
+				}
+			else{
+						html = "There are no Existing Admissions for your Search Criteria";
+					}
+				$('#exisitng-admission-details-body').html(html);	
+				}
+			}
+		else
+			{
+			loading();
+			var registration_number = $("#registration-number").val();	
+			var args = [{"String":registration_number}];
+			var result = call("Register","getAllExistingAdmissions",args);
+			loadingStop();
+			var html = "";
+			if(result.length > 0){
+				for(var i=0;i<result.length;i++)
+					{
+					   html += "<tr>";
+					   html += "<td>"+(i+1)+"</td>";
+					   html += "<td class=\"hvr-glow\">"+result[i].sUniqueReferenceNumber+"</td>";
+					   html += "<td class=\"hvr-glow\"><b>"+result[i].sFullName+"</b></td>";
+					   if(result[i].sRegistrationNumber==="null")
+					   {
+					   html += "<td>not yet alloted</td>";
+					   }
+				       else
+					   {
+					   html += "<td>"+result[i].sRegistrationNumber+"</td>";
+					   }
+					   if(result[i].sDesignation==="null")
+						   {
+						   html += "<td>not applicable</td>";
+						   }
+					   else
+						   {
+						   html += "<td>"+result[i].sDesignation+"</td>";
+						   }
+					   if(result[i].sFeePaymentStatus==="null")
+						   {
+						   html += "<td>not applicable</td>";
+						   }
+					   else
+						   {
+						   html += "<td>"+result[i].sFeePaymentStatus+"</td>";
+						   }
+					   html += "<td><input type=\"button\" class=\"button-primary u-full-width \" id="+result[i].sUniqueReferenceNumber+" value=\"Delete\" onclick=\"deleteAdmission(id);\"></input>";
+					   html += "<input type=\"button\" class=\"button-primary u-full-width \" id="+result[i].sUniqueReferenceNumber+" value=\"View Details\" onclick=\"viewDetails(id);\"></input></td>";
+					   html += "</tr>";
+					}
+			}
+		else{
+					html = "There are no Existing Admissions for your Search Criteria";
+				}
+			$('#exisitng-admission-details-body').html(html);	
+		}
+			}
+		
+	function deleteAdmission(id)
+	{
+		var user_input = confirm("Are you sure you want to delete admission of "+id+"?");
+		if(user_input===true)
+			{
+			loading();
+			var args =[{"String":id}];
+			var result = call("Register","deleteExistingAdmission",args);
+			if(result[0].returnValue ==="true")
+				{
+				loadingStop();
+				alert("Admission Account "+id+"  is Successfully Deleted");
+				loadTable();
+				
+				}
+			else{
+				loadingStop();
+				alert("Something is not right here!\nIt must be the case that we are already working on it.\nSorry for the inconvenience caused. Please try again after sometime.");
+				return false;
+			}
+			}
+		else
+			{
+			return false;
+			}
+        
+	}
+	
+	function viewDetails(id)
+	{
+		setSessionAttribute("unique-reference-number",id);
+		window.open("ViewDetails/","_blank");
+	}
+	
+	
+	
+	</script>
+<body>
+<!-- header -->
+<div id='header'>
+</div>
+<!-- //header -->
+
+<div class="separator"></div>
+
+
+<div class="page-header hvr-glow" id="admin-home">Admission Management</div>
+
+<div class="separator-blank"></div>
+
+<div class="row">
+
+<div class="two columns" id="quick-links-div">
+<div id="quick_links">
+<script>
+loadLeftSideMenuQuickLinks("../../");
+</script>
+</div>
+
+</div>
+
+<div class="ten columns container">
+
+<div class="page-header hvr-glow hvr-rectangle-out">Manage Admissions</div>
+<div class="separator-blank"></div>
+<div class="row">
+<div class = "four columns">
+<label for="candidate-type">Candidate Type*</label>
+<select id="candidate-type" class="u-full-width" onchange="checkCandidateType(this.value);" required> 
+<option value="">--Select Candidate Type--</option>
+<script>
+var blockData = getJSON("candidate-type.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#candidate-type").append("<option value=\""+blockData[i].candidate_type+"\">"+blockData[i].candidate_type+"</option>");	
+	}
+
+</script>
+</select>
+</div>
+<div class="four columns">
+<label for="course-name">Course Name*</label>
+<select class="u-full-width" id="course-name" onchange="loadSubCourseNames(this.value);" required>
+<option value="">--Select Course Name--</option>
+<script>
+var blockData = getJSON("course-names.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#course-name").append("<option value=\""+blockData[i].course_name+"\">"+blockData[i].course_name+"</option>");	
+	}
+
+</script>
+</select>
+</div>
+<div class="four columns">
+<label for="sub-course-name">Sub Course Name*</label>
+<select class="u-full-width" id="sub-course-name" required>
+<option value="">--Select Sub Course Name--</option>
+</select>
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="four columns">
+<label for="year">Year</label>
+<select class="u-full-width" id="year" required>
+<option value="">--Select Year--</option> 
+<script>
+var blockData = getJSON("years.json");
+for(var i=0;i<blockData.length;i++)
+	{
+	$("#year").append("<option value=\""+blockData[i].year+"\">"+blockData[i].year+"</option>");	
+	}
+
+</script>
+</select>
+
+</div>
+</div>
+
+<div class="page-header">OR</div>
+
+<div class="row">
+
+<div class="four columns">
+<label for="registration-number">Registration Number</label>
+<input class="u-full-width" type="text" id="registration-number" autocomplete="off"/>
+</div>
+
+</div>
+
+<input class="button-primary" type="submit" value="search" onclick="return loadTable();"/>
+
+<!-- existing-admission-details-table -->
+
+	<div id='existing-admissions'>
+				<div>
+
+					<table id="exisitng-admission-details" class="u-full-width responsive">
+			  
+					  <thead>
+					    <tr>
+					      <th>Sno</th>
+					      <th>Unique Ref. ID</th>
+					      <th>Full Name</th>
+					      <th>Registration ID</th>
+					      <th>Designation</th>
+					      <th>Action</th>
+					      
+					    </tr>
+					  </thead>
+					  
+					  <tbody id='exisitng-admission-details-body'>
+					  </tbody>
+					  
+					</table>
+				</div>	
+		</div>
+	
+	
+	</div>
+<!-- //existing-admission-details-table -->
+</div>
+
+<div class="separator-blank"></div>
+<script>
+loadFooter("../../../")
+</script>
+
+
+</body>
+</html>

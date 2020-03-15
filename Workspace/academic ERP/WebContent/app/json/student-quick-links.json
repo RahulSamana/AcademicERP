@@ -1,0 +1,40 @@
+{
+    items: [
+	    {
+	        "label": "Apply Lost ID Card",
+	        "href": "StudentOnlineServices/StudentApplyLostIDCard/"
+	    },
+	    {
+	       	"label": "Examination Portal",
+	        "href": "StudentOnlineExaminationPortal/"
+	    },
+	    {
+	       	"label": "Student Portal",
+	        "href": "StudentPortal/"
+	    },
+	    {
+	       	"label": "Request Book",
+	        "href": "StudentPortal/Request/?category=request-book"
+	    },
+	    {
+	       	"label": "Apply for Custodian",
+	        "href": "StudentOnlineServices/StudentApplyCustodian/"
+	    },
+	   	{
+	       	"label": "Request Permission",
+	        "href": "StudentOnlineServices/StudentApplyCustodian/"
+	    },
+	    {
+	       	"label": "Downloads",
+	        "href": "StudentDownloads/"
+	    },
+	    {
+	       	"label": "News and Events",
+	        "href": "StudentNewsAndEvents/"
+	    },
+	    {
+	       	"label": "Update Content",
+	        "href": "StudentUpdateContent/"
+	    }
+    ]
+}

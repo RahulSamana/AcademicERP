@@ -1,0 +1,243 @@
+<!doctype html>
+<html>
+<head>
+
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="js/student-master.js" type="text/javascript"></script>
+   <link rel="stylesheet" href="css/master.css">
+  
+   <title>Digital MVSR : Online Services for MVSR Engineering College | Online Registrations</title>
+   <script>
+   $(document).ready(function()
+    {
+	   var items = getJSON("student-achievements.json");			
+		var html = "";
+		for(var i=0;i<items.length;i++){
+			html += "<tr>";
+			html += "<td><b>";
+			html += items[i].name;
+			html += "</td>";
+			html += "<td>";
+			html += items[i].branch;
+			html += "</td>";
+			html += "<td>";
+			html += items[i].event;
+			html += "</td>";
+			html += "<td><b>";
+			html += items[i].achievement;
+			html += "</td>";
+			html += "</tr>";
+		}
+		$('#student-achievements-table-body').html(html);
+		
+		var items1 = getJSON("tutor-achievements.json");			
+		var html1 = "";
+		for(var i=0;i<items1.length;i++){
+			html1 += "<tr>";
+			html1 += "<td><b>";
+			html1 += items1[i].name;
+			html1 += "</td>";
+			html1 += "<td>";
+			html1 += items1[i].branch;
+			html1 += "</td>";
+			html1 += "<td>";
+			html1 += items1[i].event;
+			html1 += "</td>";
+			html1 += "<td><b>";
+			html1 += items1[i].achievement;
+			html1+= "</td>";
+			html1 += "</tr>";
+		}
+		$('#tutor-achievements-table-body').html(html1);
+		
+		var items2 = getJSON("technical-cultural-fests.json");	
+		var html2 = "";
+		for(var i=0;i<items2.length;i++){
+			html2 += "<tr>";
+			html2 += "<td><b>";
+			html2 += items2[i].startdate;
+			html2 += "</td>";
+			html2 += "<td><b>";
+			html2 += items2[i].enddate;
+			html2 += "</td>";
+			html2 += "<td>";
+			html2 += items2[i].festtype;
+			html2 += "</td>";
+			html2 += "<td>";
+			html2 += items2[i].festname;
+			html2 += "</td>";
+			html2+= "<td><b>";
+			html2 += items2[i].college;
+			html2 += "</td>";
+			html2 += "</tr>";
+		}
+		$('#technical-cultural-details-table-body').html(html2);
+		
+		var items3 = getJSON("general-circulars.json");	
+		var html3 = "";
+		for(var i=0;i<items3.length;i++){
+			html3 += "<tr>";
+			html3 += "<td><b>";
+			html3 += items3[i].number;
+			html3 += "</td>";
+			html3 += "<td>";
+			html3 += items3[i].particulars;
+			html3 += "</td>";
+			html3 += "<td><b>";
+			html3 += items3[i].action;
+			html3 += "</td>";
+			html3 += "</tr>";
+		}
+		$('#general-circulars-details-table-body').html(html3);  
+	   
+    });
+   </script>
+   
+   <body>
+
+<!-- header -->
+<div id='header'>
+
+</div>
+<!-- //header -->
+
+<div class="separator"></div>
+
+
+
+<div class="page-header hvr-glow" id="student-home">Student Home</div>
+
+<div class="separator-blank"></div>
+
+<div class="row">
+
+<div class="two columns" id="quick-links-div">
+<div id="quick_links">
+<script>
+loadLeftSideMenuQuickLinks("../");
+</script>
+</div>
+
+</div>
+
+<div class="ten columns container">
+
+<div class="page-header hvr-glow hvr-rectangle-out">News and Events</div>
+
+<div class="separator-blank"></div>
+
+<div class="page-header hvr-glow hvr-rectangle-out">Student Achievements</div>
+
+<div id='student-achievements'>
+
+			<div class='row'>
+	
+			
+				<div class='twelve columns'>
+					<table id="student-achievements-table" class="responsive twelve columns">
+						<thead>
+							<th>Name</th>
+							<th>Branch</th>
+							<th>Event</th>
+							<th>Achievement</th>
+						</thead>
+						<tbody id="student-achievements-table-body">
+						</tbody>
+						
+					</table>
+
+			
+
+			</div>
+			
+		</div>
+		
+		</div>
+		
+
+<div class="page-header hvr-glow hvr-rectangle-out">Tutor Achievements</div>
+	<div id='tutor-achievements'>
+
+			<div class='row'>
+	
+		
+				<div class='twelve columns'>
+					<table id="tutor-achievements-table" class="responsive twelve columns">
+						<thead>
+							<th>Name</th>
+							<th>Branch</th>
+							<th>Event</th>
+							<th>Achievement</th>
+						</thead>
+						<tbody id="tutor-achievements-table-body">
+						</tbody>
+						
+					</table>
+
+				</div>
+
+			</div>
+			
+	
+		
+		</div>
+
+<div class='page-header hvr-glow hvr-rectangle-out'>Technical and Cultural Fests</div>
+	<div id='technical-cultural'>
+
+			<div class='row'>
+	
+		
+				<div class='twelve columns'>
+					<table id="technical-cultural-details-table" class="responsive twelve columns">
+						<thead>
+							<th>Start Date</th>
+			                <th>End Date</th>
+			                <th>Fest Type</th>
+			                <th>Fest Name</th>
+			                <th>College</th>
+						</thead>
+						<tbody id="technical-cultural-details-table-body">
+						</tbody>
+						
+					</table>
+
+				</div>
+
+			</div>
+		</div>
+		
+<div class='page-header hvr-glow hvr-rectangle-out'>General Circulars</div>
+<div id='general-circulars'>
+
+			<div class='row'>
+	
+		
+				<div class='twelve columns'>
+					<table id="general-circulars-details-table" class="responsive twelve columns">
+						<thead>
+						<th>Number</th>
+			            <th>Particulars</th>
+		               	<th>Action</th>
+						</thead>
+						<tbody id="general-circulars-details-table-body">
+						</tbody>
+						
+					</table>
+
+				</div>
+
+			</div>
+		</div>
+		
+</div>
+</div>
+<div class="separator-blank">
+<script>
+loadFooter("../../");
+</script>
+</div>
+</body>
+</html>

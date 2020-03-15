@@ -1,0 +1,153 @@
+CREATE TABLE  academicERP.newRegistration (
+unique_reference_number varchar(255),
+candidate_type varchar(255),
+registration_number varchar(255),
+login_role varchar(255),
+course_name varchar(255),
+sub_course_name varchar(255),
+duration_of_course varchar(255),
+boarding_type varchar(255),
+academic_year int,
+academic_semester varchar(255),
+designation varchar(255),
+full_name varchar(255),
+admission_type varchar(255),
+date_of_birth varchar(255),
+father_full_name varchar(255),
+father_occupation varchar(255),
+mother_maiden_name varchar(255),
+religion varchar(255),
+nationality varchar(255),
+gender varchar(255),
+marital_status varchar(255),
+mobile_number varchar(255),
+email_address varchar(255),
+temporary_address varchar(255),
+permanent_address varchar(255),
+eamcet_rank varchar(255),
+intermediate_marks varchar(255),
+ssc_marks varchar(255),
+fee_amount varchar(255),
+fee_payment_status_1_year varchar(255),
+fee_payment_status_2_year varchar(255),
+fee_payment_status_3_year varchar(255),
+fee_payment_status_4_year varchar(255),
+fee_payment_status_5_year varchar(255),
+fee_payment_status_6_year varchar(255),
+fee_payment_status_7_year varchar(255),
+fee_payment_status_8_year varchar(255),
+fee_payment_status_9_year varchar(255),
+fee_payment_status_10_year varchar(255),
+fee_payment_status_11_year varchar(255),
+fee_payment_status_12_year varchar(255),
+salary_amount varchar(255),
+salary_credited_status varchar(255),
+semester_change_count int,
+PRIMARY KEY (unique_reference_number)
+);
+
+CREATE TABLE  academicERP.login (
+username varchar(255),
+password varchar(255),
+role varchar(255),
+PRIMARY KEY(username)
+);
+
+CREATE TABLE  academicERP.library (
+unique_reference_number varchar(255),
+book_name varchar(1000),
+author_1 varchar(1000),
+author_2 varchar(1000),
+author_3 varchar(1000),
+course_name varchar(255),
+sub_course_name varchar(255),
+issued_date varchar(255),
+issued_status varchar(255),
+issued_to_registration_number varchar(255),
+issued_to_email_address varchar(255),
+issued_to_mobile_number varchar(255),
+renewal_date varchar(255),
+PRIMARY KEY(unique_reference_number)
+);
+
+CREATE TABLE  academicERP.idcard (
+unique_request_number varchar(255),
+department varchar(255),
+roll_no varchar(255),
+blood_group varchar(255),
+full_name varchar(255),
+mobile_number varchar(255),
+date_of_birth varchar(255),
+address varchar(1000),
+request_status varchar(255),
+PRIMARY KEY(unique_request_number)
+);
+
+CREATE TABLE  academicERP.custodian (
+unique_request_number varchar(255),
+student_full_name varchar(255),
+father_full_name varchar(255),
+roll_no varchar(255),
+date_of_birth varchar(255),
+course_name varchar(255),
+sub_course_name varchar(255),
+course_year varchar(255),
+course_semester varchar(255),
+academic_year varchar(255),
+purpose varchar(255),
+request_status varchar(255),
+PRIMARY KEY(unique_request_number)
+);
+
+  
+ CREATE TABLE `academicERP`.`reset_password` (
+ `email` VARCHAR(255) NOT NULL,
+ `code` VARCHAR(255) NOT NULL);
+ 
+ CREATE TABLE academicERP.examination_portal_exams (
+ test_id varchar(20),
+ faculty_registration_number varchar(255),
+ faculty_name varchar(255),
+ department varchar(30),
+ year varchar(10),
+ semester varchar(15),
+ subject varchar(50),
+ PRIMARY KEY(test_id)
+ );
+ 
+ CREATE TABLE academicERP.examination_portal_questions (
+ question_number int AUTO_INCREMENT,
+ test_id varchar(20),
+ question varchar(1000),
+ option_1 varchar(300),
+ option_2 varchar(300),
+ option_3 varchar(300),
+ option_4 varchar(300),
+ right_answer varchar(300),
+ PRIMARY KEY(question_number)
+ );
+ 
+  CREATE TABLE academicERP.examination_portal_results (
+   entry int AUTO_INCREMENT,
+   test_id varchar(20),
+   registration_number varchar(255) NOT NULL,
+   subject varchar(50),
+   faculty_name varchar(255),
+   marks_obtained varchar(10),
+   test_attempted_date DATETIME,
+   number_of_attempts int default '0',
+   PRIMARY KEY(entry)
+  );
+  
+  CREATE TABLE academicERP.student_portal_requests (
+  request_id varchar(20),
+  date_of_request DATETIME,
+  request_category varchar(20),
+  registration_number varchar(255),
+  student_name varchar(255),
+  faculty_name varchar(255),
+  department varchar(255),
+  request varchar(4000),
+  PRIMARY KEY(request_id)
+  );
+  

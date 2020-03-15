@@ -1,0 +1,16 @@
+{
+   "items":[
+              {
+              "candidate_type":"Student"
+              },
+              {
+              "candidate_type":"Tutor"
+              },
+              {
+              "candidate_type":"Supporting-Staff"
+              },
+              {
+              "candidate_type":"Others"
+              }
+           ]
+}

@@ -1,0 +1,20 @@
+{
+   "items":[
+              {
+              "fee_type":"Tuition Fee",
+              "fee_in_Rs":"86000"
+              },
+              {
+              "fee_type":"Transport Fee",
+              "fee_in_Rs":"10000"
+              },
+              {
+              "fee_type":"Library Fee",
+              "fee_in_Rs":"3000"
+              },
+              {
+              "fee_type":"OU Recognition Fee",
+              "fee_in_Rs":"1500"
+              }
+           ]
+}

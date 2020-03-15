@@ -1,0 +1,19 @@
+{
+   "items":[
+              {
+              "request_status":"request-received"
+              },
+              {
+              "request_status":"request-under-process"
+              },
+              {
+              "request_status":"id-card-sent-for-printing"
+              },
+              {
+              "request_status":"id-card-ready-to-collect"
+              },
+              {
+              "request_status":"id-card-delivered"
+              }
+           ]
+}

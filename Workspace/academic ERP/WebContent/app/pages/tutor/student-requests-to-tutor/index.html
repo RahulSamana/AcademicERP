@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+<head>
+
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script src="js/tutor-master.js" type="text/javascript"></script>
+   <link rel="stylesheet" href="css/master.css">
+  
+   <title>Digital MVSR : Online Services for MVSR Engineering College | Online Registrations</title>
+</head>
+<script>
+$(document).ready(function(){    
+	loading();
+		removeSessionAttribute("request_id");
+	  $("#reply-div").hide();  
+	  $("#send-button").click(function(){
+	 	   sendReply();
+	    });
+		var email = getSessionAttribute("email");
+		var args= [{"String":email}];
+		var tutor_name_call = call("Register","getRegisteredFullName",args); 
+		var tutor_full_name= tutor_name_call[0].returnValue;
+	    var args =[{"String":email}];
+	   	var result = call("Register","getDepartmentofRegisteredUser",args); 
+	    var department=result[0].returnValue;
+	   	var args = [{"String":department},{"String":tutor_full_name}];
+ 	var result = call("StudentRequests","getStudentRequestsToFaculty",args);
+ 	loadingStop();
+	var html = "";
+	if(result.length > 0){
+		for(var i=0;i<result.length;i++)
+			{
+				html += "<tr>";
+				html += "<td><b>"+result[i].sDateOfRequest.substring(0,19)+"</b></td>";
+				html += "<td class=\"hvr-glow\"><b>"+result[i].sRequestId+"</b></td>";
+				html += "<td>"+result[i].sRegistrationNumber+"</td>";
+				html += "<td>"+result[i].sStudentName+"</td>";
+				html += "<td class=\"hvr-glow\"><b>"+result[i].sRequest+"</b></td>";
+				html += "<td> <input type=\"button\" class=\"button-primary\" id="+result[i].sRequestId+" value=\"Reply\" onclick=\"reply(id);\"></input></td>"; 
+				html += "</tr>";
+			}
+	}
+else{
+			html = "There are no Student Requests for you.";
+		}
+	$('#student-requests-body').html(html);
+});
+	function reply(id)
+{
+   alert("Are You Sure You Want to Reply to "+id);
+   setSessionAttribute("request_id",id);
+   $("#reply-div").show();
+   $("#reply-area").val('');
+   $("#reply-area").focus();
+   
+}
+	function sendReply()
+{
+	loading();
+	var reply = $("#reply-area").val();
+var id = getSessionAttribute("request_id");
+var args = [{"String":id},{"String":reply}];
+var result = call("Studentportal","sendReply",args);
+if(result[0].returnValue ==="true")
+	{
+	loadingStop();
+	alert("Your Reply is Successfully Sent as Email to the Request Member");
+	window.open("../StudentRequests/","_self");
+	}
+else
+	{
+	loadingStop();
+	alert("Something is not right here!\nIt must be the case that we are already working on it.\nSorry for the inconvenience caused. Please try again after sometime.");
+	window.open("../StudentRequests/","_self");
+	}
+}
+
+</script>
+
+<body>
+<!-- header -->
+<div id='header'>
+</div>
+<!-- //header -->
+
+<div class="separator"></div>
+
+
+
+<div class="page-header hvr-glow" id="student-home">Tutor Home</div>
+
+<div class="separator-blank"></div>
+
+<div class="row">
+
+<div class="two columns" id="quick-links-div">
+<div id="quick_links">
+<script>
+loadLeftSideMenuQuickLinks("../");
+</script>
+</div>
+
+</div>
+
+<div class="ten columns container">
+
+<div class="page-header hvr-glow hvr-rectangle-out">REQUESTS FROM STUDENTS</div>
+<div id='student-requests'>
+				<div>
+
+					<table id="student-requests" class="u-full-width responsive">
+			  
+					  <thead>
+					    <tr>
+					    <th>Date of Request</th>
+					      <th>Request ID</th>
+					      <th>Registration Number</th>
+					      <th>Student Name</th>
+					      <th>Request</th>
+					      <th>Action</th>
+					    </tr>
+					  </thead>
+					  
+					  <tbody id='student-requests-body'>
+					  </tbody>
+					  
+					</table>
+		
+		</div>
+	
+		
+	</div>
+	
+
+ <div class="row">
+ <div class="twelve columns">
+ <div id="reply-div">
+ <label for="reply-area" id="reply-label">Reply</label>
+ <textarea class="u-full-width" id="reply-area" name="reply-area"></textarea>
+ <input type="button"  id="send-button" class="button-primary" value="Send Reply"/>
+ </div>
+ </div>
+ </div>
+ </div>
+
+</div>
+<!-- Separator -->
+	<div class='separator-blank'></div>
+<!-- //Separator -->
+
+<script>
+loadFooter("../../");
+</script>
+
+</body>
+</html>
